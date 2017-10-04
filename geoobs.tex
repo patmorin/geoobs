@@ -1,0 +1,406 @@
+\documentclass{patmorin}
+\listfiles
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{amsthm,amsmath,graphicx}
+\usepackage{pat}
+\usepackage[letterpaper]{hyperref}
+\usepackage[table,dvipsnames]{xcolor}
+\definecolor{linkblue}{named}{Blue}
+\hypersetup{colorlinks=true, linkcolor=linkblue,  anchorcolor=linkblue,
+citecolor=linkblue, filecolor=linkblue, menucolor=linkblue,
+urlcolor=linkblue} 
+\setlength{\parskip}{1ex}
+
+\title{\MakeUppercase{Geodesic Obstacle Representations}}
+
+\author{Pat Morin and Friends}%
+
+%\usepackage[mathlines]{lineno}
+%\linenumbers
+%\setlength{\linenumbersep}{2.5cm}
+%\rightlinenumbers
+%\linenumbers
+%\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+%  \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+%  \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+%  \renewenvironment{#1}%
+%     {\linenomath\csname old#1\endcsname}%
+%     {\csname oldend#1\endcsname\endlinenomath}}% 
+%\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+%  \patchAmsMathEnvironmentForLineno{#1}%
+%  \patchAmsMathEnvironmentForLineno{#1*}}%
+%\AtBeginDocument{%
+%\patchBothAmsMathEnvironmentsForLineno{equation}%
+%\patchBothAmsMathEnvironmentsForLineno{align}%
+%\patchBothAmsMathEnvironmentsForLineno{flalign}%
+%\patchBothAmsMathEnvironmentsForLineno{alignat}%
+%\patchBothAmsMathEnvironmentsForLineno{gather}%
+%\patchBothAmsMathEnvironmentsForLineno{multline}%
+%}
+
+
+\DeclareMathOperator{\ob}{obs}
+\DeclareMathOperator{\planeobs}{plane-obs}
+
+\pagenumbering{roman}
+\begin{document}
+\begin{titlepage}
+\maketitle
+
+\begin{abstract}
+  TBD
+\end{abstract}
+\end{titlepage}
+
+\tableofcontents
+
+\newpage
+
+
+\section{Introduction}
+\pagenumbering{arabic}
+
+An obstacle representation of an (undirected simple) graph $G$ is
+pair $(\varphi, S)$ where $\varphi:V(G)\to\R^2$ maps vertices of $G$
+to distinct points in $\R^2$ and $S$ is a set of connected subsets of
+$\R^2$ with the property that, for every $u,w\in V(G)$, $uw\in E(G)$
+if and only if the line segment $\varphi(u)\varphi(w)$ is disjoint from
+$\cup S$.  The elements of $S$ are called \emph{obstacles}.
+
+It is easy to see that every graph $G$ has an obstacle representation:
+Take any $\varphi$ that does not map three vertices of $G$ onto a single
+line. This gives a straight-line drawing of $G$ whose edges form an
+arrangement of line segments.  Now take $S$ to consist of the open faces
+in this arrangement.  Since every graph has an obstacle representation,
+this defines a natural graph parameter called the \emph{obstacle number}:
+\[
+     \ob(G) = \min\{|S| :\text{$(\varphi, S)$ is an obstacle representation of $G$}\} \enspace .
+\]
+Since their introduction by So and So, obstacle numbers have been studied
+extensively, with the main goal of bounding the obstacle numbers of
+various classes of graphs.  It is known that every $n$-vertex graph has
+obstacle number $O(n\log n)$ \cite{X} and some $n$-vertex graphs have
+obstacle number $\Omega(n/(\log\log n)^2)$ \cite{Y}.  For planar graphs,
+our understanding is muddier: There exists planar graphs with obstacle
+number 2 \emph{X} (the icosahedron is an example), but the best upper
+bound on the obstacle number of an $n$-vertex planar graph is $O(n)$.
+
+For planar graphs there is also a natural notion of a \emph{plane obstacle
+representation} $(\varphi, S)$ which is an obstacle representation
+in which $\varphi$ defines a plane straight-line embedding of $G$.
+This leads to a \emph{plane obstacle number}
+\[
+    \planeobs(G) = \min\{|S| :\text{$(\varphi, S)$ is a plane obstacle representation of $G$}\} \enspace .
+\]
+Using Euler's Formula, it is not hard to see that the plane obstacle
+number of any $n$-vertex planar graph is $O(n)$: Let $\varphi$ define
+any plane drawing of $G$ with no three vertices collinear and take $S$
+to be the set of open faces in this drawing.  Since an $n$-vertex planar
+graph has at most $2n-4$ faces, this implies $\planeobs(G)\le 2n-4$.
+A lower bound of $\Omega(n)$ is also not difficult:  Any plane drawing
+of the $\sqrt{n}\times\sqrt{n}$ grid $G_{\sqrt{n}\times\sqrt{n}}$
+has at least $n-2\sqrt{n}$ bounded faces. Each of these faces has
+at least four vertices and therefore requires at least one obstacle,
+so $\planeobs(G_{\sqrt{n}\times\sqrt{n}})\ge n-2\sqrt{n}$.  So and so
+\cite{X} have nailed the leading constant by showing that every planar
+graph has obstacle number at most $n-x$ and some planar graphs have
+obstacle number $n-x$.
+
+\subsection{A Generalization}
+
+A \emph{curve} over a set $X$ is a function $f:[0,1]\to X$. We denote the
+set of curves over $X$ as $\mathcal{C}(X)$.  We will sometimes identify a
+curve with its image by making statements like $f$ is contains in $X'$,
+which means $f(x)\in X'$ for all $x\in[0,1]$.  A \emph{path space} is
+a triple $(X,d,\rho)$, where $(X,d)$ is a metric space and $\rho:X^2\to
+\mathcal{C}(X)$ is such that, for every $p,q\in X^2$, every curve $f\in
+\rho(p,q)$, and every $0<t<1$,
+\begin{enumerate}
+  \item $f(0)=p$ and $f(1)=q$;
+  \item $d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$; 
+  \item the curve $g(x)=f(1-x)\in \rho(q,p)$;
+  \item the curve $g(x)=f(x)/t$, $x\in[0,t]$ is in $\rho(f(0),f(t))$; and
+  \item the curve $h(x)=f(x-t)/(1-t)$, $x\in[t,1]$ is in $\rho(f(t),f(0))$ \enspace .
+\end{enumerate} 
+
+For example, we can take $X=\R^2$, $d$ to be the Euclidean distance,
+and, for every $p,q\in\R^2$, $\rho(p,q)$ is the set containing only the
+line segment joining $s$ and $t$.  A more interesting example (and one
+we will study) is when we take $X=\R^2$, $d$ to be the $L_1$ distance
+and $\rho(p,q)$ to be the set of all x-y-monotone paths from $p$ to $q$.
+
+A subset $X'\subset X$ in a path space $(X,d,\rho)$ is \emph{connected}
+if, for every $p,q\in X'$, there is a sequence $p=x_0,\ldots,x_r=q$ such
+that, for all $i\in\{0,\ldots,r-1\}$, $\rho(x_i,x_{i+1})$ contains a path
+that is contained in $X'$.\footnote{This definition of connectivity is
+not sufficiently detailed to cover some pathological examples, but is
+sufficient for everything in this paper.}
+
+With these definitions in hand, we are ready to define a generalization of
+obstacle representations.  For a graph $G$, an \emph{$(X,d,\rho)$ obstacle
+representation} of $G$ is a pair $(\varphi, S)$ where $\varphi:V(G)\to
+X$ is a one-to-one mapping and $S$ is a set of connected subsets of $X$
+with the property that, for every $u,w\in V(G)$, $uw\in E(G)$ if and
+only if $\rho(\varphi(u),\varphi(w)$ contains a curve that is disjoint
+from $\cup S$. That is, there exists $f\in\rho(\varphi(u),\varphi(w)$
+such that $f(x)\not\in S$ for all $x\in[0,1]$.
+
+Note that, for a given $(X,d,\rho)$ it is not at all obvious whether every
+graph $G$ has an \emph{$(X,d,\rho)$ obstacle representation}.  There are
+obvious examples where this is not the case, such as (for example)
+when $X$ is finite.  Later, we will show some less obvious examples.
+
+The notion of plane obstacle representation also has a natural
+generalization.  An \emph{$(X,d,\rho)$ obstacle representation} of $G$
+is \emph{non-crossing} if there is a function $c:E(G)\to \mathcal{C}(X)$
+such that, for every $uw,xz\in E(G)$ with $\{u,w\}\cap \{x,z\}=\emptyset$,
+(i)~$c(uw)\in \rho(uw)$; and (ii)~$c(uw)$ is disjoint from $c(xz)$.
+
+In this paper, we mostly focus on non-crossing $(X,d,\rho)$
+obstacle representations where $X=\R^2$ and $d$ is some
+polygonal distance function.  Let $d_k$ denote the distance
+function over $\R^2$ where a ``circle'' is a regular $k$-gon.
+(Formally, $d_k(p,q)=\min\left\{\sum_{i=1}^{k-1}|a_i|:
+q-p=\sum_{i=0}^{k-i}a_iv_i\right\}$, where $v_i=(\cos(i2\pi/k),
+\sin(i2\pi/k))$.)  and let $\rho_k(p,q)$ be the set of all shortest
+paths from $p$ to $q$ under the distance function $d_k$.  We prove the
+following results:
+\begin{enumerate}
+   \item For any integer $r$, there is a graph that does not have a
+     $(\R^2,d_r,\rho_r)$ obstacle representation.
+   \item Every planar graph of treewidth at most 2 (and hence every
+     outerplanar graph) has a
+     non-crossing $(\R^2,d_4,\rho_4)$ obstacle representation.
+   \item Not every planar 3-tree has a 
+     non-crossing $(\R^2,d_4,\rho_4)$ obstacle representation.
+   \item Not every planar 4-connected triangulation has a 
+     non-crossing $(\R^2,d_4,\rho_4)$ obstacle representation.
+   \item Every planar graph of treewidth at most 3 has a 
+     non-crossing $(\R^2,d_6,\rho_6)$ obstacle representation.
+   \item Every planar graph has a non-crossing
+     $(\R^2,d_{10},\rho_{10})$ obstacle representation.
+\end{enumerate}
+
+\subsection{Related Work}
+
+Biedl and Mehrabi study so-called grid obstacle representations \cite{X}...
+
+\section{Preliminaries}
+
+Here we present some definitions and observations that are useful
+throughout the rest of the paper.  
+
+\subsection{$d_k$ obstacle embeddings}
+
+We say that a set of points in $\R^2$ is $d_k$-generic, if it
+contains no pair of distinct $p$ and $q$ such that $p-q=
+t(\cos(i2\pi/k),\sin(i2\pi/k)$ for some integer $i$.
+
+\begin{obs}\obslabel{generic}
+  If $G$ has a $(\R^2,d_k,\rho_k)$ obstacle representation, then it
+  has an $(\R^2,d_k,\rho_k)$ obstacle representation $(\varphi, S)$
+  in which $\{\varphi(u):u\in V(G)\}$ is $d_k$-generic.
+\end{obs}
+
+\begin{proof}
+   Given an obstacle representation that is non $d_k$-generic, we can
+   perform a sufficiently small rotation of the entire representation
+   so that it becomes $d_k$-generic.
+\end{proof}
+
+\begin{obs}
+  If $G$ has a $(\R^2,d_k,\rho_k)$ obstacle representation, then it has
+  an $(\R^2,d_k,\rho_k)$ 
+\end{obs}
+
+For any $k\in\N$, $i\in\{0,\ldots,k-1\}$, and $u\in\R^2$, define
+the $i$th $k$-sector of $u$ as
+\[
+Q^{k}_i(u) = \{ u+r: r\in\R^2,\,\lfloor i2\pi/k < \angle(u+(1,0),u,r) < (i+1)2\pi/k \}
+\]
+Where $\angle (a,b,c)\in[0,2\pi)$ denotes the counterclockwise angle
+between the segments $ab$ and $cb$.  A curve $f:[0,1]\to\R^2$ is
+$k$-monotone in direction $i$ if $f(b)\in Q^k_i(f(a))$ for all $0 \le
+a < b \le 1$.  We say that $f$ is $k$-monotone if there exists some
+$i\in\{0,\ldots,d-1\}$ such that $f$ is $k$-monotone in direction $i$.
+
+\begin{obs}
+   Every $k$-monotone curve with endpoints $p$ and $q$ is in $\rho_k(p,q)$.
+\end{obs}
+
+\begin{obs}\obslabel{monotone}
+   A graph $G$ has a non-crossing $(\R^2,d_k,\rho_k)$ obstacle
+   representation if and only $G$ has a plane embedding such that
+\begin{enumerate}
+   \item every edge of $G$ is embedded as a $k$-monotone curve; and
+   \item for every $u,w\in V(G)$, the embedding contains a $k$-monotone path between $u$ and $w$ if and only if $uw\in E(G)$.
+\end{enumerate}
+\end{obs}
+
+\begin{proof}
+   First we show that the embedding of $G$ gives an $(\R^2,d_k,\rho_k)$
+   obstacle representation $(\varphi, S)$. For this, we take $\varphi(u)$
+   to be the point that represents $u$ in the embedding of $G$ and we
+   take $S$ to be the set of (open) faces in the embedding.
+
+   If $uw\in E(G)$ then the embedding $f$ of $uw$ is a $k$-monotone
+   curve that avoids $\cup S$.  Thus, $f\in\rho(u,w)$ and $f\subseteq
+   \R^2\setminus{\cup S}$.  On the other hand, if $uw\not\in G$,
+   then any path $f$ from $u$ to $w$ in $\R^2\setminus{\cup S}$ is
+   a path in the embedding of $G$ and is therefore not $k$-monotone,
+   so $f\not\in \rho(u,w)$.
+
+   Next we argue that a $(\R^2,d_k,\rho_k)$ non-crossing obstacle
+   representation $(\varphi, S)$ gives the necessary plane embedding
+   of $G$.  The embedding we choose maps each vertex $u\in V(G)$ onto
+   $\varphi(u)$.  By \obsref{generic} we can assume that the resulting
+   point set is $d_k$-generic.  
+
+
+   Recall that a non-crossing obstacle representation must have a
+   function $c:E(G)\to\mathcal{C}(\R^2)$ that maps edges of $G$ onto
+   curves joining their endpoints.  In our case, the edge between two
+   vertices mapped onto points $p$ and $q$ is mapped onto a curve in
+   $\rho_k(p,q)$ and, since $\{p,q\}$ is $d_k$-generic, this curve is
+   (or can be made) $k$-monotone.
+
+   The resulting embedding has all the properties required except that
+   it may not be plane.  In particular, we may have edges $ux$ and $uz$ 
+   such that $c(ux)$ and $c(uz)$ cross each other.
+   In this case, we observe that both
+   curves are $k$-monotone in direction $i$ for the same value of $i$.
+   This makes it easy to eliminate crossings by repeatedly swapping
+   segments of the curves and making local modifications around the
+   crossings.  Repeating this gives the desired embedding of $G$.
+\end{proof}
+
+\obsref{monotone} allows us to focus our attention on embeddings
+of graphs that have Properties~1 and 2.  We call these \emph{$d_k$-obstacle
+embeddings}.
+
+\subsection{Treewidth}
+
+A \emph{$k$-tree} is any graph that can be obtained in the following
+manner:  We begin with a clique on $k+1$ vertices and then we repeatedly
+select a subset of the vertices that form a $k$-clique $K$ and add a
+new vertex adjacent to every element in $K$.  The class of $k$-trees is
+exactly the set of edge-maximal graphs of treewidth $k$.  We will make
+use of the following lemma, due to Dujmovi\'c and Wood \cite[Lemma~Y]{X}
+in some recursive embeddings of partial 2- and 3-trees.
+
+\begin{lem}\lemlabel{dujwood}
+   Every $k$-tree is either a clique on $k+1$ vertices or it contains a non-empty independent set $S$ and a vertex $u\not\in S$, such that:
+\begin{enumerate}
+   \item $G\setminus S$ is a $k$-tree;
+   \item $\deg_{G\setminus S}(u)=k$; and 
+   \item every element in $S$ is adjacent to $u$ and $k-1$ elements of
+   $N_{G\setminus S}(u)$.
+\end{enumerate}
+\end{lem}
+
+A graph $G$ is called a \emph{partial $k$-tree} if it is a subgraph of
+some $k$-tree.  The class of partial $k$-trees is exactly the class of
+graphs of treewidth at most $k$.  The class of partial 1-trees is the
+class of forests.  All partial 2-trees are planar, every outerplanar graph
+is a partial 2-tree, and every series-parallel graph is a partial 2-tree.
+Not every 3-tree, and hence not every partial 3-trees is planar, since
+$K_{3,3}$ is a 3-tree.
+
+\section{Grid Obstacle Representations}
+
+In this section we focus on $d_4$ obstacle embeddings.
+
+\begin{thm}
+  Every partial 2-tree has a straight-line $d_4$ obstacle embedding.
+\end{thm}
+
+\begin{proof}
+  Let $G$ be a partial 2-tree. We can, without loss of generality, assume
+  that $G$ is connected.  If $|V(G)|< 4$, then the result is trivial, so
+  we can assume $|V(G)|\ge 4$.  We now proceed by induction on $|V(G)|$.
+
+  Let $T=T(G)$ be a 2-tree with vertex set $V(G)$ and that contains $G$.
+  Apply \lemref{dujwood} to find the vertex set $S$ and the vertex $u$.
+  Let $x$ and $y$ be the neighbours of $u$ in $T\setminus S$. Now apply
+  induction to find a straight-line $d_4$ obstacle embedding of the
+  graph $G'$ whose vertex set is $V(G')=V(G)\setminus S$ and whose edge
+  set is $E(G')=E(G\setminus S)\cup\{ux,uy\}$.
+
+  Now observe that, since $u$ has degree 2 in $G'$ and the edges $ux$
+  and $uy$ are in $G'$, this embedding does not contain any monotone path
+  of the form $uxw$ or $uyw$ for any $w\in V(G)\setminus\{u,x,y\}$.
+  Therefore, if we place the vertices in $S$ sufficiently close to $u$,
+  we will not create any monotone path of the form $ayw$ or $axw$ for
+  any $a\in S$ and any $w\in V(G)\setminus \{u,x,y\}$.  What remains
+  is to show how to place the elements of $S$ in order to avoid unwanted
+  monotone paths of the form $uay$, $uax$, or $aub$ for any $a,b\in S$.
+  There are three cases to consider (see \figref{2-tree-proof}):
+
+  \begin{figure}
+    \begin{tabular}{cccccc}
+       \multicolumn{6}{c}{\includegraphics{figs/2tree-1}} \\
+       \multicolumn{6}{c}{1(a)} \\
+       \multicolumn{3}{c}{\includegraphics{figs/2tree-2}} & 
+       \multicolumn{3}{c}{\includegraphics{figs/2tree-3}} \\
+       \multicolumn{3}{c}{2(a)} &
+       \multicolumn{3}{c}{2(c)} \\
+       \multicolumn{2}{c}{\includegraphics{figs/2tree-4}} &
+       \multicolumn{2}{c}{\includegraphics{figs/2tree-5}} &
+       \multicolumn{2}{c}{\includegraphics{figs/2tree-6}} \\
+       \multicolumn{2}{c}{3(a)} &
+       \multicolumn{2}{c}{3(b)} &
+       \multicolumn{2}{c}{3(c)} 
+    \end{tabular}
+  \end{figure}
+  
+  \begin{enumerate}
+
+  \item  $x\in Q_i(u)$ and $y\in Q_{i+2}(u)$ for some
+  $i\in\{0,\ldots,3\}$. Without loss of generality, assume that
+  $Q_{i+3}(u)$ does not intersect the segment $xy$. Then we can embed the
+  elements of $S$ in $Q_{i+3}$ without creating any new monotone paths.
+
+  \item $x,y\in Q_i(u)$ for some $i\in\{0,\ldots,3\}$. There are two subcases:
+    \begin{enumerate}
+    \item At least one of $ux$ or $uy$ is in $E(G)$. Suppose $ux\in E(G)$.  Then we embed $S_x$ in $Q_i(u)$ and embed $S_y$ in $Q_{i+1}(u)$.  The only monotone paths this creates are of the form $uax$ with $a\in S_x$, which is acceptable since $ux\in E(G)$.
+    \item Neither $ux$ nor $uy$ is in $E(G)$. In this case, we embed all of $S$ in $Q_{i+2}(u)$.  This does not create any new monotone paths.
+  \end{enumerate}
+
+  \item $x\in Q_i(u)$ and $y\in Q_{i+1}(u)$ for some $i\in\{0,\ldots,3\}$.  We have two subcases to consider:
+  \begin{enumerate}
+    \item $|\{ux,uy\}\cap E(G)|=1$.  In this case, assume $ux\in E(G)$. Then we embed the vertices of $S_x$ in $Q_i(u)$ and we embed the vertices of $S_y$ in $Q_{i+3}(u)$.  The only monotone paths this creates are of the form $uax$ with $a\in S_x$, which is acceptable since $ux\in E(G)$.
+    \item $|\{ux,uy\}\cap E(G)|=2$.  In this case we embed the vertices of $S_x$ in $Q_i(u)$ and we embed the vertices of $S_y$ in $Q_{i+1}(u)$.  The only monotone paths this creates are of the form $uax$ with $a\in S_x$ and $uby$ with $b\in S_y$, which is acceptable since $ux,uy\in E(G)$.
+    \item $|\{ux,uy\}\cap E(G)|=0$.  In this case, we embed all of $S$ into $Q_{i+2}\cup Q_{i+3}$.  This does not create any new monotone paths.
+
+    {:.center}
+    ![2-tree case 2.1](images/2tree-4.svg)
+    ![2-tree case 2.1](images/2tree-5.svg)
+    ![2-tree case 2.1](images/2tree-6.svg)
+\end{enumerate}
+\end{enumerate}
+This completes the proof.
+\end{proof}
+
+$(\R^2,d_4,\rho_4)$ obstacle representation.
+
+
+
+
+
+
+
+\section{General Graphs}
+
+
+
+
+
+
+
+\bibliographystyle{plain}
+\bibliography{geoobs}
+
+\end{document}
+
+
