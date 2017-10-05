@@ -307,6 +307,22 @@ is a partial 2-tree, and every series-parallel graph is a partial 2-tree.
 Not every 3-tree, and hence not every partial 3-trees is planar, since
 $K_{3,3}$ is a 3-tree.
 
+\section{General Representations}
+
+\begin{thm}
+  For every $k\in \N$, there exist an $O(k^2)$-vertex bipartite graph $G$ that
+  has no $d_k$ obstacle embedding.
+\end{thm}
+
+\begin{proof}[Proof Sketch]
+   Take a graph with $\Omega(n^{3/2})$ edges that does not contain a
+   $k_{2,2}$ subgraph. By Euler's formula, this graph a pair of edges
+   that are $k$-monotone in direction $i$ and that cross each other. But
+   these two edges determine a $K_{2,2}$.
+\end{proof}
+
+\section{Non-Crossing Representations}
+
 \section{Grid Obstacle Representations}
 
 In this section we focus on $d_4$ obstacle embeddings.
