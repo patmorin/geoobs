@@ -119,15 +119,16 @@ $f(0)$ and $f(1)$ the \emph{endpoints} of the curve $f$.  We denote the
 set of curves over $X$ as $\mathcal{C}(X)$.  We will sometimes identify a
 curve with its image $I(f)=\{f(t):0\le t\le 1\}$ by making statements like
 $f$ is contained in $X'$, which means $I(f)\subseteq X'$.  For a subset
-$S\subset X$, we say that $f$ is $S$-avoiding if $I(f)\cap S=\emptyset$.
+$S\subset X$, we say that $f$ is \emph{$S$-avoiding} if $I(f)\cap S=\emptyset$.
 
 A \emph{path space} is a triple $(X,d,\rho)$, where $(X,d)$ is a metric
-space and $\rho:X^2\to 2^{\mathcal{C}(X)}$ is such that, for every $p,q\in
-X^2$, every curve $f\in \rho(p,q)$, and every $0<t<1$,
+space and $\rho:X^2\to 2^{\mathcal{C}(X)}$ maps a pair $p,q\in X$ to
+a set of geodesic curves each having endpoints $p$ and $q$.  Formally,
+for every $p,q\in X^2$, every curve $f\in \rho(p,q)$, and every $0<t<1$,
 \begin{enumerate}
   \item $f(0)=p$ and $f(1)=q$;
   \item $d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$; 
-  \item the curve $g(x)=f(1-x)\in \rho(q,p)$;
+  \item the curve $\overleftarrow{f}(x)=f(1-x)\in \rho(q,p)$;
   \item the curve $g(x)=f(x)/t$, $x\in[0,t]$ is in $\rho(f(0),f(t))$; and
   \item the curve $h(x)=f(x-t)/(1-t)$, $x\in[t,1]$ is in $\rho(f(t),f(0))$ \enspace .
 \end{enumerate} 
@@ -140,7 +141,7 @@ and, for every $p,q\in\R^2$, $\rho(p,q)$ is the set containing only
 the line segment joining $s$ and $t$.  A more interesting example
 (and one we will study) is when we take $X=\R^2$, $d$ to be the $L_1$
 distance and $\rho(p,q)$ to be the set of all x-y-monotone paths from
-$p$ to $q$. As a discrete example, we could $X$ to be the vertex set
+$p$ to $q$. As a discrete example, we could take $X$ to be the vertex set
 of some graph $G$, $d(p,q)$ to be distance in $G$ from $p$ to $q$, 
 and $\rho(p,q)$ to be set of all shortest paths in $G$ from $p$ to $q$.
 
@@ -157,9 +158,9 @@ obstacle representations.  For a graph $G$, a \emph{$(X,d,\rho)$ obstacle
 representation} of $G$ is a pair $(\varphi, S)$ where $\varphi:V(G)\to X$
 is a one-to-one mapping and $S$ is a subset of $X$ with the property that,
 for every $u,w\in V(G)$, $uw\in E(G)$ if and only if $\rho_{\setminus
-S}(\varphi(u),\varphi(w))\neq\emptyset$. In english: There is a shortest
-path in $(X,d,\rho)$ from $\varphi(u)$ to $\varphi(w)$ that avoids the
-obstacles in $S$.
+S}(\varphi(u),\varphi(w))\neq\emptyset$. In english: There is an
+$S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$
+if and only if $uw\in E(G)$.
 
 Note that, for a given $(X,d,\rho)$ it is not at all obvious whether every
 graph $G$ has an \emph{$(X,d,\rho)$ obstacle representation}.  Indeed,
@@ -220,13 +221,11 @@ Biedl and Mehrabi study so-called grid obstacle representations \cite{X}...
 \section{Preliminaries}
 
 Here we present some definitions and observations that are useful
-throughout the rest of the paper.  
-
-\subsection{Generic Obstacle Representations}
-
-We say that a set of points in $\R^2$ is \emph{$d_k$-generic},
-if it contains no pair of distinct $p$ and $q$ such that $p-q=
-t(\cos(i\pi/k),\sin(i\pi/k)$ for some integer $i$.
+throughout the rest of the paper, but first we first justify a former of
+generic position assumption that simplifies discussions later.  We say
+that a set of points in $\R^2$ is \emph{$d_k$-generic}, if it contains no
+pair of distinct $p$ and $q$ such that $p-q= t(\cos(i\pi/k),\sin(i\pi/k)$
+for some integer $i$.
 
 \begin{obs}\obslabel{generic}
   If $G$ has a $(\R^2,d_k,\rho_k)$ obstacle representation, then it
@@ -234,8 +233,12 @@ t(\cos(i\pi/k),\sin(i\pi/k)$ for some integer $i$.
   in which $\{\varphi(u):u\in V(G)\}$ is $d_k$-generic.
 \end{obs}
 
-\begin{proof}
-   Given an obstacle representation that is non $d_k$-generic, we can
+\begin{proof}[Proof Sketch]
+   Consider all the $2kn$ lines that determine $d_k$ genericness.
+   For every point $p$ on one of these lines, $\ell$ that is not
+   part of any obstacle, we remove an $\epsilon$-length line segment
+   centered at $p$ and perpendicular to $\ell$. The result is still
+   an $(\R^2,d_k,\rho_k)$ obstacle representation of $G$.  Now we can
    perform a sufficiently small rotation of the entire representation
    so that it becomes $d_k$-generic.
 \end{proof}
@@ -287,100 +290,8 @@ From this point onwards, when we are discussing a particular embedding
 of $G$, we will identify each vertex $u$ of $G$ with $\varphi(u)$ and
 each edge $uw$ of $G$ with the curve $c(uw)$.
 
-An embedding of $G$ into $\R^2$ is a \emph{$k$-obstacle embedding} if each edge $uw$ of $G$ is $k$-monotone and, for each $u,w\in V(G)$, the embedding contains a $k$-monotone path from $u$ to $w$ if and only if $uw\in E(G)$.
-The following lemma shows a
-relationship between $k$-obstacle embeddings and $(\R^2,d_k,\rho_k)$
-obstacle representations.
+An embedding of $G$ into $\R^2$ is a \emph{$d_k$-obstacle embedding} if each edge $uw$ of $G$ is $k$-monotone and, for each $u,w\in V(G)$, the embedding contains a $k$-monotone path from $u$ to $w$ if and only if $uw\in E(G)$.
 
-
-\begin{lem}\lemlabel{monotone}
-   A graph $G$ has a $(\R^2,d_k,\rho_k)$ obstacle representation if and
-   only if $G$ has a $k$-obstacle embedding with the property that,
-   if two edges $uw$ and $xz$ are both $k$-monotone in direction $i$
-   and have a point in common, then $uz$ and $xw$ are also edges of $G$.
-\end{lem}
-
-\begin{proof}
-   First, suppose $G$ has a $k$-obstacle embedding $(\varphi,c)$.
-   Then we obtain an obstacle representation $(\varphi,S)$ by taking $S=
-   \R^2\setminus \bigcup_{uw\in E(G)} uw$.
-
-   If $uw\in E(G)$ then $uw$ is an $S$-avoiding $k$-monotone curve.  On the other hand, if $uw\not\in E(G)$ then 
-
-
-
- that is contained in $\R^2\setminus S$.
-
-
-
-the embedding $f$ of $uw$ is a $k$-monotone
-   curve that avoids $\cup S$.  
-
-
-
-
-Thus, $f\in\rho(u,w)$ and $f\subseteq
-   \R^2\setminus{\cup S}$.  On the other hand, if $uw\not\in G$,
-   then any path $f$ from $u$ to $w$ in $\R^2\setminus{\cup S}$ is
-   a path in the embedding of $G$ and is therefore not $k$-monotone,
-   so $f\not\in \rho(u,w)$.
-
-   Next we argue that a $(\R^2,d_k,\rho_k)$ non-crossing obstacle
-   representation $(\varphi, S)$ gives the necessary plane embedding
-   of $G$.  The embedding we choose maps each vertex $u\in V(G)$ onto
-   $\varphi(u)$.  By \obsref{generic} we can assume that the resulting
-   point set is $d_k$-generic.  
-
-   Recall that a non-crossing obstacle representation must have a
-   function $c:E(G)\to\mathcal{C}(\R^2)$ that maps edges of $G$ onto
-   curves joining their endpoints.  In our case, the edge between two
-   vertices mapped onto points $p$ and $q$ is mapped onto a curve in
-   $\rho_k(p,q)$ and, since $\{p,q\}$ is $d_k$-generic, this curve is
-   (or can be made) $k$-monotone.
-
-   The resulting embedding has all the properties required except that
-   it may not be plane.  In particular, we may have edges $ux$ and $uz$ 
-   such that $c(ux)$ and $c(uz)$ cross each other.
-   In this case, we observe that both
-   curves are $k$-monotone in direction $i$ for the same value of $i$.
-   This makes it easy to eliminate crossings by repeatedly swapping
-   segments of the curves and making local modifications around the
-   crossings.  Repeating this gives the desired embedding of $G$.
-\end{proof}
-
-
-\begin{cor}\corlabel{plane-monotone}
-   A graph $G$ has a non-crossing $(\R^2,d_k,\rho_k)$ obstacle
-   representation if and only $G$ has a plane $k$-monotone embedding.
-\end{cor}
-
-\subsection{Treewidth}
-
-A \emph{$k$-tree} is any graph that can be obtained in the following
-manner:  We begin with a clique on $k+1$ vertices and then we repeatedly
-select a subset of the vertices that form a $k$-clique $K$ and add a
-new vertex adjacent to every element in $K$.  The class of $k$-trees is
-exactly the set of edge-maximal graphs of treewidth $k$.  We will make
-use of the following lemma, due to Dujmovi\'c and Wood \cite[Lemma~Y]{X}
-in some recursive embeddings of partial 2- and 3-trees.
-
-\begin{lem}\lemlabel{dujwood}
-   Every $k$-tree is either a clique on $k+1$ vertices or it contains a non-empty independent set $S$ and a vertex $u\not\in S$, such that:
-\begin{enumerate}
-   \item $G\setminus S$ is a $k$-tree;
-   \item $\deg_{G\setminus S}(u)=k$; and 
-   \item every element in $S$ is adjacent to $u$ and $k-1$ elements of
-   $N_{G\setminus S}(u)$.
-\end{enumerate}
-\end{lem}
-
-A graph $G$ is called a \emph{partial $k$-tree} if it is a subgraph of
-some $k$-tree.  The class of partial $k$-trees is exactly the class of
-graphs of treewidth at most $k$.  The class of partial 1-trees is the
-class of forests.  All partial 2-trees are planar, every outerplanar graph
-is a partial 2-tree, and every series-parallel graph is a partial 2-tree.
-Not every 3-tree, and hence not every partial 3-trees is planar, since
-$K_{3,3}$ is a 3-tree.
 
 \section{General Representations}
 
@@ -395,11 +306,9 @@ $K_{3,3}$ is a 3-tree.
    for infinitely many values of $n$, there exists a bipartite graph
    $G$ with $n$ vertices $cn^{3/2}$ edges, maximum degree $cn^{1/2}$
    and that contains no $K_{2,2}$ subgraph.  Let $(\varphi,S)$ be a
-   $(\R^2,d_k,\rho_k)$ obstacle representation and let $(\varphi,c)$ be
-   an embedding of $G$ obtained by taking $c(uw)$ to be some shortest
-   $S$-avoiding path from $\phi(u)$ to $\phi(w)$.  For brevity, we now
-   identify each vertex $u\in V(G)$ with the point $\varphi(u)$ and each
-   edge $uw\in E(G)$ with the curve $c(uw)$.
+   $(\R^2,d_k,\rho_k)$ obstacle representation and let $(\varphi,c)$
+   be an embedding of $G$ obtained by taking $c(uw)$ to be some shortest
+   $S$-avoiding path from $\varphi(u)$ to $\varphi(w)$.
 
    Each edge $uw\in E(G)$ is $k$-monotone in direction $i$ for some
    $i\in\{0,\ldots,k-1\}$.  By the pigeonhole principle, there is
@@ -419,12 +328,86 @@ $K_{3,3}$ is a 3-tree.
 
 \section{Non-Crossing Representations}
 
+In this section, we consider non-crossing $(\R^2,d_k,\rho_k)$ obstacle
+representations. The following lemma shows that these representations
+are equivalent to plane $d_k$-obstacle representations.
+
+\begin{lem}\lemlabel{monotone}
+   A graph $G$ has a non-crossing $(\R^2,d_k,\rho_k)$ obstacle
+   representation if and only $G$ has a plane $d_k$-obstacle embedding.
+\end{lem}
+
+\begin{proof}
+   First, suppose $G$ has a plane $d_k$-obstacle embedding $(\varphi,c)$.
+   Then we obtain an obstacle representation $(\varphi,S)$ by taking $S=
+   \R^2\setminus \bigcup_{uw\in E(G)} uw$.  
+
+   If $uw\in E(G)$ then $uw$ is an $S$-avoiding $k$-monotone curve.
+   On the other hand if $uw\not\in E(G)$ then, since $(\varphi,c)$
+   is plane, any $S$-avoiding $k$-monotone curve with endpoints $u$
+   and $w$ would determine a $k$-monotone path from $u$ to $w$ in $G$.
+   The definition of $d_k$-obstacle embedding prevents this.
+
+   Next we argue that a $(\R^2,d_k,\rho_k)$ non-crossing obstacle
+   representation $(\varphi, S)$ impmlies the existence of a plane
+   $d_k$-obstacle embedding $(\varphi, c')$ of $G$.  of $G$.  By the
+   definition of non-crossing, we immediately obtain a function
+   $c:E(G)\to\mathcal{C}(\R^2)$ that maps edges of $G$ onto geodesic
+   curves joining their endpoints, and any two of these curves are
+   disjoint unless they share a common endpoint.
+
+   The resulting embedding $(\varphi,c)$ is almost a plane $d_k$-obstacle
+   embedding except that it may not be plane.  In particular, we may
+   have edges $ux$ and $uz$ such that $c(ux)$ and $c(uz)$ cross each
+   other.  In this case, we observe that both curves are $k$-monotone
+   in direction $i$ for the same value of $i$.  This makes it easy to
+   eliminate crossings by repeatedly swapping segments of the curves
+   and making local modifications around the crossings.  Repeating this
+   gives the desired embedding of $G$.
+\end{proof}
+
+\lemref{monotone} allows us to focus our effort on studying the existence
+(or not) of plane $d_k$-obstacle embeddings.  This is what we do for
+the rest of paper, beginning with plane $d_k$-obstacle representations
+of small treewidth graphs.
+
+\subsection{Treewidth}
+
+A \emph{$k$-tree} is any graph that can be obtained in the following
+manner:  We begin with a clique on $k+1$ vertices and then we
+repeatedly select a subset of the vertices that form a $k$-clique $K$
+and add a new vertex adjacent to every element in $K$.  The class of
+$k$-trees is exactly the set of edge-maximal graphs of treewidth $k$.
+We will make use of the following lemma, due to Dujmovi\'c and Wood
+\cite[Lemma~1]{dujmovic.wood:graph2007} in some recursive embeddings.
+
+\begin{lem}\lemlabel{dujwood}
+   Every $k$-tree is either a clique on $k+1$ vertices or it contains a non-empty independent set $S$ and a vertex $u\not\in S$, such that:
+\begin{enumerate}
+   \item $G\setminus S$ is a $k$-tree;
+   \item $\deg_{G\setminus S}(u)=k$; and 
+   \item every element in $S$ is adjacent to $u$ and $k-1$ elements of
+   $N_{G\setminus S}(u)$.
+\end{enumerate}
+\end{lem}
+
+A graph $G$ is called a \emph{partial $k$-tree} if it is a subgraph of
+some $k$-tree.  The class of partial $k$-trees is exactly the class of
+graphs of treewidth at most $k$.  The class of partial 1-trees is the
+class of forests.  All partial 2-trees are planar, every outerplanar graph
+is a partial 2-tree, and every series-parallel graph is a partial 2-tree.
+Not every 3-tree, and hence not every partial 3-trees is planar, since
+$K_{3,3}$ is a 3-tree.
+
+
 \section{Grid Obstacle Representations}
 
-In this section we focus on $d_4$ obstacle embeddings.
+In this section we focus on $d_2$-obstacle embeddings and we begin by showing that all partial 2-trees have $d_2$-obstacle embeddings.
+
+\subsection{Partial 2-trees have $d_2$-obstacle embeddings}
 
 \begin{thm}
-  Every partial 2-tree has a straight-line $d_4$ obstacle embedding.
+  Every partial 2-tree has a plane straight-line $d_2$-obstacle embedding.
 \end{thm}
 
 \begin{proof}
@@ -473,34 +456,106 @@ In this section we focus on $d_4$ obstacle embeddings.
   $Q_{i+3}(u)$ does not intersect the segment $xy$. Then we can embed the
   elements of $S$ in $Q_{i+3}$ without creating any new monotone paths.
 
-  \item $x,y\in Q_i(u)$ for some $i\in\{0,\ldots,3\}$. There are two subcases:
+  \item $x,y\in Q_i(u)$ for some $i\in\{0,\ldots,3\}$. There are two
+  subcases:
     \begin{enumerate}
-    \item At least one of $ux$ or $uy$ is in $E(G)$. Suppose $ux\in E(G)$.  Then we embed $S_x$ in $Q_i(u)$ and embed $S_y$ in $Q_{i+1}(u)$.  The only monotone paths this creates are of the form $uax$ with $a\in S_x$, which is acceptable since $ux\in E(G)$.
-    \item Neither $ux$ nor $uy$ is in $E(G)$. In this case, we embed all of $S$ in $Q_{i+2}(u)$.  This does not create any new monotone paths.
+      \item At least one of $ux$ or $uy$ is in $E(G)$. Suppose $ux\in E(G)$.
+      Then we embed $S_x$ in $Q_i(u)$ and embed $S_y$ in $Q_{i+1}(u)$.
+      The only monotone paths this creates are of the form $uax$ with
+      $a\in S_x$, which is acceptable since $ux\in E(G)$.
+      \item Neither $ux$ nor $uy$ is in $E(G)$. In this case, we embed all
+    of $S$ in $Q_{i+2}(u)$.  This does not create any new monotone paths.
+    \end{enumerate}
+
+  \item $x\in Q_i(u)$ and $y\in Q_{i+1}(u)$ for some $i\in\{0,\ldots,3\}$.
+  We have two subcases to consider:
+    \begin{enumerate}
+      \item $|\{ux,uy\}\cap E(G)|=1$.  In this case, assume $ux\in
+      E(G)$. Then we embed the vertices of $S_x$ in $Q_i(u)$ and we
+      embed the vertices of $S_y$ in $Q_{i+3}(u)$.  The only monotone
+      paths this creates are of the form $uax$ with $a\in S_x$, which
+      is acceptable since $ux\in E(G)$.
+      \item $|\{ux,uy\}\cap E(G)|=2$.  In this case we embed the
+      vertices of $S_x$ in $Q_i(u)$ and we embed the vertices of $S_y$
+      in $Q_{i+1}(u)$.  The only monotone paths this creates are of the
+      form $uax$ with $a\in S_x$ and $uby$ with $b\in S_y$, which is
+      acceptable since $ux,uy\in E(G)$.
+      \item $|\{ux,uy\}\cap E(G)|=0$.  In this case, we embed all of
+      $S$ into $Q_{i+2}\cup Q_{i+3}$.  This does not create any new
+      monotone paths.
+    \end{enumerate}
   \end{enumerate}
-
-  \item $x\in Q_i(u)$ and $y\in Q_{i+1}(u)$ for some $i\in\{0,\ldots,3\}$.  We have two subcases to consider:
-  \begin{enumerate}
-    \item $|\{ux,uy\}\cap E(G)|=1$.  In this case, assume $ux\in E(G)$. Then we embed the vertices of $S_x$ in $Q_i(u)$ and we embed the vertices of $S_y$ in $Q_{i+3}(u)$.  The only monotone paths this creates are of the form $uax$ with $a\in S_x$, which is acceptable since $ux\in E(G)$.
-    \item $|\{ux,uy\}\cap E(G)|=2$.  In this case we embed the vertices of $S_x$ in $Q_i(u)$ and we embed the vertices of $S_y$ in $Q_{i+1}(u)$.  The only monotone paths this creates are of the form $uax$ with $a\in S_x$ and $uby$ with $b\in S_y$, which is acceptable since $ux,uy\in E(G)$.
-    \item $|\{ux,uy\}\cap E(G)|=0$.  In this case, we embed all of $S$ into $Q_{i+2}\cup Q_{i+3}$.  This does not create any new monotone paths.
-
-    {:.center}
-    ![2-tree case 2.1](images/2tree-4.svg)
-    ![2-tree case 2.1](images/2tree-5.svg)
-    ![2-tree case 2.1](images/2tree-6.svg)
-\end{enumerate}
-\end{enumerate}
 This completes the proof.
 \end{proof}
 
-$(\R^2,d_4,\rho_4)$ obstacle representation.
+\subsection{3-Trees do not have $d_2$-obstacle embeddings}
 
+The following lemma is easily established by a short case analysis:
 
+\begin{lem}\lemlabel{labelling}
+  The vertices of any triangle $xyz$ can be labelled so that $y,z\in Q^4_i(x)$ for some $i\in\{0,\ldots,3\}$.
+\end{lem}
 
+A (1-level) \emph{subdivision} of a triangle $xyz$ is obtained by adding a
+vertex $w$ in the interior of $xyz$ and adding the edges $wx$, $wy$, $wz$.
+A $d$-level subdivision of $xyz$ is obtained by repeating this process
+recursively to a depth of $d$.
 
+\begin{lem}\lemlabel{level-1}
+   Let $G$ be a plane $d_2$-obstacle embedding of some graph, and let $xyz$
+   be a three-cycle in $G$ embedded with $x\in Q^4_i(y)$ and $z\in Q^4_i(x)$.
+   Then $xyz$ does not contains a 3-level subdivision in its interior.
+\end{lem}
 
+\begin{proof}
+   Without loss of generality assume that $i=0$ and $x$ is above the edge
+   $yz$ Consider the location of the vertex $w$ that subdivides $xyz$.
+   There are three cases to consider:
+   \begin{enumerate}
+      \item The vertex $w$ is placed in $Q^4_0(x)$.  In this case,
+        there will be a 2-monotone path from $z$ to the vertex $w'$ that
+        subdivides $xyw$.
+      \item The vertex $w$ is placed in $Q^2_0(x)$.  In this case,
+        there will be a 2-monotone path from $y$ to the vertex $w'$ that
+        subdivides $xwz$.
+      \item The vertex $w$ is placed in $Q^4_3(x)$. In this case,
+      consider the vertex $w'$ that subdivides $zwy$.  The preceding
+      two arguments prevent $w'$ from being placed in $Q^4_0(w)$
+      or $Q^4_2(w)$.  However, placing $w'$ in $Q^4_3(w)$ creates a
+      monotone path from $x$ to $w'$.
+   \end{enumerate} 
+\end{proof}
 
+\begin{lem}\lemlabel{level-2}
+   Let $G$ be a plane $d_2$-obstacle embedding of some graph, and let
+   $xyz$ be a three-cycle in $G$ with $yz\in Q_i(x)$ for some $i$.
+   Then $xyz$ does not contains a 4-level subdivision in its interior.
+\end{lem}
+
+\begin{proof}
+   If $xyz$ does not already meet the criteria for \lemref{level-1}, then
+   any choice of location for the first-level subdivision vertex will create
+   at least one triangle that does meet the criteria for \lemref{level-1}.
+\end{proof}
+
+\begin{thm}
+   The graph $G$ that is a 5-level subdivision of a triangle does not
+   have a non-blocking grid obstacle representation.
+\end{thm}
+
+\begin{proof}
+   In any embedding of $G$, there is a triangle $xyz$ with a 4-level
+   subdivision in its interior.  The theorem then follows from
+   \lemref{labelling}, we can apply \lemref{level-1}.
+\end{proof}
+
+\begin{thm}
+  The stellated $K_3$ of depth 4 does not have a $d_2$-obstacle embedding.
+\end{thm}
+
+\begin{proof}
+   
+\end{proof}
 
 \section{General Graphs}
 
