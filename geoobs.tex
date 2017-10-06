@@ -12,7 +12,7 @@ citecolor=linkblue, filecolor=linkblue, menucolor=linkblue,
 urlcolor=linkblue} 
 \setlength{\parskip}{1ex}
 
-\title{\MakeUppercase{Geodesic Obstacle Representations}}
+\title{\MakeUppercase{Geodesic Obstacle Representations of Graphs}}
 
 \author{Pat Morin and Friends}%
 
@@ -40,6 +40,8 @@ urlcolor=linkblue}
 %}
 
 
+\newcommand{\question}[1]{\textbf{\color{red}Question:}~#1}
+
 \DeclareMathOperator{\ob}{obs}
 \DeclareMathOperator{\planeobs}{plane-obs}
 
@@ -49,7 +51,10 @@ urlcolor=linkblue}
 \maketitle
 
 \begin{abstract}
-  TBD
+  We introduce the notion of geodesic obstacle representations of graphs,
+  which generalizes and unifies the notions of obstacle representations,
+  planar obstacle representations, and grid obstacle representations.
+  It also leads to a plethora of questions on embedding 
 \end{abstract}
 \end{titlepage}
 
@@ -114,102 +119,90 @@ spaces other than $\R^2$ with the Euclidean distance metric.  Before we
 can do this, though, we need a notion of a metric space that is also
 equipped with some topology.
 
-A \emph{curve} over a set $X$ is a function $f:[0,1]\to X$.  We call
-$f(0)$ and $f(1)$ the \emph{endpoints} of the curve $f$.  We denote the
-set of curves over $X$ as $\mathcal{C}(X)$.  We will sometimes identify a
-curve with its image $I(f)=\{f(t):0\le t\le 1\}$ by making statements like
-$f$ is contained in $X'$, which means $I(f)\subseteq X'$.  For a subset
-$S\subset X$, we say that $f$ is \emph{$S$-avoiding} if $I(f)\cap S=\emptyset$.
+Let $(X,d)$ be a metric space.  A \emph{curve} over $X$ is a function
+$f:[0,1]\to X$.  We call $f(0)$ and $f(1)$ the \emph{endpoints}
+of the curve $f$.  We will sometimes identify a curve with its image
+$I(f)=\{f(t):0\le t\le 1\}$ by making statements like $f$ is contained
+in $X'$, which means $I(f)\subseteq X'$.  For a subset $S\subset X$, we
+say that $f$ is \emph{$S$-avoiding} if $I(f)\cap S=\emptyset$.  A curve
+$f$ is a \emph{geodesic} if, for every $0\le t\le 1$, $d(f(0),f(t)) +
+d(f(t),f(1)) = d(f(0),f(1))$.
 
-A \emph{path space} is a triple $(X,d,\rho)$, where $(X,d)$ is a metric
-space and $\rho:X^2\to 2^{\mathcal{C}(X)}$ maps a pair $p,q\in X$ to
-a set of geodesic curves each having endpoints $p$ and $q$.  Formally,
-for every $p,q\in X^2$, every curve $f\in \rho(p,q)$, and every $0<t<1$,
-\begin{enumerate}
-  \item $f(0)=p$ and $f(1)=q$;
-  \item $d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$; 
-  \item the curve $\overleftarrow{f}(x)=f(1-x)\in \rho(q,p)$;
-  \item the curve $g(x)=f(x)/t$, $x\in[0,t]$ is in $\rho(f(0),f(t))$; and
-  \item the curve $h(x)=f(x-t)/(1-t)$, $x\in[t,1]$ is in $\rho(f(t),f(0))$ \enspace .
-\end{enumerate} 
-The first two properties say that $f$ is a \emph{geodesic} joining $p$
-and $q$.  The third property says that $\rho$ is symmetric. The last
-two properties say that $\rho$ is closed under taking subcurves.
+A \emph{path space} is a triple $(X,d,C)$, where $(X,d)$ is a metric
+space and $C$ is a set of curves over $X$ that has the following
+properties. That has the following closure property:  If the curve $f$
+is in $C$ then, for every $0\le t\le 1$, $C$ also contains the curves
+$g(x)=f(x/t)$ and $h(x)=f(t+x/(1-t)$.
 
-For example, we can take $X=\R^2$, $d$ to be the Euclidean distance,
-and, for every $p,q\in\R^2$, $\rho(p,q)$ is the set containing only
-the line segment joining $s$ and $t$.  A more interesting example
-(and one we will study) is when we take $X=\R^2$, $d$ to be the $L_1$
-distance and $\rho(p,q)$ to be the set of all x-y-monotone paths from
-$p$ to $q$. As a discrete example, we could take $X$ to be the vertex set
-of some graph $G$, $d(p,q)$ to be distance in $G$ from $p$ to $q$, 
-and $\rho(p,q)$ to be set of all shortest paths in $G$ from $p$ to $q$.
-
-If $(X,d,\rho)$ is a path space, and $S$ is a subset of $X$ then, for
-every $p,q\in X$, we define
-\[
-    \rho_{\setminus S}(p,q) = \{f\in\rho(p,q) : \text{$f$ is $S$-avoiding} \}  \}
-\]
-This definition captures the intuition the elements of $S$ are obstacles
-that block some of the geodesics in $\rho(p,q)$.
+As examples, we can $X=\R^2$ and $C$ to be the set of all closed
+continuous curves over $\R^2$.  Now, if we take $d$ to be the Euclidean
+metric, then the geodesics in $C$ are straight line segments.  A more
+interesting example (and one we will study) is when we take $d$ to be
+the $L_1$ (Manhattan) distance, in which case the geodesics in $C$ are
+x-y-monotone paths.  As a discrete example, we could take $X$ to be the
+vertex set of some graph $G$, $d(p,q)$ to be distance in $G$ from $p$
+to $q$, and $C$ to be the set of all paths in $G$. In this case the geodesics in $C$ are the shortest paths in $G$.
 
 With these definitions in hand, we are ready to define a generalization of
-obstacle representations.  For a graph $G$, a \emph{$(X,d,\rho)$ obstacle
-representation} of $G$ is a pair $(\varphi, S)$ where $\varphi:V(G)\to X$
-is a one-to-one mapping and $S$ is a subset of $X$ with the property that,
-for every $u,w\in V(G)$, $uw\in E(G)$ if and only if $\rho_{\setminus
-S}(\varphi(u),\varphi(w))\neq\emptyset$. In english: There is an
-$S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$
-if and only if $uw\in E(G)$.
+obstacle representations.  
 
-Note that, for a given $(X,d,\rho)$ it is not at all obvious whether every
-graph $G$ has an \emph{$(X,d,\rho)$ obstacle representation}.  Indeed,
+\begin{defn}
+An \emph{$(X,d,C)$ obstacle representation} of a graph $G$
+is a pair $(\varphi, S)$ where $\varphi:V(G)\to X$ is a one-to-one
+mapping and $S$ is a subset of $X$ with the property that, for
+every $u,w\in V(G)$, $uw\in E(G)$ if and only if $C$ contains an $S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$.
+\end{defn}
+
+Note that, for a given $(X,d,C)$ it is not at all obvious whether every
+graph $G$ has an \emph{$(X,d,C)$ obstacle representation}.  Indeed,
 the focus of this paper is to determine, for a class $\mathcal{G}$ of
-graphs and a particular path space $(X,d,\rho)$, whether or not every
-member of $\mathcal{G}$ has an $(X,d,\rho)$ obstacle representation.
+graphs and a particular path space $(X,d,C)$, whether or not every
+member of $\mathcal{G}$ has an $(X,d,C)$ obstacle representation.
 As it happens, this question is closely related to certain types of
 embeddings of $G$ into $X$.
 
 An \emph{embedding} $(\varphi,c)$ of a graph $G$ into $X$ consists
-of a one-to-one map $\varphi:V(G)\to X$ and a function $c:\E(G)\to
+of a one-to-one map $\varphi:V(G)\to X$ and a function $c: E(G)\to
 \mathcal{C}(X)$.  The embedding is \emph{geodesic} if, for every $uw\in
 E(G)$, $c(uw)$ is a geodesic.  The embedding is \emph{non-crossing} if,
 for every $uw,xz\in E(G)$ with $\{u,w\}\cap \{x,z\}=\emptyset$, $c(uw)$
 is disjoint from $c(xz)$.  Note that this definition says nothing about
 two edges that share a common vertex.
 
-Given a $(X,d,\rho)$ obstacle representation $(\varphi,S)$ of
-$G$, we can choose, for each $uw\in E(G)$, some curve $c(uw)$ in
-$\rho(\varphi(u),\varphi(w))$ that does not intersect $\cup S$.  The pair
-$(\varphi,c)$ then gives a geodesic embedding of $G$ into $X$.  If it
-is possible to choose $c$ so that $(\varphi,c)$ is also non-crossing,
-then we say that the representation $(\varphi,S)$ is non-crossing.
+Given a $(X,d,C)$ obstacle representation $(\varphi,S)$ of $G$, we can
+choose, for each $uw\in E(G)$, some $S$-avoiding geodesic $c(uw)\in C$
+with endpoints $\varphi(u)$ and $\varphi(w)$.  The pair $(\varphi,c)$
+then gives a geodesic embedding of $G$ into $X$.  If it is possible to
+choose $c$ so that $(\varphi,c)$ is also non-crossing, then we say that
+the representation $(\varphi,S)$ is non-crossing.
 
-In this paper, we mostly focus on non-crossing $(X,d,\rho)$
-obstacle representations where $X=\R^2$ and $d$ is some
-polygonal distance function.  Let $d_k$ denote the distance
-function over $\R^2$ where a ``circle'' is a regular $2k$-gon.
-Formally, 
+In this paper, we mostly focus on non-crossing $(X,d,C)$ obstacle
+representations where $X=\R^2$, $d$ is some polygonal distance function,
+and $C=\mathcal{C}_2$ is the set of closed continuous curves over $\R^2$.
+Let $d_k$ denote the distance function over $\R^2$ where a ``circle''
+is a regular $2k$-gon.  Formally,
 \[  
    d_k(p,q)=\min\left\{\sum_{i=1}^{k-1}|a_i|: 
                         q-p=\sum_{i=0}^{k-i}a_iv_i\right\} \enspace ,
 \]
-where $v_i=(\cos(i\pi/k), \sin(i\pi/k))$. Let $\rho_k(p,q)$ be the set
-of all shortest paths from $p$ to $q$ under the distance function $d_k$.
+where $v_i=(\cos(i\pi/k), \sin(i\pi/k))$. 
+
+For the sake of compactness, we use \emph{$d_k$ obstacle representation}
+as shorthand for $d_k$ obstacle representation.
 We prove the following results:
 \begin{enumerate}
-   \item For any integer $r$, there is a graph that does not have a
-     $(\R^2,d_r,\rho_r)$ obstacle representation.
+   \item For any integer $k$, there is a graph that does not have a
+     $d_k$ obstacle representation.
    \item Every planar graph of treewidth at most 2 (and hence every
-     outerplanar graph) has a non-crossing $(\R^2,d_2,\rho_2)$ obstacle
+     outerplanar graph) has a non-crossing $d_2$ obstacle
      representation.
-   \item Not every planar 3-tree has a non-crossing $(\R^2,d_2,\rho_2)$
+   \item Not every planar 3-tree has a non-crossing $d_2$
      obstacle representation.
    \item Not every planar 4-connected triangulation has a 
-     non-crossing $(\R^2,d_2,\rho_2)$ obstacle representation.
+     non-crossing $d_2$ obstacle representation.
    \item Every planar graph of treewidth at most 3 has a 
-     non-crossing $(\R^2,d_3,\rho_3)$ obstacle representation.
-   \item Every planar graph has a non-crossing $(\R^2,d_{5},\rho_{5})$
+     non-crossing $d_3$ obstacle representation.
+   \item Every planar graph has a non-crossing $d_5$
      obstacle representation.
 \end{enumerate}
 
@@ -221,15 +214,30 @@ Biedl and Mehrabi study so-called grid obstacle representations \cite{X}...
 \section{Preliminaries}
 
 Here we present some definitions and observations that are useful
-throughout the rest of the paper, but first we first justify a former of
-generic position assumption that simplifies discussions later.  We say
-that a set of points in $\R^2$ is \emph{$d_k$-generic}, if it contains no
-pair of distinct $p$ and $q$ such that $p-q= t(\cos(i\pi/k),\sin(i\pi/k)$
-for some integer $i$.
+throughout the rest of the paper.  
+
+Path spaces are so general that there are unlikely to be very few
+universal results about them.  However, the following is one such
+useful result:
+
+\begin{obs}\obslabel{induced}
+   If a graph $G$ has a $(X,d,C)$ obstacle representation
+   $(\varphi,S)$, then   $(\varphi, S)$ is also a $(X,d,C)$ obstacle
+   representation for every induced subgraph of $G$.
+\end{obs}
+
+\obsref{induced} follows immediately from the fact that, for two vertices
+$u$ and $w$ in the induced subgraph $G'$, $uw\in E[G']$ if and only if
+$uw\in E[G]$.
+
+Next, we justify a former of generic position assumption that
+simplifies discussions later.  We say that a set of points in $\R^2$
+is \emph{$d_k$-generic}, if it contains no pair of distinct $p$ and $q$
+such that $p-q= t(\cos(i\pi/k),\sin(i\pi/k)$ for some integer $i$.
 
 \begin{obs}\obslabel{generic}
-  If $G$ has a $(\R^2,d_k,\rho_k)$ obstacle representation, then it
-  has an $(\R^2,d_k,\rho_k)$ obstacle representation $(\varphi, S)$
+  If $G$ has a $d_k$ obstacle representation, then it
+  has an $d_k$ obstacle representation $(\varphi, S)$
   in which $\{\varphi(u):u\in V(G)\}$ is $d_k$-generic.
 \end{obs}
 
@@ -238,12 +246,16 @@ for some integer $i$.
    For every point $p$ on one of these lines, $\ell$ that is not
    part of any obstacle, we remove an $\epsilon$-length line segment
    centered at $p$ and perpendicular to $\ell$. The result is still
-   an $(\R^2,d_k,\rho_k)$ obstacle representation of $G$.  Now we can
+   an $d_k$ obstacle representation of $G$.  Now we can
    perform a sufficiently small rotation of the entire representation
    so that it becomes $d_k$-generic.
 \end{proof}
 
-
+Justified by \obsref{generic} we will, from this point onwards
+assume that any obstacle representation is $d_k$ generic (for the
+appropriate value of $k$) and that the tangent vector to any point on
+any geodesic does not form an angle of $i\pi/k$ with the x-axis, for
+any $i\in\{0,\ldots,2k-1\}$.
 
 \subsection{$k$-Monotone Curves}
 
@@ -260,17 +272,13 @@ $0 \le a < b \le 1$.  We say that $f$ is \emph{$k$-monotone} if there
 exists some $i\in\{0,\ldots,2k-1\}$ such that $f$ is $k$-monotone in
 direction $i$.  
 
+Observe that any $k$-monotone curve is a geodesic under the $d_k$
+distance function and, by the assumption in the preceding section,
+any geodesic we work with is a $k$-monotone curve.
 We will now start naming curves using their two endpoints.  Thus,
 if we say $uw$ is a curve, then we mean that $uw$ is a curve $f$ with
-$f(0)=u$ and $f(1)=w$.  First we observe that every $k$-monotone curve
-is a geodesic:
-
-\begin{obs}
-   Every $k$-monotone curve $uw$ is in $\rho_k(u,w)$, i.e., for $p\in
-   uw$, $d_k(u,w)=d_k(u,p)+d_k(p,w)$.
-\end{obs}
-
-Next every is an important observation about $k$-monotone curves that cross.
+$f(0)=u$ and $f(1)=w$.  The following is an important observation about
+$k$-monotone curves that cross.
 
 \begin{obs}\obslabel{quadrilateral}
    If $uw$ and $xz$ are curves that are each $k$-monotone direction in $i$
@@ -285,34 +293,52 @@ is \emph{plane} if, for every edge $uw\in E(G)$, $c(uw)$
 is disjoint from $\{\varphi(x) : x\in V(G)\setminus\{u,w\}\}$
 and, for each pair of distinct edges $uw,xz\in E(G)$, $c(uw)\cap
 c(xz)\subseteq\{\varphi(u),\varphi(w),\varphi(x),\varphi(z)\}$. 
-
 From this point onwards, when we are discussing a particular embedding
 of $G$, we will identify each vertex $u$ of $G$ with $\varphi(u)$ and
 each edge $uw$ of $G$ with the curve $c(uw)$.
 
-An embedding of $G$ into $\R^2$ is a \emph{$d_k$-obstacle embedding} if each edge $uw$ of $G$ is $k$-monotone and, for each $u,w\in V(G)$, the embedding contains a $k$-monotone path from $u$ to $w$ if and only if $uw\in E(G)$.
+\begin{defn}
+An embedding of $G$ into $\R^2$ is a \emph{$d_k$-obstacle embedding}
+if each edge $uw$ of $G$ is $k$-monotone and, for each $u,w\in V(G)$,
+the embedding contains a $k$-monotone path from $u$ to $w$ if and only
+if $uw\in E(G)$.
+\end{defn}
+
+Note that, from a $d_k$ obstacle representation $(\varphi, S)$ we
+can obtain a $d_k$ obstacle embedding $(\varphi, c)$ by taking each
+$c(uw)$ to be any $S$-avoiding geodesic with endpoints $u$ and $w$.
+However, the converse is not necessarily true.  Given a $d_k$ obstacle
+embedding of $G$, taking $S=\R^2\setminus (\bigcup_{uw\in E(G)}c(uw))\cup
+(\bigcup_{u\in V(G)} \phi(u)$ does not necessarily yield a $d_k$ obstacle
+representation $(\varphi,S)$ of $G$.  The problem occurs because of
+\obsref{quadrilateral} when two edges $uw$ and $xz$ are both $k$ monotone in
+direction $i$ and they cross. This leaves $S$-avoiding geodesics from $u$
+to $z$ and $x$ to $w$ even though $uz$ and $xw$ may not be edges of $G$.
+
 
 
 \section{General Representations}
 
+Our first result is a negative one:
+
 \begin{thm}
-  There exists a constant $C>0$ such that, for every $k\in \N$, and every
-  $n\ge Ck^2$, there exist an $n$-vertex bipartite graph $G$ with maximum
-  degree $O(k)$ that has no $(\R^2,d_k,\rho_k)$ obstacle representation.
+  There exists a constant $a>0$ such that, for every $k\in \N$, and every
+  $n\ge ak^2$, there exist an $n$-vertex bipartite graph $G$ with maximum
+  degree $O(k)$ that has no $d_k$ obstacle representation.
 \end{thm}
 
 \begin{proof}
    Erd\H{o}s, R\'enyi, and S\'os \cite{erdos.renyi.ea:1966} showed that,
-   for infinitely many values of $n$, there exists a bipartite graph
+   for some $c>0$, for every $n\ge 2$, there exists a bipartite graph
    $G$ with $n$ vertices $cn^{3/2}$ edges, maximum degree $cn^{1/2}$
    and that contains no $K_{2,2}$ subgraph.  Let $(\varphi,S)$ be a
-   $(\R^2,d_k,\rho_k)$ obstacle representation and let $(\varphi,c)$
+   $d_k$ obstacle representation and let $(\varphi,c)$
    be an embedding of $G$ obtained by taking $c(uw)$ to be some shortest
    $S$-avoiding path from $\varphi(u)$ to $\varphi(w)$.
 
    Each edge $uw\in E(G)$ is $k$-monotone in direction $i$ for some
    $i\in\{0,\ldots,k-1\}$.  By the pigeonhole principle, there is
-   some direction $i$ for which at least $cn^{3/2}/k\ge cCn$ edges
+   some direction $i$ for which at least $cn^{3/2}/k\ge acn$ edges
    are monotone in direction $i$.  By Euler's formula, if $cC\ge 3$,
    the graph consisting only of these edges is not planar, therefore
    there is some pair of edges $uw$ and $xz$ that are both monotone in
@@ -325,22 +351,35 @@ An embedding of $G$ into $\R^2$ is a \emph{$d_k$-obstacle embedding} if each edg
    and $z$ form a $K_{2,2}$.
 \end{proof}
 
+As $k\to\infty$, $d_k$ becomes the usual Euclidean distance
+function and $d_k$-obstacle representations are just the usual obstacle
+representations, which we know every graph has.  Thus, for every
+graph $G$, there a threshold value $k(G)$ for which $G$ has a $d_k$
+representation for $k\ge k(G)$.
+
+\question{Is there a constant $c>0$ such that, for every $k\in\N$,
+every graph with at most $ck$ vertices has a $d_k$ representation?}
+
+
+\question{What about $d$ dimensions?  It's impossible to draw a chordless 5-cycle with all its edges 
+
 
 \section{Non-Crossing Representations}
 
-In this section, we consider non-crossing $(\R^2,d_k,\rho_k)$ obstacle
+In this section, we consider non-crossing $d_k$ obstacle
 representations. The following lemma shows that these representations
 are equivalent to plane $d_k$-obstacle representations.
 
 \begin{lem}\lemlabel{monotone}
-   A graph $G$ has a non-crossing $(\R^2,d_k,\rho_k)$ obstacle
-   representation if and only $G$ has a plane $d_k$-obstacle embedding.
+   A graph $G$ has a non-crossing $d_k$ obstacle representation if and
+   only $G$ has a plane $d_k$-obstacle embedding.
 \end{lem}
 
 \begin{proof}
    First, suppose $G$ has a plane $d_k$-obstacle embedding $(\varphi,c)$.
-   Then we obtain an obstacle representation $(\varphi,S)$ by taking $S=
-   \R^2\setminus \bigcup_{uw\in E(G)} uw$.  
+   Then we obtain an obstacle representation $(\varphi,S)$ by taking
+   $S= \R^2\setminus \bigcup_{uw\in E(G)} c(uw)\cup \bigcup_{u\in
+   V(G)}\varphi(u)$.
 
    If $uw\in E(G)$ then $uw$ is an $S$-avoiding $k$-monotone curve.
    On the other hand if $uw\not\in E(G)$ then, since $(\varphi,c)$
@@ -348,9 +387,9 @@ are equivalent to plane $d_k$-obstacle representations.
    and $w$ would determine a $k$-monotone path from $u$ to $w$ in $G$.
    The definition of $d_k$-obstacle embedding prevents this.
 
-   Next we argue that a $(\R^2,d_k,\rho_k)$ non-crossing obstacle
-   representation $(\varphi, S)$ impmlies the existence of a plane
-   $d_k$-obstacle embedding $(\varphi, c')$ of $G$.  of $G$.  By the
+   Next we argue that a $d_k$ non-crossing obstacle representation
+   $(\varphi, S)$ impmlies the existence of a plane $d_k$-obstacle
+   embedding $(\varphi, c')$ of $G$.  of $G$.  By the
    definition of non-crossing, we immediately obtain a function
    $c:E(G)\to\mathcal{C}(\R^2)$ that maps edges of $G$ onto geodesic
    curves joining their endpoints, and any two of these curves are
@@ -373,13 +412,15 @@ of small treewidth graphs.
 
 \subsection{Treewidth}
 
-A \emph{$k$-tree} is any graph that can be obtained in the following
-manner:  We begin with a clique on $k+1$ vertices and then we
-repeatedly select a subset of the vertices that form a $k$-clique $K$
-and add a new vertex adjacent to every element in $K$.  The class of
-$k$-trees is exactly the set of edge-maximal graphs of treewidth $k$.
-We will make use of the following lemma, due to Dujmovi\'c and Wood
-\cite[Lemma~1]{dujmovic.wood:graph2007} in some recursive embeddings.
+Some of our results look at the relation between plane $d_k$ obstacle
+embeddings and the treewidth of $G$.  A \emph{$k$-tree} is any graph that
+can be obtained in the following manner:  We begin with a clique on $k+1$
+vertices and then we repeatedly select a subset of the vertices that
+form a $k$-clique $K$ and add a new vertex adjacent to every element
+in $K$.  The class of $k$-trees is exactly the set of edge-maximal
+graphs of treewidth $k$.  We will make use of the following lemma,
+due to Dujmovi\'c and Wood \cite[Lemma~1]{dujmovic.wood:graph2007}
+in some recursive embeddings.
 
 \begin{lem}\lemlabel{dujwood}
    Every $k$-tree is either a clique on $k+1$ vertices or it contains a non-empty independent set $S$ and a vertex $u\not\in S$, such that:
@@ -399,14 +440,15 @@ is a partial 2-tree, and every series-parallel graph is a partial 2-tree.
 Not every 3-tree, and hence not every partial 3-trees is planar, since
 $K_{3,3}$ is a 3-tree.
 
+\subsection{Grid Obstacle Representations}
 
-\section{Grid Obstacle Representations}
+In this section we focus on $d_2$-obstacle embeddings.  Recall that these
+are equivalent to the non-blocking planar grid obstacle representations
+studied by Biedl and Mehrabi \cite{X}.  We begin with a positive result.
 
-In this section we focus on $d_2$-obstacle embeddings and we begin by showing that all partial 2-trees have $d_2$-obstacle embeddings.
+\subsubsection{Partial 2-trees have plane $d_2$-obstacle embeddings}
 
-\subsection{Partial 2-trees have $d_2$-obstacle embeddings}
-
-\begin{thm}
+\begin{thm}\thmlabel{2-tree}
   Every partial 2-tree has a plane straight-line $d_2$-obstacle embedding.
 \end{thm}
 
@@ -447,6 +489,8 @@ In this section we focus on $d_2$-obstacle embeddings and we begin by showing th
        \multicolumn{2}{c}{3(b)} &
        \multicolumn{2}{c}{3(c)} 
     \end{tabular}
+  \caption{The proof of \thmref{2-tree}.}
+  \figlabel{2-tree-proof}
   \end{figure}
   
   \begin{enumerate}
@@ -488,9 +532,11 @@ In this section we focus on $d_2$-obstacle embeddings and we begin by showing th
 This completes the proof.
 \end{proof}
 
-\subsection{3-Trees do not have $d_2$-obstacle embeddings}
+\subsubsection{3-Trees do not have plane $d_2$-obstacle embeddings}
 
-The following lemma is easily established by a short case analysis:
+Here we establish the bad news: 3-trees do not have plane $d_2$-obstacle
+embeddings.  The following lemma is easily established by a short case
+analysis:
 
 \begin{lem}\lemlabel{labelling}
   The vertices of any triangle $xyz$ can be labelled so that $y,z\in Q^4_i(x)$ for some $i\in\{0,\ldots,3\}$.
@@ -538,31 +584,56 @@ recursively to a depth of $d$.
    at least one triangle that does meet the criteria for \lemref{level-1}.
 \end{proof}
 
-\begin{thm}
+\begin{thm}\thmlabel{stellated}
    The graph $G$ that is a 5-level subdivision of a triangle does not
    have a non-blocking grid obstacle representation.
 \end{thm}
 
 \begin{proof}
    In any embedding of $G$, there is a triangle $xyz$ with a 4-level
-   subdivision in its interior.  The theorem then follows from
-   \lemref{labelling}, we can apply \lemref{level-1}.
+   subdivision in its interior.  The theorem then follows since, by
+   \lemref{labelling}, we can apply \lemref{level-1} to $xyz$.
 \end{proof}
+
+We note that the graph in \thmref{stellated} is a planar 3 tree.
+Thefore, Theorems~\ref{thm:2-tree} and \ref{thm:stellated} tell us that
+all planar graph of treewidth at most 2 have plane $d_2$-obstacle embeddings,
+but not all planar graph of treewidth 3 do.
+
+\begin{figure}
+   \begin{center}
+      \includegraphics[width=\textwidth]{figs/triangular-grid}
+   \end{center}
+   \caption{A $d_2$-obstacle embedding of the hexagonal grid.}
+\end{figure}
+
+
+\subsubsection{3-Trees do not have plane $d_2$-obstacle embeddings}
+
+Although some planar graphs of treewidth 3 do not have $d_2$-obstacle
+embeddings, the infinite hexagonal grid (and hence every induced subgraph
+of this grid) has a plane $d_2$-obstacle embedding.  This embedding
+is shown in \figref{hexagonal}.  This means that there are $n$-vertex
+planar graphs of treewidth $\Theta(\sqrt{n})$ that have $d_2$-obstacle
+embeddings, so perhaps treewidth is not the most important parameter.
+
+Talk about skinny triangles and why 4-connected might work instead.
+
+
+
+One as aspect of 3-trees that stands out is that 3-trees tend to incluce, and that is used in the proof that they do not have 
+
+
+
+\subsection{Hexagon Grid Obstacle Representations}
+ 
+Next, we study plane $d_3$-obstacle embeddings.
 
 \begin{thm}
-  The stellated $K_3$ of depth 4 does not have a $d_2$-obstacle embedding.
+   
 \end{thm}
 
-\begin{proof}
-   
-\end{proof}
-
-\section{General Graphs}
-
-
-
-
-
+\subsection{Planar graphs have non-crossing $d_5$ obstacle embeddings}
 
 
 \bibliographystyle{plain}
