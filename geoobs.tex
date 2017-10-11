@@ -120,19 +120,21 @@ can do this, though, we need a notion of a metric space that is also
 equipped with some topology.
 
 Let $(X,d)$ be a metric space.  A \emph{curve} over $X$ is a function
-$f:[0,1]\to X$.  We call $f(0)$ and $f(1)$ the \emph{endpoints}
-of the curve $f$.  We will sometimes identify a curve with its image
-$I(f)=\{f(t):0\le t\le 1\}$ by making statements like $f$ is contained
-in $X'$, which means $I(f)\subseteq X'$.  For a subset $S\subset X$, we
-say that $f$ is \emph{$S$-avoiding} if $I(f)\cap S=\emptyset$.  A curve
-$f$ is a \emph{geodesic} if, for every $0\le t\le 1$, $d(f(0),f(t)) +
-d(f(t),f(1)) = d(f(0),f(1))$.
+$f:[0,1]\to X$.  We call $f(0)$ and $f(1)$ the \emph{endpoints} of the
+curve $f$ and define the \emph{image} of $f$ as $I(f)=\{f(t):0\le t\le
+1\}$.  A curve $f$ is a \emph{geodesic} if, for every $0\le t\le 1$,
+$d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$.
 
 A \emph{path space} is a triple $(X,d,C)$, where $(X,d)$ is a metric
-space and $C$ is a set of curves over $X$ that has the following
-properties. That has the following closure property:  If the curve $f$
-is in $C$ then, for every $0\le t\le 1$, $C$ also contains the curves
-$g(x)=f(x/t)$ and $h(x)=f(t+x/(1-t)$.
+space and $C$ is a set of curves over $X$ that has the following closure
+property:  If the curve $f$ is in $C$ then, for every $0\le t\le 1$,
+$C$ also contains the curves $g(x)=f(x/t)$ and $h(x)=f(t+x/(1-t)$.
+A path space $(X,d,C)$ is \emph{connected} if, for every distinct pair
+$u,w\in X$, there is some path in $C$ with endpoints $u$ and $w$.
+
+For a path space $P=(X,d,C)$ and a subset $S\subset X$, we denote the
+subspace induced by $S$ as $P[S]=(S,d,\{f\in C:I(f)\subseteq S\})$.  The
+subspace that avoids $S$ is defined ias $P\setminus S = P[X\setminus S]$.
 
 As examples, we can $X=\R^2$ and $C$ to be the set of all closed
 continuous curves over $\R^2$.  Now, if we take $d$ to be the Euclidean
@@ -141,16 +143,18 @@ interesting example (and one we will study) is when we take $d$ to be
 the $L_1$ (Manhattan) distance, in which case the geodesics in $C$ are
 x-y-monotone paths.  As a discrete example, we could take $X$ to be the
 vertex set of some graph $G$, $d(p,q)$ to be distance in $G$ from $p$
-to $q$, and $C$ to be the set of all paths in $G$. In this case the geodesics in $C$ are the shortest paths in $G$.
+to $q$, and $C$ to be the set of all paths in $G$. In this case the
+geodesics in $C$ are the shortest paths in $G$.
 
 With these definitions in hand, we are ready to define a generalization of
 obstacle representations.  
 
 \begin{defn}
-An \emph{$(X,d,C)$ obstacle representation} of a graph $G$
-is a pair $(\varphi, S)$ where $\varphi:V(G)\to X$ is a one-to-one
-mapping and $S$ is a subset of $X$ with the property that, for
-every $u,w\in V(G)$, $uw\in E(G)$ if and only if $C$ contains an $S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$.
+An \emph{$(X,d,C)$ obstacle representation} of a graph $G$ is a pair
+$(\varphi, S)$ where $\varphi:V(G)\to X$ is a one-to-one mapping and
+$S$ is a set of connected subsets of $X$ with the property that, for
+every $u,w\in V(G)$, $uw\in E(G)$ if and only if $C$ contains a $\cup
+S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$.
 \end{defn}
 
 Note that, for a given $(X,d,C)$ it is not at all obvious whether every
@@ -361,7 +365,8 @@ representation for $k\ge k(G)$.
 every graph with at most $ck$ vertices has a $d_k$ representation?}
 
 
-\question{What about $d$ dimensions?  It's impossible to draw a chordless 5-cycle with all its edges 
+\question{What about $d$ dimensions?  It's impossible to draw a chordless
+5-cycle with all its edges}
 
 
 \section{Non-Crossing Representations}
