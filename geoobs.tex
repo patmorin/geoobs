@@ -749,14 +749,8 @@ that every $n$ vertex graph has a $Q_n$ obstacle representation: Each vertex of 
    shortest path, in $Q_D$, from $u$ to $w$.  Note that there is an
    asymmetry here that we should be careful of, so for $u\prec w$,
    we define $wu_i=w_1,\ldots,w_{D-i},u_{D-i+1},\ldots,u_{D}=uw_{D-i}$.
-
-   To turn this into an obstacle representation $(\varphi, S)$, take
-   $S$ to be the set of all vertices not contained in the embedding of
-   any edge: $S=\{0,1\}^D\setminus\bigcup_{uw\in E(G)} c(uw)$.
-   Now we prove that, with probability greater than 0, $(\varphi, S)$
-   is an obstacle representation of $G$ and therefore there exists an
-   obstacle representation of $G$.
-  
+ 
+   Let us make some observations about this embedding.
    \begin{enumerate}
       \item All vertex distances are close to $D/2$:
        The distance between any two vertices is a
@@ -775,29 +769,83 @@ that every $n$ vertex graph has a $Q_n$ obstacle representation: Each vertex of 
       at most $n^4(D+1)^3/2^{D}$.
 
      \item No geodesic passes close to a vertex except its endpoints:
-      Let $u$, $w$, and $x$ be distinct vertices and let
-      $i\in\{0,\ldots,D\}$.  We need something a little stronger here.
-      No geodesic from $u$ to $w$ should pass close to $x$.\ldots
-
-     \item Paths diverge quickly:  
-      Let $xu,xw\E(G)$, be two edges of $G$ with the common endpoint $x$
-      and let $i\in\{0,\ldots,D\}$.  We want to show that the directed
-      paths $xu$ and $xw$ diverge quickly.  There are three cases to
-      consider, depending on the lexicographic ordering, $\prec$, of $x$,
-      $u$, and $w$:
+      Let $u$, $w$, and $x$ be distinct vertices.  Then, the probability
+      that there exists any geodesic with endpoints $u$ and $w$
+      that passes through a vertex $z$ with $d_{Q_D}(z,x)\le r$ is at most
+      $n^{-\Omega(c)}$.  To see why this is so, suppose $C$ contains a
+      vertex $z$ such that $d_{Q_D}(z,x) \le r$.  Then at least one of
+      the following events occurs:
      \begin{enumerate}
-        \item $x\prec u$ and $x\prec w$.  In this case $xu_i=xw_i$ if and only if $u_1,\ldots,u_i=w_1,\ldots,w_i$, so $\Pr\{xu_i=xw_i\}= 2^{-i}$. 
-
-        \item $x\prec u$ and $w\prec x$.  In this, we consider $xu_i=u_1,\ldots,u_i,x_{i+1},\ldots,x_D$ and $xu_i=wx_{D-i}=x_1,\ldots,x_{D-i},w_{D-i+1},\ldots,w_D$.
+       \item $d_{Q_D}(u,w) \ge (1+\eps)D/2$, 
+       \item $d_{Q_d}(u,x) \le (1+\eps)D/4+r$
+       \item $d_{Q_d}(w,x) \le (1+\eps)D/4+r$
      \end{enumerate}
+     Point 1, above establishes that the probability of the first event is
+     $n^{-\Omega(c)}$ and that, for $r\le (1-3\eps)D/4$, the probability
+     of each of the other two events is $n^{-\Omega(c)}$.  Applying the
+     union bound over all 3 events, and over all $\binom{n}{3}$ choices
+     of $u$, $w$, and $x$ then shows that the probability that there
+     is any triple $u$, $w$, $x$ such that any geodesic from $u$ to $w$
+     passes within distance $(1-3\eps)D/4$ of $x$ is $n^{-\Omega(c)}$.
 
 
-and $x$ be three distinct vertices and let
-      $r\in\{0,\ldots,D\}$.  Consider
+     \item Paths diverge quickly:
+      Let $xu,xw\in \E(G)$, be two edges of $G$ with the common endpoint
+      $x$ and let $i\in\{0,\ldots,D\}$.  We want to show that the
+      directed paths $xu$ and $xw$ diverge quickly.  There are three
+      cases to consider:
+     \begin{enumerate}
+        \item $x\prec u$ and $x\prec w$.  In this case $xu_r=xw_r$ if and
+        only if $u_1,\ldots,u_r=w_1,\ldots,w_r$, so $\Pr\{xu_r=xw_r\}=
+        2^{-r}$.
 
+        \item $x\prec u$ and $w\prec x$.  In this, we
+        consider $xu_r=u_1,\ldots,u_r,x_{r+1},\ldots,x_D$ and
+        $xw_r=wx_{D-r}=x_1,\ldots,x_{D-r},w_{D-r+1},\ldots,w_D$. For
+        any choice of $i$, these two strings have independent bits in
+        at least $i$ locations, so $\Pr\{xu_r=xw_r\}\le 2^{-r}$.
+
+        \item $u\prec x$ and $w\prec x$. In this case
+        $xu_r=ux_{D-r}=x_1,\ldots,x_{D-r},u_{D-r+1},\ldots,u_D$ and
+        $xw_r=wx_{D-r}=x_1,\ldots,x_{D-r},w_{D-i+1},\ldots,w_D$. So
+        $\Pr\{xu_r=xw_r\}=2^{-r}$.
+     \end{enumerate}
+     If we choose $r=a\log n$, then this probability is at most
+     $n^{-\Omega(a)}$. Again, the union bound shows that the probability
+     that there is any $u$, $w$, or $x$ such that $xu_r=xw_r$ is at
+     most $n^{-\Omega(a)}$.
     \end{enumerate}
+    Therefore, by choosing a sufficiently large constants $a$ and $c$,
+    we obtain, with probability greater than 0, an embedding for which
+    all four of preceding properties hold.  Therefore, there exists some
+    embedding $(\varphi, c)$ for which these properties hold.
 
+    To obtain a $Q_D$ obstacle representation $(\varphi,S)$ we take $S$
+    to contain all the vertices not used in the embedding $(\varphi,
+    c)$ in any path of the embedding.  To verify that this is indeed an
+    obstacle representation, we need only verify that that, for any $u,w$
+    with $uw\not\in E(G)$, $Q_D\setminus S$ does not contain a path from
+    $u$ to $w$ of length $d_{Q_D}(u,w)$.
+
+    Suppose that such a path $P$ did exist.  Let $ux\in E(G)$ be the path
+    for which $c(ux)$ has the longest prefix in common with $P$.  (Property~3 ensures that an edge $ux$ exists.)  At some point $P$ diverges from $ux$ and joins some other path $c(ab)$ with $a\neq u$.  By Property~2, $a,b\neq 
+
+
+ 
+    this path must begin with some portion of a path $ux\in E(G)$.
+    At some point this path diverges from $ux$ and joins some other path $ab$
+
+from $u$ to $w$
+
+
+shortest
+    path from $u$ to $w$.
+
+
+ if 
 \end{proof}
+
+
 
 
 
