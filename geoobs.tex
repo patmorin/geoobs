@@ -723,46 +723,83 @@ Next, we study plane $d_3$-obstacle embeddings.
 
 \section{Graph Metrics}
 
-For a graph $H$, let $d_H$ denote the graph distance and let $C_H$ denote the set of curves that define paths in $H$.
+For a graph $H$, let $d_H$ denote the graph distance and let $C_H$ denote
+the set of curves that define paths in $H$.  For a graph $H$, we call
+a $(H,d_H,C_H)$ obstacle representation an $H$ obstacle representation
 
-Let $Q_n$ denote the $n$ dimensional hypercube.
+Let $Q_D$ denote the $D$ dimensional hypercube, that is, the graph whose vertex set is $V(Q_D)=\{0,1\}^D$ and that contains the edge $uw$ if and only $u$
+and $w$ differ in exactly one coordinate.  It is not hard to see
+that every $n$ vertex graph has a $Q_n$ obstacle representation: Each vertex of $G$ is assigned a coordinate with a single 1 bit.  Then, for any two vertices $u$ and $w$ there are exactly two shortest paths in $Q_n$ joining them and they each have length 2.  One path goes through the intermediate vertex $\mathbf{0}=(0,\ldots,0)$ and the other goes throught $u+w$.  Therefore by placing an obstacle at $\mathbf{0}$ and at each $u+w$ for which $uw\not\in E(G)$, we obtain a $Q_D$ obstacle representation of $G$.  The following theorem shows we can do this with much fewer coordinates:
 
 \begin{thm}
-  Every $n$ vertex graph has a $(\{0,1\}^n,d_{Q_n},C_{Q_n})$ obstacle
-  representation.
+  There exists a constant $c>0$ such that, for $D=c\log n$, every $n$-vertex graph has a $Q_D$ obstacle representation.
 \end{thm}
 
 \begin{proof}
-  Easy.
-\end{proof}
+   Consider an embedding $(\varphi,c)$ of $G$ into $Q_n$ obtained by
+   taking, for each $u\in V(G)$, $\varphi(u)$ to be a random element of
+   $\{0,1\}^D$.  We use the notation $u_i$ to denote the $i$th coordinate
+   of $u$.
 
-\begin{thm}
-  Let $D=c\log n$.
-  Every $n$ vertex graph has a $(\{0,1\}^D,d_{Q_D},C_{Q_D})$ obstacle
-  representation.
-\end{thm}
+   Let $\prec$ denote lexicographic order.  For each edge
+   $uw\in E(G)$ with $u\prec w$, we take $c(uw)$ to be the
+   \emph{greedy} path that visits, for $i=0,\ldots,D$, the vertex
+   $uw_i=(w_1,\ldots,w_i,u_{i+1},\ldots,u_D)$.  Thus $uw_0,\ldots,uw_D$
+   is a sequence of vertices that, after removing duplicates is a
+   shortest path, in $Q_D$, from $u$ to $w$.  Note that there is an
+   asymmetry here that we should be careful of, so for $u\prec w$,
+   we define $wu_i=w_1,\ldots,w_{D-i},u_{D-i+1},\ldots,u_{D}=uw_{D-i}$.
 
-\begin{proof}
-   Assign everyone random identifiers. 
+   To turn this into an obstacle representation $(\varphi, S)$, take
+   $S$ to be the set of all vertices not contained in the embedding of
+   any edge: $S=\{0,1\}^D\setminus\bigcup_{uw\in E(G)} c(uw)$.
+   Now we prove that, with probability greater than 0, $(\varphi, S)$
+   is an obstacle representation of $G$ and therefore there exists an
+   obstacle representation of $G$.
+  
+   \begin{enumerate}
+      \item All vertex distances are close to $D/2$:
+       The distance between any two vertices is a
+       binomial$(D,1/2)$ random variable.  Therefore, by Chernoff's
+       bounds, for any constant $\eps>0$ and for any vertex pair $u\neq
+       w$, $\Pr\{|d_{Q_D}(u,w)-D/2| > \eps(D/2)\} \le n^{-\Omega(c)}$.  By the
+       union bound, the probability that there exists any pair of vertices
+       $u\neq w$ with $|d_{Q_D}(u,w)-D/2| > \eps(D/2)$ is also $n^{-\Omega(c)}$.
 
-   For any vertex pair $u\neq w$, $\Pr\{|d(u,w)-D/2| > \eps(D/2)\}
-   \le n^{\Omega(c)}$
+      \item The embedding is non-crossing: For any four distinct vertices
+      $u\prec w$ and $x\prec y$, and any $i,j\in\{0,\ldots,D\}$, the
+      vertices $uw_i$ and $uw_j$ are indepedent random $D$-bit strings.
+      Therefore, $\Pr\{d_{Q_D}(uw_i,xy_j)\le 1\} \le (D+1)/2^{D}$.
+      By the union bound, the probability that there exists any four
+      vertices and any pair of indices for which this does not hold is
+      at most $n^4(D+1)^3/2^{D}$.
 
-   For each pair $u$ and $w$, take the greedy monotone path from $u$ to $w$.
+     \item No geodesic passes close to a vertex except its endpoints:
+      Let $u$, $w$, and $x$ be distinct vertices and let
+      $i\in\{0,\ldots,D\}$.  Then, as argued above $uw_i$ and $x$ are
+      independent random bit strings, so $\Pr\{d_{Q_D}(uw_i,x)\} <
+      (1-\eps)D/2)\} \le n^{-\Omega(c)}$.  By the union bound, the
+      probbaility that there exists any triple of vertices $u,w,x$ and
+      an index $i$ for which this is not true is also $n^{-\Omega(c)}$.
 
-   Let $uw_i$ denote the $i$th vertex on the path from $u$ to $w$.  Then,
-   for distinct $u,w,x,y$, $\Pr\{d(uw_1,xy_j)\le 1\} \le (D+1)/2^{D}$. 
-   Now use the union bound of $\binom{n}{2}D$ things.
+     \item Paths diverge quickly:  
+      Let $xu,xw\E(G)$, be two edges of $G$ with the common endpoint $x$
+      and let $i\in\{0,\ldots,D\}$.  We want to show that the directed
+      paths $xu$ and $xw$ diverge quickly.  There are three cases to
+      consider, depending on the lexicographic ordering, $\prec$, of $x$,
+      $u$, and $w$:
+     \begin{enumerate}
+        \item $x\prec u$ and $x\prec w$.  In this case $xu_i=xw_i$ if and only if $u_1,\ldots,u_i=w_1,\ldots,w_i$, so $\Pr\{xu_i=xw_i\}= 2^{-i}$. 
 
-   If any geodesic from $u$ to $w$ comes within distance $r$ of $x$, then
-   either $d(u,w)> (1+\eps)D/2$ or $d(u,x) < (1+\eps)D/4-r$ or $d(w,x) <
-   (1+\eps)D/4-r$. So this doesn't happen for $r<(1-\eps)D/(4(1+\epsilon))$
+        \item $x\prec u$ and $w\prec x$.  In this, we consider $xu_i=u_1,\ldots,u_i,x_{i+1},\ldots,x_D$ and $xu_i=wx_{D-i}=x_1,\ldots,x_{D-i},w_{D-i+1},\ldots,w_D$.
+     \end{enumerate}
 
-   Finally, the probability that the embeddings of $xu$ and $xw$ stay within distance 1 of each other for more than $r$ steps is at most the probability that a binomial(r,1/2) random variable is less than $2$, which is at most $r+1/2^r$, so this doesn't happen for $r>(1+\eps)\log n$.
 
-   So the embedding is such that no two edges have adjacent vertices
-   except for a radius $r$ neighbourhood around their common endpoint. 
-   On the other hand, no geodesic from $u$ to $w$ comes within distance $r$ of $x$, so there are no transitive paths. 
+and $x$ be three distinct vertices and let
+      $r\in\{0,\ldots,D\}$.  Consider
+
+    \end{enumerate}
+
 \end{proof}
 
 
