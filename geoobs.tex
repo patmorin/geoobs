@@ -11,6 +11,7 @@
 citecolor=linkblue, filecolor=linkblue, menucolor=linkblue,
 urlcolor=linkblue} 
 \setlength{\parskip}{1ex}
+\usepackage{wasysym}
 
 \title{\MakeUppercase{Geodesic Obstacle Representations of Graphs}}
 
@@ -44,6 +45,8 @@ urlcolor=linkblue}
 
 \DeclareMathOperator{\ob}{obs}
 \DeclareMathOperator{\planeobs}{plane-obs}
+
+\newcommand{\eps}{\epsilon}
 
 \pagenumbering{roman}
 \begin{document}
@@ -248,7 +251,7 @@ such that $p-q= t(\cos(i\pi/k),\sin(i\pi/k)$ for some integer $i$.
 \begin{proof}[Proof Sketch]
    Consider all the $2kn$ lines that determine $d_k$ genericness.
    For every point $p$ on one of these lines, $\ell$ that is not
-   part of any obstacle, we remove an $\epsilon$-length line segment
+   part of any obstacle, we remove an $\eps$-length line segment
    centered at $p$ and perpendicular to $\ell$. The result is still
    an $d_k$ obstacle representation of $G$.  Now we can
    perform a sufficiently small rotation of the entire representation
@@ -325,7 +328,7 @@ to $z$ and $x$ to $w$ even though $uz$ and $xw$ may not be edges of $G$.
 
 Our first result is a negative one:
 
-\begin{thm}
+\begin{thm}\thmlabel{plane-lower-bound}
   There exists a constant $a>0$ such that, for every $k\in \N$, and every
   $n\ge ak^2$, there exist an $n$-vertex bipartite graph $G$ with maximum
   degree $O(k)$ that has no $d_k$ obstacle representation.
@@ -343,7 +346,7 @@ Our first result is a negative one:
    Each edge $uw\in E(G)$ is $k$-monotone in direction $i$ for some
    $i\in\{0,\ldots,k-1\}$.  By the pigeonhole principle, there is
    some direction $i$ for which at least $cn^{3/2}/k\ge acn$ edges
-   are monotone in direction $i$.  By Euler's formula, if $cC\ge 3$,
+   are monotone in direction $i$.  By Euler's formula, if $ac\ge 3$,
    the graph consisting only of these edges is not planar, therefore
    there is some pair of edges $uw$ and $xz$ that are both monotone in
    direction $i$ and that have some point $p$ in common.
@@ -355,42 +358,123 @@ Our first result is a negative one:
    and $z$ form a $K_{2,2}$.
 \end{proof}
 
-As $k\to\infty$, $d_k$ becomes the usual Euclidean distance
-function and $d_k$-obstacle representations are just the usual obstacle
-representations, which we know every graph has.  Thus, for every
-graph $G$, there a threshold value $k(G)$ for which $G$ has a $d_k$
-representation for $k\ge k(G)$.
+As $k\to\infty$, $d_k$ becomes the usual Euclidean distance function
+and $d_k$-obstacle representations are just the usual obstacle
+representations, which we know every graph has.  Thus, for every $n\in
+N$, there is a threshold value $k(n)$ such that every $n$-vertex graph
+has a $d_{k(n)}$ obstacle representation.  \thmref{plane-lower-bound}
+shows that $k(n)\in \Omega(\sqrt{n})$, and the following theorem shows
+$k(n)\in O(n)$.
 
-\question{Is there a constant $c>0$ such that, for every $k\in\N$,
-every graph with at most $ck$ vertices has a $d_k$ representation?}
+\begin{thm}
+   Every $n$-vertex graph $G$ has a $d_k$ obstacle representation for $k=\lceil n/2\rceil$.
+\end{thm}
+
+\begin{proof}
+   Consider the regular $2k$-gon with vertices at $(\cos((i+1/2)\pi/k),
+   \sin((i+1/2)\pi/k))$, for $i\in\{0,\ldots,2k-1\}$.  It is well known
+   that the pairs of vertices of this $2k$-gon determine only $k$
+   distinct directions and that these directions are $(i+1/2)\pi/k$
+   for $i=\{0,\ldots,k-1\}$.
+
+   Therefore, to take obtain an obstacle representation of $G$, place
+   its vertices on this regular 2k-gon, join its vertices with straight
+   line segments and take the obstacles to be the faces of the resulting
+   arrangement of line segments.  That this is an obstacle representation
+   follows from the fact that no $k$-monotone path uses two different
+   directions determined pairs of vertices and no two edges in the same
+   direction cross each other.
+\end{proof}
+
+\question{Determine the growth of $k(n)$.}
+
+The graphs in the proof of \thmref{plane-lower-bound} have $\Omega(kn)$
+edges and therefore have vertices of degree $\Omega(k)$.  
+
+\question{Is it true that, for every $\Delta$, there exists a $k(\Delta)$ such that every graph with maximum degree $\Delta$ has a $d_{k(\Delta)}$ obstacle representation?}
+
+The proof of \thmref{plane-lower-bound} makes critical use of the fact
+that $d_k$ obstacle representations live in the plane to ensure that
+a sufficiently dense graph has a pair of edges that cross. An obvious
+question then is whether every graph has $(\R^3,d_{\hexagon},C_3)$
+obstacle representation where $d_{\hexagon}$ is some polyhedral distance
+function and $C_3$ is the set of closed connected curves in $\R^3$.
+The answer is no.
 
 
-\question{What about $d$ dimensions?  It's impossible to draw a chordless
-5-cycle with all its edges}
+\begin{thm}
+  For every $p\in\N$, and every polyhedral distance function $d_{\hexagon}$ over $\R^d$, there exists a graph $G$ that has no $(\R^p, d_{\hexagon}, C_p)$ obstacle representation.
+\end{thm}
+
+
+\begin{proof}
+  Let $G$ be an $n$-vertex graph with no clique and no independent set of
+  size larger than $2\log n$. The existence of such graphs was shown by
+  Erd\H{o}s and Renyi \cite{X}. Suppose, for the sake of contradiction,
+  that $G$ has some $(\R^p, d_{\hexagon}, C_p)$ obstacle representation
+  $(\varphi,S)$. Let $\prec$ denote lexicographic order over points
+  in $\R^{p}$.
+
+  Now, the polyhedral distance function $d_{\hexagon}$ defines some
+  centrally symmetric polyhedron $P$ such that, for any $u,w\in
+  \R^p$ with $u\prec w$, the scaled and translated polyhedron
+  $P_{uw}=u+d_{\hexagon}(u,w)\cdot P$ contains the point $w$ on its
+  boundary.  If $P$ has $k$ facets, this defines a $k$-colouring of
+  the ordered pairs of vertices of $G$, where $uw$, with $u\prec w$,
+  is colored by the facet of $P_{uw}$ that contains $w$.  (If $w$
+  is incident to more than one facet of $P_{uw}$, then choose one arbitrarily to
+  determine the colour of $uw$.)
+
+  For each $i\in\{1,\ldots,k\}$, let $\prec_i$ denote the partial
+  order obtained by restricting the total order $\prec$ to the pairs of
+  vertices in $G$ with colour $i$.  We claim that for at least one $i$,
+  $\prec_i$ contains a chain $v_1\prec_i\cdots\prec_i v_r$ of length
+  $r\ge n^{1/k}$.  To see why this is so, observe that, by Dilwerth's
+  Theorem, if $\prec_k$ does not contain a chain of length $n^{1/k}$,
+  then it contains an antichain $A_k$ of size $n^{1-1/k}$.  Now proceed
+  inductively on $\prec_1,\ldots,\prec_{k-1}$ and $A_k$, observing that
+  every pair in $A_k$ is coloured with $\{1,\ldots,k-1\}$.
+
+  Back to our embedding, the sequence $v_1,\ldots,v_r$ is such that for
+  any $i<j<k$, the union of a geodesic $f_{ij}$ with endpoints $v_i$
+  and $v_j$ and a geodesic $f_{jk}$ with endpoints $v_j$ and $v_k$
+  is a geodesic with endpoints $v_i$ and $v_k$.
+  
+  So now, consider the subgraph $G'$ of $G$ induced by
+  $v_1,\ldots,v_r$. From the preceding discussion, it follows that $G$
+  is a collection of vertex-disjoint cliques.  But this means that
+  $G'$ (and hence $G$) must contains a clique of size $\sqrt{r}$ or
+  an independent set of size $\sqrt{r}$.  Recall that $r\ge
+  n^{1/k}$, so this contradicts our choice of $G$, if $n^{1/2k} \ge
+  2\log n$, which is true for all sufficiently large $n$.
+\end{proof}
+
+
+
 
 
 \section{Non-Crossing Representations}
 
 In this section, we consider non-crossing $d_k$ obstacle
 representations. The following lemma shows that these representations
-are equivalent to plane $d_k$-obstacle representations.
+are equivalent to plane $d_k$ obstacle embeddings.
 
 \begin{lem}\lemlabel{monotone}
    A graph $G$ has a non-crossing $d_k$ obstacle representation if and
-   only $G$ has a plane $d_k$-obstacle embedding.
+   only $G$ has a plane $d_k$ obstacle embedding.
 \end{lem}
 
 \begin{proof}
    First, suppose $G$ has a plane $d_k$-obstacle embedding $(\varphi,c)$.
-   Then we obtain an obstacle representation $(\varphi,S)$ by taking
-   $S= \R^2\setminus \bigcup_{uw\in E(G)} c(uw)\cup \bigcup_{u\in
-   V(G)}\varphi(u)$.
+   Then we claim that by taking $S= \R^2\setminus \bigcup_{uw\in E(G)}
+   c(uw)\cup \bigcup_{u\in V(G)}\varphi(u)$, we obtain an obstacle
+   representation $(\varphi,S)$ .
 
    If $uw\in E(G)$ then $uw$ is an $S$-avoiding $k$-monotone curve.
    On the other hand if $uw\not\in E(G)$ then, since $(\varphi,c)$
    is plane, any $S$-avoiding $k$-monotone curve with endpoints $u$
    and $w$ would determine a $k$-monotone path from $u$ to $w$ in $G$.
-   The definition of $d_k$-obstacle embedding prevents this.
+   The definition of $d_k$ obstacle embedding does not allow this.
 
    Next we argue that a $d_k$ non-crossing obstacle representation
    $(\varphi, S)$ impmlies the existence of a plane $d_k$-obstacle
@@ -401,13 +485,13 @@ are equivalent to plane $d_k$-obstacle representations.
    disjoint unless they share a common endpoint.
 
    The resulting embedding $(\varphi,c)$ is almost a plane $d_k$-obstacle
-   embedding except that it may not be plane.  In particular, we may
-   have edges $ux$ and $uz$ such that $c(ux)$ and $c(uz)$ cross each
-   other.  In this case, we observe that both curves are $k$-monotone
-   in direction $i$ for the same value of $i$.  This makes it easy to
-   eliminate crossings by repeatedly swapping segments of the curves
-   and making local modifications around the crossings.  Repeating this
-   gives the desired embedding of $G$.
+   embedding except that it may contains pairs of edges $ux$ and $uz$
+   such that $c(ux)$ and $c(uz)$ cross each other.  In this case,
+   we observe that both $ux$ and $uz$ are $k$-monotone in direction
+   $i$ for the same value of $i$.  This makes it easy to eliminate
+   crossings by repeatedly swapping segments of the curves and making
+   local modifications around the crossings.  Repeating this for every
+   crossing pair of edges gives a plane $d_k$ obstacle embedding of $G$.
 \end{proof}
 
 \lemref{monotone} allows us to focus our effort on studying the existence
@@ -613,8 +697,6 @@ but not all planar graph of treewidth 3 do.
 \end{figure}
 
 
-\subsubsection{3-Trees do not have plane $d_2$-obstacle embeddings}
-
 Although some planar graphs of treewidth 3 do not have $d_2$-obstacle
 embeddings, the infinite hexagonal grid (and hence every induced subgraph
 of this grid) has a plane $d_2$-obstacle embedding.  This embedding
@@ -622,24 +704,72 @@ is shown in \figref{hexagonal}.  This means that there are $n$-vertex
 planar graphs of treewidth $\Theta(\sqrt{n})$ that have $d_2$-obstacle
 embeddings, so perhaps treewidth is not the most important parameter.
 
+\subsection{4-Connected triangulations do not have plane $d_2$-obstacle embeddings}
+
 Talk about skinny triangles and why 4-connected might work instead.
 
 
-
 One as aspect of 3-trees that stands out is that 3-trees tend to incluce, and that is used in the proof that they do not have 
-
-
 
 \subsection{Hexagon Grid Obstacle Representations}
  
 Next, we study plane $d_3$-obstacle embeddings.
 
 \begin{thm}
-   
+  Every planar graph of treewidth at most 3 has a plane $d_3$-obstacle embedding.   
 \end{thm}
 
-\subsection{Planar graphs have non-crossing $d_5$ obstacle embeddings}
+\subsection{Planar graphs have plane $d_{X}$ obstacle embeddings}
 
+\section{Graph Metrics}
+
+For a graph $H$, let $d_H$ denote the graph distance and let $C_H$ denote the set of curves that define paths in $H$.
+
+Let $Q_n$ denote the $n$ dimensional hypercube.
+
+\begin{thm}
+  Every $n$ vertex graph has a $(\{0,1\}^n,d_{Q_n},C_{Q_n})$ obstacle
+  representation.
+\end{thm}
+
+\begin{proof}
+  Easy.
+\end{proof}
+
+\begin{thm}
+  Let $D=c\log n$.
+  Every $n$ vertex graph has a $(\{0,1\}^D,d_{Q_D},C_{Q_D})$ obstacle
+  representation.
+\end{thm}
+
+\begin{proof}
+   Assign everyone random identifiers. 
+
+   For any vertex pair $u\neq w$, $\Pr\{|d(u,w)-D/2| > \eps(D/2)\}
+   \le n^{\Omega(c)}$
+
+   For each pair $u$ and $w$, take the greedy monotone path from $u$ to $w$.
+
+   Let $uw_i$ denote the $i$th vertex on the path from $u$ to $w$.  Then,
+   for distinct $u,w,x,y$, $\Pr\{d(uw_1,xy_j)\le 1\} \le (D+1)/2^{D}$. 
+   Now use the union bound of $\binom{n}{2}D$ things.
+
+   If any geodesic from $u$ to $w$ comes within distance $r$ of $x$, then
+   either $d(u,w)> (1+\eps)D/2$ or $d(u,x) < (1+\eps)D/4-r$ or $d(w,x) <
+   (1+\eps)D/4-r$. So this doesn't happen for $r<(1-\eps)D/(4(1+\epsilon))$
+
+   Finally, the probability that the embeddings of $xu$ and $xw$ stay within distance 1 of each other for more than $r$ steps is at most the probability that a binomial(r,1/2) random variable is less than $2$, which is at most $r+1/2^r$, so this doesn't happen for $r>(1+\eps)\log n$.
+
+   So the embedding is such that no two edges have adjacent vertices
+   except for a radius $r$ neighbourhood around their common endpoint. 
+   On the other hand, no geodesic from $u$ to $w$ comes within distance $r$ of $x$, so there are no transitive paths. 
+\end{proof}
+
+
+
+
+
+Question: Is it NP-hard to decide if a  graph $G$ has a 
 
 \bibliographystyle{plain}
 \bibliography{geoobs}
