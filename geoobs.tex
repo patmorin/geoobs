@@ -776,11 +776,8 @@ that every $n$ vertex graph has a $Q_n$ obstacle representation: Each vertex of 
 
      \item No geodesic passes close to a vertex except its endpoints:
       Let $u$, $w$, and $x$ be distinct vertices and let
-      $i\in\{0,\ldots,D\}$.  Then, as argued above $uw_i$ and $x$ are
-      independent random bit strings, so $\Pr\{d_{Q_D}(uw_i,x)\} <
-      (1-\eps)D/2)\} \le n^{-\Omega(c)}$.  By the union bound, the
-      probbaility that there exists any triple of vertices $u,w,x$ and
-      an index $i$ for which this is not true is also $n^{-\Omega(c)}$.
+      $i\in\{0,\ldots,D\}$.  We need something a little stronger here.
+      No geodesic from $u$ to $w$ should pass close to $x$.\ldots
 
      \item Paths diverge quickly:  
       Let $xu,xw\E(G)$, be two edges of $G$ with the common endpoint $x$
