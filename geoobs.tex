@@ -99,7 +99,8 @@ representation} $(\varphi, S)$ which is an obstacle representation
 in which $\varphi$ defines a plane straight-line embedding of $G$.
 This leads to a \emph{plane obstacle number}
 \[
-    \planeobs(G) = \min\{|S| :\text{$(\varphi, S)$ is a plane obstacle representation of $G$}\} \enspace .
+    \planeobs(G) = \min\{|S| :\text{$(\varphi, S)$ is a plane obstacle
+        representation of $G$}\} \enspace .
 \]
 Using Euler's Formula, it is not hard to see that the plane obstacle
 number of any $n$-vertex planar graph is $O(n)$: Let $\varphi$ define
@@ -149,8 +150,8 @@ vertex set of some graph $G$, $d(p,q)$ to be distance in $G$ from $p$
 to $q$, and $C$ to be the set of all paths in $G$. In this case the
 geodesics in $C$ are the shortest paths in $G$.
 
-With these definitions in hand, we are ready to define a generalization of
-obstacle representations.  
+With these definitions in hand, we are ready to define a generalization
+of obstacle representations.
 
 \begin{defn}
 An \emph{$(X,d,C)$ obstacle representation} of a graph $G$ is a pair
@@ -183,23 +184,47 @@ then gives a geodesic embedding of $G$ into $X$.  If it is possible to
 choose $c$ so that $(\varphi,c)$ is also non-crossing, then we say that
 the representation $(\varphi,S)$ is non-crossing.
 
+
+
+
 In this paper, we mostly focus on non-crossing $(X,d,C)$ obstacle
-representations where $X=\R^2$, $d$ is some polygonal distance function,
-and $C=\mathcal{C}_2$ is the set of closed continuous curves over $\R^2$.
-Let $d_k$ denote the distance function over $\R^2$ where a ``circle''
-is a regular $2k$-gon.  Formally,
+representations where $X=\R^p$, $d$ is some polygonal distance function
+(defined next), and $C=\mathcal{C}_p$ is the set of closed continuous
+curves over $\R^p$.  For a set $N=\{v_0,\ldots,v_{t-1}\}$ of vectors in
+$\R^p$, we define the \emph{polyhedral distance function}
 \[  
-   d_k(p,q)=\min\left\{\sum_{i=1}^{k-1}|a_i|: 
-                        q-p=\sum_{i=0}^{k-i}a_iv_i\right\} \enspace ,
+   d_N(p,q)=\min\left\{\sum_{i=0}^{t-1}|a_i|: 
+                        q-p=\sum_{i=0}^{t-1}a_iv_i\right\} \enspace ,
 \]
-where $v_i=(\cos(i\pi/k), \sin(i\pi/k))$. 
+Every such distance function defines a centrally symmetric polyhedron
+\[
+   P_N=\{x\in\R^p: d_N(\mathbf{0},x)\le 1\}  \enspace .
+\]
+For the special case $p=2$, we define, for each integer $k\ge 2 \in N$,
+the regular distance function $d_k=d_{N_k}$, where $N_k=\{(\cos(i\pi/k),
+\sin(i\pi/k)): i\in\{0,\ldots,k-1\}$.  In this case, the associated
+polygon $P_k$ is a regular $2k$-gon.
 
 For the sake of compactness, we use \emph{$d_k$ obstacle representation}
-as shorthand for $d_k$ obstacle representation.
+as shorthand for $(\R^2,d_k,\mathcal{C}_2)$ obstacle representation.
 We prove the following results:
 \begin{enumerate}
-   \item For any integer $k$, there is a graph that does not have a
-     $d_k$ obstacle representation.
+   \item For any integer $k$, there is a graph with $O(k^2)$ vertices
+     that does not have a $d_k$ obstacle representation. 
+
+   \item Every $n$-vertex graph has a $d_k$-obstacle representation for 
+     every $k\ge n$.
+
+   \item For any $p\in N$ and any finite set $N$ of vectors in $\R^p$,
+    there exists a graph that does not have an $(\R^p,d_N,\mathcal{C}_p)$
+    obstacle representation.
+
+   \item Every $n$-vertex graph has a $(\R^3,d_N,\mathcal{C}_3)$ obstacle
+    representation with $|N|=\lceil(1/2)\log_2 n\rceil +2\rceil$.
+
+
+   \item In dimensions $d\ge 3$, there exists
+
    \item Every planar graph of treewidth at most 2 (and hence every
      outerplanar graph) has a non-crossing $d_2$ obstacle
      representation.
@@ -209,7 +234,7 @@ We prove the following results:
      non-crossing $d_2$ obstacle representation.
    \item Every planar graph of treewidth at most 3 has a 
      non-crossing $d_3$ obstacle representation.
-   \item Every planar graph has a non-crossing $d_5$
+   \item Every planar graph has a non-crossing $d_?$
      obstacle representation.
 \end{enumerate}
 
@@ -237,55 +262,56 @@ useful result:
 $u$ and $w$ in the induced subgraph $G'$, $uw\in E[G']$ if and only if
 $uw\in E[G]$.
 
-Next, we justify a former of generic position assumption that
-simplifies discussions later.  We say that a set of points in $\R^2$
-is \emph{$d_k$-generic}, if it contains no pair of distinct $p$ and $q$
-such that $p-q= t(\cos(i\pi/k),\sin(i\pi/k)$ for some integer $i$.
+TODO: Say something about generic representations.
 
-\begin{obs}\obslabel{generic}
-  If $G$ has a $d_k$ obstacle representation, then it
-  has an $d_k$ obstacle representation $(\varphi, S)$
-  in which $\{\varphi(u):u\in V(G)\}$ is $d_k$-generic.
-\end{obs}
 
-\begin{proof}[Proof Sketch]
-   Consider all the $2kn$ lines that determine $d_k$ genericness.
-   For every point $p$ on one of these lines, $\ell$ that is not
-   part of any obstacle, we remove an $\eps$-length line segment
-   centered at $p$ and perpendicular to $\ell$. The result is still
-   an $d_k$ obstacle representation of $G$.  Now we can
-   perform a sufficiently small rotation of the entire representation
-   so that it becomes $d_k$-generic.
-\end{proof}
+%Next, we justify a form of generic position assumption that
+%simplifies discussions later.  We say that a set of points in $\R^2$
+%is \emph{$d_k$-generic}, if it contains no pair of distinct $p$ and $q$
+%such that $p-q= t(\cos(i\pi/k),\sin(i\pi/k)$ for some integer $i$.
+%
+%\begin{obs}\obslabel{generic}
+%  If $G$ has a $d_k$ obstacle representation, then it
+%  has an $d_k$ obstacle representation $(\varphi, S)$
+%  in which $\{\varphi(u):u\in V(G)\}$ is $d_k$-generic.
+%\end{obs}
+%
+%\begin{proof}[Proof Sketch]
+%   Consider all the $2kn$ lines that determine $d_k$ genericness.
+%   For every point $p$ on one of these lines, $\ell$ that is not
+%   part of any obstacle, we remove an $\eps$-length line segment
+%   centered at $p$ and perpendicular to $\ell$. The result is still
+%   an $d_k$ obstacle representation of $G$.  Now we can
+%   perform a sufficiently small rotation of the entire representation
+%   so that it becomes $d_k$-generic.
+%\end{proof}
+%
+%Justified by \obsref{generic} we will, from this point onwards
+%assume that any obstacle representation is $d_k$ generic (for the
+%appropriate value of $k$) and that the tangent vector to any point on
+%any geodesic does not form an angle of $i\pi/k$ with the x-axis, for
+%any $i\in\{0,\ldots,2k-1\}$.
 
-Justified by \obsref{generic} we will, from this point onwards
-assume that any obstacle representation is $d_k$ generic (for the
-appropriate value of $k$) and that the tangent vector to any point on
-any geodesic does not form an angle of $i\pi/k$ with the x-axis, for
-any $i\in\{0,\ldots,2k-1\}$.
+\subsection{Polyhedral geodesics}
 
-\subsection{$k$-Monotone Curves}
+Recall that every polyhedral metric $d_N$ has an associated polyhedron
+$P_N$.  The faces of $P_N$ are very important, because they determine the
+geodesics.  For a (closed) facet $F$ of $P_N$ we denote the \emph{cone}
+$C_F$ as the union of all rays originating at the origin and containing
+a point on $F$ (this is the affine hull of $F$).  For a point $x\in\R^p$,
+the \emph{$F$-sector} of $x$ is $Q^N_F(x)=C_F+x$.
 
-For any $k\in\N$, $i\in\{0,\ldots,2k-1\}$, and $u\in\R^2$, define the
-$i$th $k$-sector of $u$ as
-\[
-   Q^{k}_i(u) = 
-     \{ u+r: r\in\R^2,\,\lfloor i\pi/k < \angle(u+(1,0),u,r) < (i+1)\pi/k \}
-\]
-Where $\angle (a,b,c)\in[0,2\pi)$ denotes the counterclockwise angle
-between the segments $ab$ and $cb$.  A curve $f:[0,1]\to\R^2$ is
-\emph{$k$-monotone in direction $i$} if $f(b)\in Q^k_i(f(a))$ for all
-$0 \le a < b \le 1$.  We say that $f$ is \emph{$k$-monotone} if there
-exists some $i\in\{0,\ldots,2k-1\}$ such that $f$ is $k$-monotone in
-direction $i$.  
+For a facet of $F$ of $P_N$, we say that a curve $f$ is
+\emph{$d_N$-monotone in direction $F$} if, for all $0\le a\le b\le 1$,
+$f(b)\in Q^N_F(f(a))$.  We say that a curve is $d_N$-\emph{monotone} if it
+is $d_N$-monotone in direction $F$ for some facet $F$ of $P_N$.  Observe
+that a curve $f$ is a geodesic for $d_N$ if and only if $f$ is $d_N$-monotone.
 
-Observe that any $k$-monotone curve is a geodesic under the $d_k$
-distance function and, by the assumption in the preceding section,
-any geodesic we work with is a $k$-monotone curve.
-We will now start naming curves using their two endpoints.  Thus,
-if we say $uw$ is a curve, then we mean that $uw$ is a curve $f$ with
-$f(0)=u$ and $f(1)=w$.  The following is an important observation about
-$k$-monotone curves that cross.
+We will now begin the convention of naming our geodesic by their
+endpoints, so that a geodesic $uw$ is a geodesic with endpoints $u$
+and $w$. We will also use the ordering of these endpoints to indicate
+some form of direction so that, for example, if we say that that $uw$
+is $d_N$-monotone in direction $F$, this means that $w\in Q^N_F(u)$.
 
 \begin{obs}\obslabel{quadrilateral}
    If $uw$ and $xz$ are curves that are each $k$-monotone direction in $i$
@@ -325,6 +351,8 @@ to $z$ and $x$ to $w$ even though $uz$ and $xw$ may not be edges of $G$.
 
 
 \section{General Representations}
+
+\subsection{$\R^2$}
 
 Our first result is a negative one:
 
@@ -393,17 +421,22 @@ edges and therefore have vertices of degree $\Omega(k)$.
 
 \question{Is it true that, for every $\Delta$, there exists a $k(\Delta)$ such that every graph with maximum degree $\Delta$ has a $d_{k(\Delta)}$ obstacle representation?}
 
-The proof of \thmref{plane-lower-bound} makes critical use of the fact
-that $d_k$ obstacle representations live in the plane to ensure that
-a sufficiently dense graph has a pair of edges that cross. An obvious
-question then is whether every graph has $(\R^3,d_{\hexagon},C_3)$
-obstacle representation where $d_{\hexagon}$ is some polyhedral distance
+
+\subsection{$\R^d$}
+
+The proof of \thmref{plane-lower-bound} makes critical use of the
+fact that $d_k$ obstacle representations live in the plane so that
+any sufficiently dense (sub)graph has a pair of edges that cross. An
+obvious question then is whether every graph has $(\R^3,d_{\hexagon},C_3)$
+obstacle representation, where $d_{\hexagon}$ is some polyhedral distance
 function and $C_3$ is the set of closed connected curves in $\R^3$.
 The answer is no.
 
 
-\begin{thm}
-  For every $p\in\N$, and every polyhedral distance function $d_{\hexagon}$ over $\R^d$, there exists a graph $G$ that has no $(\R^p, d_{\hexagon}, C_p)$ obstacle representation.
+\begin{thm}\thmlabel{rd-lower-bound}
+  For every $p\in\N$, and every polyhedral distance function
+  $d_{\hexagon}$ over $\R^d$, there exists a graph $G$ that has no $(\R^p,
+  d_{\hexagon}, C_p)$ obstacle representation.
 \end{thm}
 
 
@@ -415,15 +448,16 @@ The answer is no.
   $(\varphi,S)$. Let $\prec$ denote lexicographic order over points
   in $\R^{p}$.
 
-  Now, the polyhedral distance function $d_{\hexagon}$ defines some
-  centrally symmetric polyhedron $P$ such that, for any $u,w\in
+  Now, the polyhedral distance function $d_{\hexagon}$
+  defines some centrally symmetric polyhedron
+  $P=\{x\in\R^3:d_{\hexagon}(\mathbf{0},x)\le 1\}$.  For any $u,w\in
   \R^p$ with $u\prec w$, the scaled and translated polyhedron
   $P_{uw}=u+d_{\hexagon}(u,w)\cdot P$ contains the point $w$ on its
   boundary.  If $P$ has $k$ facets, this defines a $k$-colouring of
   the ordered pairs of vertices of $G$, where $uw$, with $u\prec w$,
   is colored by the facet of $P_{uw}$ that contains $w$.  (If $w$
-  is incident to more than one facet of $P_{uw}$, then choose one arbitrarily to
-  determine the colour of $uw$.)
+  is incident to more than one facet of $P_{uw}$, then choose one
+  arbitrarily to determine the colour of $uw$.)
 
   For each $i\in\{1,\ldots,k\}$, let $\prec_i$ denote the partial
   order obtained by restricting the total order $\prec$ to the pairs of
@@ -450,6 +484,76 @@ The answer is no.
 \end{proof}
 
 
+The proof of \thmref{rd-lower-bound} shows that, for some $n$-vertex
+graphs $G$, any $(\R^p, d_{\hexagon}, C_p)$ obstacle representation of $G$
+must use a distance function $d_{\hexagon}$ with $k=\Omega(\log n)$ facets.
+Our next result shows that, even in $\R^3$, a polyhedral distance function with $k=O(\log n)$ facets is sufficient.
+
+\begin{thm}\thmlabel{3d-universal}
+   Let $d_{\hexagon}$ be any polyhedral distance function in $\R^p$ for
+   which the polyhedron $P_{\hexagon}=\{x\in\R^p:d_{\hexagon}(\mathbf{0},x)\le
+   1\}$ has at least $2\log_2 n$ facets.  Then every $n$-vertex graph $G$
+   has a $(\R^p,d_{\hexagon},C_3)$ obstacle representation.
+\end{thm}
+
+\begin{proof}
+   We claim that there exists a general position point set $X\subset\R^p$
+   of size at least $n$ with the property that no geodesic contains
+   3 points of $X$.  Given such a point set, we obtain an embedding
+   $(\varphi,c)$  of $G$ by letting $\varphi$ be any one-to-one mapping
+   of $V(G)$ onto $S$ and letting, for each $uw\in E(G)$, $c(uw)$ be
+   the line segment with endpoints $u$ and $w$.  In this way, no path
+   of length 2 or more in $G$ becomes a geodesic, so $(\varphi,c)$ is
+   a $(\R^3,d_{\hexagon},C_3)$ obstacle embedding of $G$.  Furthermore,
+   since $X$ is in general position, no two edges of the embedding cross.
+   Therefore, taking $S=\R^3\setminus \bigcup_{uw\in E(G)} c(uw)$ yields
+   an $(\R^3,d_{\hexagon},C_3)$ obstacle representation $(\varphi,S)$
+   of $G$.
+
+   All that remains is to show the existence of the set $X$.  In the
+   following, we will ignore the general position requirement on $X$,
+   since it will be clear that the set $X$ we find can be slightly
+   perturbed to ensure it is in general position.
+
+   Since $d_{\hexagon}$ is a distance function, and hence symmetric,
+   the polyhedron $P_{\hexagon}$ is symmetric, so the facets of $P$
+   come in $k\ge \log_2 n$ opposing pairs, let $\{f_1,\ldots,f_{k}\}$
+   contain one representative facet from each such pair, and let
+   $\{c_1,\ldots,c_{k}\}$ be a set of balls, where each ball $c_i$ is
+   contained in the interior of $f_i$. Finally, let $\{L_1,\ldots,L_{k}\}$
+   be a set of sets of lines, where each $L_i$ contains all lines
+   through the origin that intersect $c_i$.  Note that, since the
+   balls $c_1,\ldots,c_{k}$ are disjoint, so are the line sets
+   $L_1,\ldots,L_{k}$.
+
+   It suffices to construct a point set $X$, $|X|=2^{k}$, such that,
+   for any triple $u,x,w\in X$, there exists $i,j\in\{1,\ldots,k\}$,
+   $i\neq j$, such that $ux$ is parallel to some line in $L_i$ and $xw$ is
+   parallel to some line in $L_j$.  We construct such a set inductively.
+   If $k=0$, $X=\{\textbf{0}\}$ satisfies our requirements.
+
+   For $k\ge 2$, apply induction to obtain a set of points $X'$,
+   $|X'|=2^{k-1}$ such that, for any triple $u,x,w\in X'$, there exists
+   $i,j\in\{2,\ldots,k\}$, $i\neq j$, such that $ux$ is parallel to
+   some line in $L_i$ and $xw$ is parallel to some line in $L_j$.  Now,
+   choose two balls $A$ and $B$ such that, for every pair of points
+   $u\in A$, $w\in B$, $u-w$ is parallel to some line in $L_{1}$.
+   Finally, scale and translate $X'$ to obtain point set $X'_A\subset
+   A$ and another point set $X'_B\subset B$ and take $X=X'_A\cup X'_B$.
+   Clearly $|X|=2^k$.  By the inductive hypothesis, if $\{u,x,w\}\in X'_A$
+   of $\{u,x,w\}\in X'_B$, then $ux$ is parallel to some line $L_i$ and
+   $xw$ is parallel to some line in $L_j$, with $i,j\in\{2,\ldots,k\}$,
+   $i\neq j$.  Otherwise, assume without loss of generality that $u\in
+   X'_A$ and $x,w\in X'_B$.  Then $u-x$ is parallel to some line in $L_1$
+   and $x-w$ is parallel to some line $L_j$ for some $j\in\{2,\ldots,k\}$.
+\end{proof}
+
+If we take $t$ generic unit vectors in $\R^3$, then the polyhedral
+distance function determined by these vectors defines a polyhedron having
+$2t$ vertices and $4t-8$ triangular faces.  \thmref{3d-universal}
+therefore implies that a polyhedral distance function determined by
+$t\ge (1/2)\log_2 n +2$ unit vectors is sufficient to allow an obstacle
+representations of any $n$-vertex graph.
 
 
 
@@ -477,7 +581,7 @@ are equivalent to plane $d_k$ obstacle embeddings.
    The definition of $d_k$ obstacle embedding does not allow this.
 
    Next we argue that a $d_k$ non-crossing obstacle representation
-   $(\varphi, S)$ impmlies the existence of a plane $d_k$-obstacle
+   $(\varphi, S)$ implies the existence of a plane $d_k$-obstacle
    embedding $(\varphi, c')$ of $G$.  of $G$.  By the
    definition of non-crossing, we immediately obtain a function
    $c:E(G)\to\mathcal{C}(\R^2)$ that maps edges of $G$ onto geodesic
@@ -715,7 +819,7 @@ One as aspect of 3-trees that stands out is that 3-trees tend to incluce, and th
  
 Next, we study plane $d_3$-obstacle embeddings.
 
-\begin{thm}
+\begin{thm}\thmlabel{3-tree}
   Every planar graph of treewidth at most 3 has a plane $d_3$-obstacle embedding.   
 \end{thm}
 
@@ -727,11 +831,31 @@ For a graph $H$, let $d_H$ denote the graph distance and let $C_H$ denote
 the set of curves that define paths in $H$.  For a graph $H$, we call
 a $(H,d_H,C_H)$ obstacle representation an $H$ obstacle representation
 
-Let $Q_D$ denote the $D$ dimensional hypercube, that is, the graph whose vertex set is $V(Q_D)=\{0,1\}^D$ and that contains the edge $uw$ if and only $u$
-and $w$ differ in exactly one coordinate.  It is not hard to see
-that every $n$ vertex graph has a $Q_n$ obstacle representation: Each vertex of $G$ is assigned a coordinate with a single 1 bit.  Then, for any two vertices $u$ and $w$ there are exactly two shortest paths in $Q_n$ joining them and they each have length 2.  One path goes through the intermediate vertex $\mathbf{0}=(0,\ldots,0)$ and the other goes throught $u+w$.  Therefore by placing an obstacle at $\mathbf{0}$ and at each $u+w$ for which $uw\not\in E(G)$, we obtain a $Q_D$ obstacle representation of $G$.  The following theorem shows we can do this with much fewer coordinates:
+If we consider the infinite square grid $H_4$, then it is not
+difficult to argue that a graph $G$ has an non-crossing $H_4$ obstacle
+representation if and only if $G$ has a plane $d_2$ obstacle embedding.
+Similarly, if we consider the infinite triangular grid $H_6$, then $G$
+has a non-crossing $H$ obstacle representation if and only if $G$ has a
+plane $d_3$-obstacle representation.  In this way, Theorems~\ref{thm:2-tree}
+and \ref{thm:3-tree} tell us that every planar graph or treewidth at most 2
+or treewidth at most 3 has a non-crossing $H_4$ or non-crossing $H_6$
+obstacle representations, respectively.
 
-\begin{thm}
+Another natural graph to consider for obstacle representations is the
+$D$-cube, $Q_D$, whose vertex set is $V(Q_D)=\{0,1\}^D$ and that contains
+the edge $uw$ if and only $u$ and $w$ differ in exactly one coordinate.
+
+It is not hard to see that every $n$ vertex graph has a $Q_n$ obstacle
+representation: Each vertex of $G$ is assigned a coordinate with a
+single 1 bit.  Then, for any two vertices $u$ and $w$ there are exactly
+two shortest paths in $Q_n$ joining them and they each have length 2.
+One path goes through the intermediate vertex $\mathbf{0}=(0,\ldots,0)$
+and the other goes throught $u+w$.  Therefore by placing an obstacle at
+$\mathbf{0}$ and at each $u+w$ for which $uw\not\in E(G)$, we obtain a
+$Q_D$ obstacle representation of $G$.  The following theorem shows we
+can do this with much fewer coordinates:
+
+\begin{thm}\thmlabel{hypercube}
   There exists a constant $c>0$ such that, for $D=c\log n$, every $n$-vertex graph has a $Q_D$ obstacle representation.
 \end{thm}
 
@@ -828,30 +952,18 @@ that every $n$ vertex graph has a $Q_n$ obstacle representation: Each vertex of 
     $u$ to $w$ of length $d_{Q_D}(u,w)$.
 
     Suppose that such a path $P$ did exist.  Let $ux\in E(G)$ be the path
-    for which $c(ux)$ has the longest prefix in common with $P$.  (Property~3 ensures that an edge $ux$ exists.)  At some point $P$ diverges from $ux$ and joins some other path $c(ab)$ with $a\neq u$.  By Property~2, $a,b\neq 
-
-
- 
-    this path must begin with some portion of a path $ux\in E(G)$.
-    At some point this path diverges from $ux$ and joins some other path $ab$
-
-from $u$ to $w$
-
-
-shortest
-    path from $u$ to $w$.
-
-
- if 
+    for which $c(ux)$ has the longest prefix in common with $P$.  (Property~3 ensures that an edge $ux$ exists.)  At some point $P$ diverges from $ux$ and joins some other path $c(ab)$ with $a\neq u$.  By Property~2, $a,b\neq blah\ldots$
 \end{proof}
 
+It is worth nothing that \thmref{hypercube} is closely related to
+\thmref{3d-universal}.  Indeed, before perturbing it, the point set
+$X$ used in the proof of \thmref{3d-universal} is a projection of
+the vertices of $Q_{D}$ with $D=\lceil\log_2 n\rceil$ onto $\R^3$.
+In \thmref{3d-universal} we then perturb $X$ to obtain a non-crossing
+embedding.  In the proof of \thmref{hypercube} we have to be more careful
+to avoid crossings.
 
-
-
-
-
-
-Question: Is it NP-hard to decide if a  graph $G$ has a 
+Question: Is it NP-hard, given $G$ and $H$, to decide if $G$ has an $H$ obstacle representation?
 
 \bibliographystyle{plain}
 \bibliography{geoobs}
