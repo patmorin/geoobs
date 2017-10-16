@@ -118,6 +118,66 @@ obstacle number $n-x$.
 
 \subsection{A Generalization}
 
+In this paper we study a natural generalization of obstacle
+representations that comes from viewing line segments as shortest paths
+in the Euclidean plane.  An obstacle representation has the property that
+$uw\in E(G)$ if and only if the shortest path from $\phi(u)$ to $\phi(w)$
+does not intersect $\cup S$.
+
+The Euclidean distance is a very special case because the shortest path
+between any two points $p$ and $q$ is unique, so we could modify the
+definition of obstacle representation to say that $uw\in E(G)$ if and
+only if some shortest path from $\phi(u)$ to $\phi(w)$ does not intersect
+$\cup S$.
+
+\ldots
+
+In this way, we can obtain many generalizations of obstacle
+representations by changing the underlying distance measure.  For example,
+with the $L_1$ (Manhattan) distance measure, every x-y-monotone
+path is a shortest path.  Therefore, if $(\varphi,S)$ is an $L_1$
+obstacle representation, then an edge $uw\in E(G)$ if and only if every
+x-y-monotone path from $\phi(u)$ to $\phi(w)$ intersects $\cup S$.  One
+immediate consequence of this is that it is
+no longer obvious that every graph has an $L_1$ obstacle representation.
+
+In this paper we study these generalized obstacle representations
+(mainly) using polyhedral distance functions\footnote{Say something
+about polyhedral distance functions here.} in $\R^d$ and (less so)
+using shortest path distances in graphs.  
+
+For obstacle representations using a polyhedral distance function, $\delta$,
+it turns out that the number, $2k$, of facets in the polytope $P_\delta=\{ x: \delta(\mathbf{0},x\}\le 1\}$ is a critical parameter. 
+
+\begin{enumerate}
+  \item In $\R^2$, every $k$-vertex graph has a $\delta$ obstacle
+  representation for $k\ge n$
+
+  \item In $\R^2$, there exists $O(k^2)$-vertex graphs with no $\delta$
+  obstacle representation.
+
+  \item For any dimension $d\ge 3$ and any polyhedral distance function
+  $\delta$ over $\R^d$, there exists a graph that does not have a $\delta$
+  obstacle representation.  More concretely, 
+  \begin{enumerate}
+     \item Every $n$-vertex graph with $n\le 2^k$ has a $\delta$
+     obstacle representation.
+     \item There is a universal constant $c$ (independent of $k$) such
+     that there exists an $c^k$-vertex graph that does not have a $\delta$
+     obstacle representation.
+  \end{enumerate}
+\end{enumerate}
+
+Talk about planar representations
+
+
+Finally talk about graphs
+
+
+
+Do the formal stuff later\ldots
+
+
 We would like to generalize the notion of obstacle numbers to metric
 spaces other than $\R^2$ with the Euclidean distance metric.  Before we
 can do this, though, we need a notion of a metric space that is also
@@ -127,7 +187,8 @@ Let $(X,d)$ be a metric space.  A \emph{curve} over $X$ is a function
 $f:[0,1]\to X$.  We call $f(0)$ and $f(1)$ the \emph{endpoints} of the
 curve $f$ and define the \emph{image} of $f$ as $I(f)=\{f(t):0\le t\le
 1\}$.  A curve $f$ is a \emph{geodesic} if, for every $0\le t\le 1$,
-$d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$.
+$d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$.  
+
 
 A \emph{path space} is a triple $(X,d,C)$, where $(X,d)$ is a metric
 space and $C$ is a set of curves over $X$ that has the following closure
@@ -135,6 +196,19 @@ property:  If the curve $f$ is in $C$ then, for every $0\le t\le 1$,
 $C$ also contains the curves $g(x)=f(x/t)$ and $h(x)=f(t+x/(1-t)$.
 A path space $(X,d,C)$ is \emph{connected} if, for every distinct pair
 $u,w\in X$, there is some path in $C$ with endpoints $u$ and $w$.
+
+In a path space $(X,d,C)$, we say that
+two curves $f,g\in C$ \emph{cross} if there exists $0<s<1$ and $0<t<1$ such
+that the curve
+\[
+    h(x) = \begin{cases} 
+             f(x) & \text{for $0\le x< s$} \\
+             g(t+(x-s)(1-t)/(1-s)) & \text{for $s\le x\le 1$} \enspace .
+           \end{cases}
+\]
+is also in $C$. In words: $f$ and $g$ cross if we can make a new curve
+consisting of some prefix of $f$ concatenated with some tail of $g$.
+
 
 For a path space $P=(X,d,C)$ and a subset $S\subset X$, we denote the
 subspace induced by $S$ as $P[S]=(S,d,\{f\in C:I(f)\subseteq S\})$.  The
@@ -172,7 +246,10 @@ embeddings of $G$ into $X$.
 An \emph{embedding} $(\varphi,c)$ of a graph $G$ into $X$ consists
 of a one-to-one map $\varphi:V(G)\to X$ and a function $c: E(G)\to
 \mathcal{C}(X)$.  The embedding is \emph{geodesic} if, for every $uw\in
-E(G)$, $c(uw)$ is a geodesic.  The embedding is \emph{non-crossing} if,
+E(G)$, $c(uw)$ is a geodesic.  
+
+TODO: Non-crossing should mean something else.
+The embedding is \emph{non-crossing} if,
 for every $uw,xz\in E(G)$ with $\{u,w\}\cap \{x,z\}=\emptyset$, $c(uw)$
 is disjoint from $c(xz)$.  Note that this definition says nothing about
 two edges that share a common vertex.
