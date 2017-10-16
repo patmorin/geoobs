@@ -70,11 +70,12 @@ urlcolor=linkblue}
 \pagenumbering{arabic}
 
 An obstacle representation of an (undirected simple) graph $G$ is
-pair $(\varphi, S)$ where $\varphi:V(G)\to\R^2$ maps vertices of $G$
-to distinct points in $\R^2$ and $S$ is a set of connected subsets of
-$\R^2$ with the property that, for every $u,w\in V(G)$, $uw\in E(G)$
-if and only if the line segment $\varphi(u)\varphi(w)$ is disjoint from
-$\cup S$.  The elements of $S$ are called \emph{obstacles}.
+pair $(\varphi, S)$ where $\varphi:V(G)\to\R^2$ maps vertices of $G$ to
+distinct points in $\R^2$ and $S$ is a set of connected subsets of $\R^2$
+with the property that, for every $u,w\in V(G)$, $uw\in E(G)$ if and
+only if the line segment with endpoints $\varphi(u)$ and $\varphi(w)$ is
+disjoint from $\cup S$.  The elements of $S$ are called \emph{obstacles}.
+
 
 It is easy to see that every graph $G$ has an obstacle representation:
 Take any $\varphi$ that does not map three vertices of $G$ onto a single
@@ -91,7 +92,7 @@ various classes of graphs.  It is known that every $n$-vertex graph has
 obstacle number $O(n\log n)$ \cite{X} and some $n$-vertex graphs have
 obstacle number $\Omega(n/(\log\log n)^2)$ \cite{Y}.  For planar graphs,
 our understanding is muddier: There exists planar graphs with obstacle
-number 2 \emph{X} (the icosahedron is an example), but the best upper
+number 2 (the icosahedron is an example \cite{X}), but the best upper
 bound on the obstacle number of an $n$-vertex planar graph is $O(n)$.
 
 For planar graphs there is also a natural notion of a \emph{plane obstacle
@@ -120,24 +121,21 @@ obstacle number $n-x$.
 
 In this paper we study a natural generalization of obstacle
 representations that comes from viewing line segments as shortest paths
-in the Euclidean plane.  An obstacle representation has the property that
-$uw\in E(G)$ if and only if the shortest path from $\phi(u)$ to $\phi(w)$
+in the Euclidean plane.  An obstacle representation $(\varphi,S)$ has
+the property that $uw\in E(G)$ if and only if the shortest path from
+$\varphi(u)$ to $\varphi(w)$ does not intersect $\cup S$.  The Euclidean
+distance is a very special case because the shortest path between any two
+points $p$ and $q$ is unique. To accomodate other distance measures we
+modify the definition of obstacle representation to say that $uw\in E(G)$
+if and only if \emph{some} shortest path from $\varphi(u)$ to $\varphi(w)$
 does not intersect $\cup S$.
-
-The Euclidean distance is a very special case because the shortest path
-between any two points $p$ and $q$ is unique, so we could modify the
-definition of obstacle representation to say that $uw\in E(G)$ if and
-only if some shortest path from $\phi(u)$ to $\phi(w)$ does not intersect
-$\cup S$.
-
-\ldots
 
 In this way, we can obtain many generalizations of obstacle
 representations by changing the underlying distance measure.  For example,
 with the $L_1$ (Manhattan) distance measure, every x-y-monotone
 path is a shortest path.  Therefore, if $(\varphi,S)$ is an $L_1$
 obstacle representation, then an edge $uw\in E(G)$ if and only if every
-x-y-monotone path from $\phi(u)$ to $\phi(w)$ intersects $\cup S$.  One
+x-y-monotone path from $\varphi(u)$ to $\varphi(w)$ intersects $\cup S$.  One
 immediate consequence of this is that it is
 no longer obvious that every graph has an $L_1$ obstacle representation.
 
@@ -419,7 +417,7 @@ can obtain a $d_k$ obstacle embedding $(\varphi, c)$ by taking each
 $c(uw)$ to be any $S$-avoiding geodesic with endpoints $u$ and $w$.
 However, the converse is not necessarily true.  Given a $d_k$ obstacle
 embedding of $G$, taking $S=\R^2\setminus (\bigcup_{uw\in E(G)}c(uw))\cup
-(\bigcup_{u\in V(G)} \phi(u)$ does not necessarily yield a $d_k$ obstacle
+(\bigcup_{u\in V(G)} \varphi(u)$ does not necessarily yield a $d_k$ obstacle
 representation $(\varphi,S)$ of $G$.  The problem occurs because of
 \obsref{quadrilateral} when two edges $uw$ and $xz$ are both $k$ monotone in
 direction $i$ and they cross. This leaves $S$-avoiding geodesics from $u$
