@@ -1,0 +1,208 @@
+\documentclass{patmorin}
+\listfiles
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{amsthm,amsmath,graphicx}
+\usepackage{pat}
+\usepackage[letterpaper]{hyperref}
+\usepackage[table,dvipsnames]{xcolor}
+\definecolor{linkblue}{named}{Blue}
+\hypersetup{colorlinks=true, linkcolor=linkblue,  anchorcolor=linkblue,
+citecolor=linkblue, filecolor=linkblue, menucolor=linkblue,
+urlcolor=linkblue} 
+\setlength{\parskip}{1ex}
+\usepackage{wasysym}
+
+\title{\MakeUppercase{Bent Drawings}}
+
+\author{Pat Morin and Friends}%
+
+%\usepackage[mathlines]{lineno}
+%\linenumbers
+%\setlength{\linenumbersep}{2.5cm}
+%\rightlinenumbers
+%\linenumbers
+%\newcommand*\patchAmsMathEnvironmentForLineno[1]{%
+%  \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
+%  \expandafter\let\csname oldend#1\expandafter\endcsname\csname end#1\endcsname
+%  \renewenvironment{#1}%
+%     {\linenomath\csname old#1\endcsname}%
+%     {\csname oldend#1\endcsname\endlinenomath}}% 
+%\newcommand*\patchBothAmsMathEnvironmentsForLineno[1]{%
+%  \patchAmsMathEnvironmentForLineno{#1}%
+%  \patchAmsMathEnvironmentForLineno{#1*}}%
+%\AtBeginDocument{%
+%\patchBothAmsMathEnvironmentsForLineno{equation}%
+%\patchBothAmsMathEnvironmentsForLineno{align}%
+%\patchBothAmsMathEnvironmentsForLineno{flalign}%
+%\patchBothAmsMathEnvironmentsForLineno{alignat}%
+%\patchBothAmsMathEnvironmentsForLineno{gather}%
+%\patchBothAmsMathEnvironmentsForLineno{multline}%
+%}
+
+
+\newcommand{\question}[1]{\textbf{\color{red}Question:}~#1}
+
+\DeclareMathOperator{\ob}{obs}
+\DeclareMathOperator{\planeobs}{plane-obs}
+
+\newcommand{\eps}{\epsilon}
+
+%\pagenumbering{roman}
+\begin{document}
+%\begin{titlepage}
+\maketitle
+%
+\begin{abstract}
+  We prove that every planar graph has a straight-line plane drawing that is ``bent'' in the following sense: The set of directions $[0,2\pi)$ can be partitioned into 40 intervals such that any walk of length greater than 1 traverses edges in directions from at least two of these 40 intervals.
+\end{abstract}
+%\end{titlepage}
+%
+%\tableofcontents
+%
+%\newpage
+
+
+\section{Introduction}
+\pagenumbering{arabic}
+
+A \emph{geometric graph} is a graph whose vertices are points in $\R^2$
+and whose edges are represented as line segments joining their endpoints.
+A walk $w_0,\ldots,w_r$ in $G$ can be thought of a sequence of vectors
+$v_1,\ldots,v_r$, where $v_i=w_i-w_{i-1}$ and each of these vectors has
+a direction $\alpha_i\in[0,\ldots,2\pi)$ equal to the (counterclockwise)
+angle $v_i$ makes with the x-axis.  Given a partition $D$ of $[0,2\pi)$,
+we say that the walk is $D$-bent if, for some $i,j\in\{1,\ldots,r\}$,
+$i\neq j$,  $\alpha_i\in I$ and $\alpha_j\in J$ for some $I,J\in D$,
+$I\neq J$. The graph $G$ is $D$-bent if every walk of length 2 is
+$D$-bent.  In words, $G$ is $D$-bent if every walk of length at least
+2 travels in at least two of the classes of directions defined by $D$.
+
+For any $r\in\N$, let $D_r=\{[2i\pi/r,2(i+1)\pi/r): i\in
+\{0,\ldots,r-1\}\}$.  Then we say that $G$ is $r$-bent if it is $D_r$-bent.
+We prove the following result:
+
+\begin{thm}\thmlabel{bent}
+  Every planar graph $G$ has a plane embedding that is $40$-bent.
+\end{thm}
+
+Our proof of \thmref{bent} actually implies a stronger result:
+
+\begin{lem}
+  For any $\epsilon>0$, every planar graph $G$ has a plane embedding that is 40-bent and such that the direction of any edge is in the range $[2(i+1/2-\epsilon)\pi/40,2(i+1/2+\epsilon)\pi/40]$, for some $i\in\{0,\ldots,39\}$.
+\end{lem}
+
+The preceding strengthening implies that the angle between any two
+consecutive steps in any walk in the embedding of $G$ is at least
+$\pi/20-2\epsilon$.  This, in turn implies a lower-bound on the length
+of the Euclidean shortest path between any two non-adjacent vertices in
+the embedding.
+
+\section{The Proof}
+
+\subsection{Directions}
+
+Define $C_i=[2\pi i/40,2\pi(i+1)/40)$ and let $C_i^\epsilon = \{[2\pi
+(i+1/2-\epsilon)/40,2\pi(i+1/2+\epsilon)/40)$.  We call a direction
+\emph{odd} if it is contained in some $C_i$ for odd $i$, and even
+otherwise.  We call a line segment even or odd depending on whether its
+direction is even or odd.
+
+Two line segments are \emph{nearly-parallel} if they are each in
+direction $C_i^{\epsilon}$ for some $i\in\{1,\ldots,18\}$.  
+
+A line segment is \emph{nearly-horizontal} if its direction is in
+$C_i$ for some $i\in\{1,2,3,4,15,16,17,18\}$; it is nearly vertical
+if its direction is in $C_i$ for some $i\in\{9,10\}$, and it is nearly-diagonal if its direction is in $C_i$ for some $i\in\{5,6,7,8,11,12,13,14\}$.
+
+\subsection{Shapes}
+
+
+A \emph{near-rectangle} is a 4-gon with two nearly-horizontal
+nearly-parallel sides, called the \emph{top} and \emph{bottom} and with
+the property that all segments joining a point on the top to a point on
+the bottom are nearly-vertical and nearly-parallel.  A \emph{v-triangle}
+is a degenerate near-rectangle in which exactly one of the top or bottom
+sides contains a single point.
+
+A \emph{near-parallelogram} is a 4-gon with two nearly-horizontal
+nearly-parallel sides, called the \emph{top} and \emph{bottom} and with
+the property that all segments joining a point on the top to a point on
+the bottom are nearly-diagonal and nearly-parallel.  A \emph{d-triangle}
+is a degenerate near-parallelogram in which exactly one of the top or bottom
+sides contains a single point.
+
+A \emph{near-block} is a 4-gon with two nearly-horizontal nearly-parallel
+sides, called the top and bottom with the property that, for some
+$x\in\{0,\ldots,3\}$, the segment joining the left endpoints of the
+top and bottom has a direction in $C_{5+x}^\epsilon$ and the segment
+joining the right endpoints of the top and bottom has a direction in
+$C_{14-x}^\epsilon$.  A \emph{dd-triangle} is a degenerate near-block
+in which the top side consists of a single point.
+
+A \emph{flat-triangle} is a triangle with ....
+
+Any one of the preceding shapes is called \emph{odd} if all its sides
+are odd and \emph{even} if all its sides are even.
+
+\subsection{The Algorithm}
+
+TODO: define near-triangulation
+
+We now describe our algorithm for produces a bent-drawing of a
+near-triangulation $G$ whose outer face has vertices $v_1,\ldots,v_r$
+in clockwise order.  The algorithm is recursive and is given, as input,
+given an odd or even shape, $S$, as well a mapping of
+$v_1,\ldots,v_r$ onto the vertices and flat edges of $S$.
+TODO: explain this mapping more. TODO: The flat-triangle is an exception.
+
+Suppose the shape $S$ is odd.  Then we will produce a drawing of $G$
+in which each $v_i$ is drawn on the vertex it is mapped to or arbitrarily close to the edge it is mapped to.
+
+
+ is drawn arbitrarily close to the object (edge or
+vertex) of $S$ that it is mapped onto and such that every edge of $G$
+incident to at least one of $v_1,\ldots,v_r$ is odd.
+
+
+\subsection{Drawing onto a Near-Rectangle}
+
+Let $C=\{v_1,\ldots,v_r\}$ be the vertices on the outer face of $G$.
+
+In this section, we consider the case where $S$ is a near-rectangle.
+Without loss of generality, assume $S$ has two sides with directions
+in $C_9^{\epsilon}$ and two sides with directions in $C_1^\epsilon$.
+
+Let $v_1,\ldots,v_j$ be mapped to the top side of $S$ and let
+$v_{j+1},\ldots,v_r$ be mapped to the bottom side, so that $v_1$
+is mapped to the top-left corner, $v_j$ to the top-right, $v_{j+1}$
+to the bottom-right, and $v_r$ to the bottom-left.
+
+Let $t_1,\ldots,t_{x}$ be the subsequence of $v_1,\ldots v_j$ consisting
+of those vertices adjacent to some bottom vertex.  Similarly, let
+$b_1,\ldots,b_y$ be the subsequence of $v_{j+1},\ldots,v_r$ adjacent to
+some top vertex.  We fix the locations of $t_1,\ldots,t_x$ as follows:
+$t_1$ is the top left corner of $S$; $t_x$ is the top-right corner of
+$S$; $b_1$ is the bottom right corner of $S$; and $b_y$ is the bottom
+left-corner of $S$.  The vertices $t_2,\ldots,t_{x-1}$ are placed very close to $t_x$ so that the path $
+
+
+
+To begin with, consider all edges of $G$ that join a top-vertex to a bottom
+vertex. 
+
+
+
+To begin with, consider all the paths of length 2 in $G$ that join a
+top vertex in $v_1,\ldots,v_j$ to a bottom vertex in $v_{j+1},\ldots,v_r$.
+
+
+
+
+Let $S$ be one of the four shapes
+defined above and let $\rho$ be mapping from of $v_1,\ldots,v_r$ to the
+top and bottom sides of $S$ and to the four corners of $S$
+
+\end{document}
+
+
