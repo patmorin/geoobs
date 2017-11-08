@@ -102,53 +102,65 @@ the embedding.
 
 \subsection{Directions}
 
-Define $C_i=[2\pi i/40,2\pi(i+1)/40)$ and let $C_i^\epsilon = \{[2\pi
-(i+1/2-\epsilon)/40,2\pi(i+1/2+\epsilon)/40)$.  We call a direction
-\emph{odd} if it is contained in some $C_i$ for odd $i$, and even
-otherwise.  We call a line segment even or odd depending on whether its
-direction is even or odd.
+Let $K=36$.  For each $i\in\{1,\ldots,K/2\}$, define $C_i=[2\pi
+(i-1)/K,2\pi i/K)$ and, for any $\epsilon < \pi/K$ let $C_i^\epsilon
+= \{[2\pi (i-1/2-\epsilon)/K,2\pi(i-1/2+\epsilon)/K)$.  We treat the
+sets $C_i$ and $C_i^\epsilon$ as sets of directions. We say that a line
+segment has a direction in $C_i$ if, after translating so that its lowest
+leftmost endpoint to the origin, the angle it makes with the x-axis is in
+the interval $C_i$.  We call a direction \emph{odd} if it is contained
+in some $C_i$ for odd $i$, and even otherwise.  We call a line segment
+even or odd depending on whether its direction is even or odd.
 
-Two line segments are \emph{nearly-parallel} if they are each in
-direction $C_i^{\epsilon}$ for some $i\in\{1,\ldots,18\}$.  
+\begin{figure}
+  \begin{center}
+     \includegraphics{figs/directions}
+  \end{center}
+  \caption{The sets $C_1,\ldots,C_{18}$ and $C_1^{\epsilon},\ldots,C_{18}^\epsilon$ of directions.  The colour of $C_i^\epsilon$ indicates whether it is nearly horizontal, nearly-diagonal, or nearly-vertical.}
+\end{figure}
 
-A line segment is \emph{nearly-horizontal} if its direction is in
-$C_i$ for some $i\in\{1,2,3,4,15,16,17,18\}$; it is nearly vertical
-if its direction is in $C_i$ for some $i\in\{9,10\}$, and it is nearly-diagonal if its direction is in $C_i$ for some $i\in\{5,6,7,8,11,12,13,14\}$.
+A set of line segments are \emph{nearly-parallel} if there is some
+$i\in\{1,\ldots,18\}$ such that each segment in the set is in direction
+$C_i^{\epsilon}$.  A line segment is \emph{nearly-horizontal} if its
+direction is in $C_i^\epsilon$ for some $i\in\{1,2,3,4,15,16,17,18\}$;
+it is nearly vertical if its direction is in $C_i^\epsilon$ for some
+$i\in\{9,10\}$, and it is nearly-diagonal if its direction is in
+$C_i^\epsilon$ for some $i\in\{5,6,7,8,11,12,13,14\}$.
 
 \subsection{Shapes}
 
 
-A \emph{near-rectangle} is a 4-gon with two nearly-horizontal
-nearly-parallel sides, called the \emph{top} and \emph{bottom} and with
-the property that all segments joining a point on the top to a point on
-the bottom are nearly-vertical and nearly-parallel.  A \emph{v-triangle}
+A \emph{near-rectangle} is a 4-gon with two nearly-horizontal sides,
+called the \emph{top} and \emph{bottom} and with the property that every
+segment joining a point on the top to a point on the bottom is nearly
+vertical and all such segments are nearly parallel.  A \emph{v-triangle}
 is a degenerate near-rectangle in which exactly one of the top or bottom
-sides contains a single point.
+sides contains a single point.  We use the convention that a near-rectangle is specified by a 4-tuple $(a,b,c,d)$ that lists its vertices in clockwise order, starting with the left endpoint of its top side.
 
-A \emph{near-parallelogram} is a 4-gon with two nearly-horizontal
-nearly-parallel sides, called the \emph{top} and \emph{bottom} and with
-the property that all segments joining a point on the top to a point on
-the bottom are nearly-diagonal and nearly-parallel.  A \emph{d-triangle}
-is a degenerate near-parallelogram in which exactly one of the top or bottom
-sides contains a single point.
-
-A \emph{near-block} is a 4-gon with two nearly-horizontal nearly-parallel
-sides, called the top and bottom with the property that, for some
-$x\in\{0,\ldots,3\}$, the segment joining the left endpoints of the
-top and bottom has a direction in $C_{5+x}^\epsilon$ and the segment
-joining the right endpoints of the top and bottom has a direction in
-$C_{14-x}^\epsilon$.  A \emph{dd-triangle} is a degenerate near-block
-in which the top side consists of a single point.
-
-A \emph{flat-triangle} is a triangle with ....
-
-Any one of the preceding shapes is called \emph{odd} if all its sides
-are odd and \emph{even} if all its sides are even.
+%A \emph{near-parallelogram} is a 4-gon with two nearly-horizontal
+%nearly-parallel sides, called the \emph{top} and \emph{bottom} and with
+%the property that all segments joining a point on the top to a point on
+%the bottom are nearly-diagonal and nearly-parallel.  A \emph{d-triangle}
+%is a degenerate near-parallelogram in which exactly one of the top or bottom
+%sides contains a single point.
+%
+%A \emph{near-block} is a 4-gon with two nearly-horizontal nearly-parallel
+%sides, called the top and bottom with the property that, for some
+%$x\in\{0,\ldots,3\}$, the segment joining the left endpoints of the
+%top and bottom has a direction in $C_{5+x}^\epsilon$ and the segment
+%joining the right endpoints of the top and bottom has a direction in
+%$C_{14-x}^\epsilon$.  A \emph{dd-triangle} is a degenerate near-block
+%in which the top side consists of a single point.
+%
+%A \emph{flat-triangle} is a triangle with ....
+%
+Any one of the shapes described in this section is called \emph{odd}
+if all its sides are odd and \emph{even} if all its sides are even.
 
 \subsection{The Algorithm}
 
-TODO: define near-triangulation
-
+A \emph{near-triangulation} is a combinatorially embedded 2-connected planar
+graph all of whose inner faces are bounded by three edges.
 We now describe our algorithm for produces a bent-drawing of a
 near-triangulation $G$ whose outer face has vertices $v_1,\ldots,v_r$
 in clockwise order.  The algorithm is recursive and is given, as input,
@@ -165,43 +177,98 @@ vertex) of $S$ that it is mapped onto and such that every edge of $G$
 incident to at least one of $v_1,\ldots,v_r$ is odd.
 
 
+\subsection{A Useful Tool}
+
+\begin{lem}\lemlabel{outerplanar-fancy}
+   Let $G$ be an outerplanar graph on vertex set $u_1,\ldots,u_r$ and such that $u_1,\ldots,u_r$ is a path on the outer face of $G$.  Let $w_1,\ldots,w_s$ denote the subsequence of $u_1,\ldots,u_r$ containing $w_1=u_1$, $w_s=u_r$, as well as all cut vertices of $G$.  Let $i_1=1,\dots,i_t=s$ be any stricly increasing sequence of indices over $\{1,\ldots,s\}$. Let $a$ and $b$ be the endpoints of a line segment whose direction is $C_i$ for some $i\in\{1,3\}$.  
+   Then, for any $\delta>0$,
+   there exists a $K$-bent drawing of $G$ such that 
+\begin{enumerate}
+   \item $v_1=a$ and $v_2=b$.
+   \item $v_1,\ldots,v_r$ is an x-monotone path above the segment $ab$; 
+   \item every edge of the drawing is an odd nearly-horizontal line segment;
+   \item for each $\ell\in\{1,\ldots,t-1\}$ and each $w\in\{w_{i_\ell},w_{i_\ell+1},\ldots,w_{i_{\ell+1}-1}\}$, $\|ww_{i_\ell}\| \le \delta\|ww_{i_{\ell+1}}\|$.
+   \item every inner face of the drawing is a nearly-flat triangle.
+\end{enumerate}
+\end{lem}
+
+
+\begin{proof}
+  First, complete $G[W]$ to an edge-maximal outerplane graph $H$ as follows:
+\begin{enumerate}
+  \item add the edges of the path $w_{i_1},\ldots,w_{i_t}$;
+  \item add edges from $v_1$ to each of $w_{i_1},\ldots,w_{i_t}$;
+  \item for each $\ell\in\{2,\ldots,t\}$ add an edge from $w_{i_\ell}$ to each of $w_{i_{\ell-1}+1},\ldots,w_{i_\ell-1}$. 
+\end{enumerate}
+  Run the algorithm described above to obtain a drawing of $H$.  Now we
+  repeat the following steps as long as $V(H)\neq V(G)$: find an inner
+  face of $G$ that is incident to an edge of $H$ but contains at least
+  one vertex not in $H$. Add all vertices and edges of $F$ to $H$ and
+  make them adjacent to the lower endpoint of $H$. Now rerun the drawing
+  algorithm on (the new, larger, graph) $H$.
+
+  This algorithm finishes and produces a $K$-bent drawing of $H$ and
+  removing edges of $H$ not in $G$ gives the desired $K$-bent drawing
+  of $G$.  TODO: Prove more.
+\end{proof}
+
+Note that there are several other variants of
+\lemref{outerplanar-fancy}: If $i\in\{15,17\}$, then we obtain
+an embedding in which Property~4 is slighly different so that
+$w_{i_\ell},w_{i_\ell+1},\ldots,w_{i_{\ell+1}-1}$ are clustered close
+to $w_{i_{\ell+1}}$ instead of $w_{i_\ell}$. In our application of
+\lemref{outerplanar-fancy} this difference is unimportant.
+
+if $i\in\{2,4,16,18\}$, then \lemref{outerplanar-fancy} gives an embedding
+of $G$ in which every edge is \emph{even} instead of odd.  And, of course,
+the algorithm can produce drawings in which all vertices are below the
+segment as well.  In the following, we will apply the algorithm to obtain
+all these kinds of embeddings.
+
+
+
+
 \subsection{Drawing onto a Near-Rectangle}
 
-Let $C=\{v_1,\ldots,v_r\}$ be the vertices on the outer face of $G$.
 
-In this section, we consider the case where $S$ is a near-rectangle.
-Without loss of generality, assume $S$ has two sides with directions
-in $C_9^{\epsilon}$ and two sides with directions in $C_1^\epsilon$.
+\begin{lem}
+   Let $R(a,b,c,d)$ be an odd (respectively, even) near-rectangle and
+   let $G$ be a near triangulation whose outer face, in clockwise order
+   is $v_1,\ldots,v_r$.  Then, for any $1<j<r-1$, there exists a $K$-bent
+   drawing of $G$ such that
+\begin{enumerate}
+   \item $v_1=a$, $v_j=b$, $v_{j+1}=c$, and $v_r=d$;
+   \item the paths $v_1,\ldots,v_j$ and $v_{j+1},\ldots,v_r$ are each x-monotone and use only nearly-horizontal edges;
+   \item every edge incident to at least one of $v_1,\ldots,v_r$ is odd.
+\end{enumerate}
+\end{lem}
 
-Let $v_1,\ldots,v_j$ be mapped to the top side of $S$ and let
-$v_{j+1},\ldots,v_r$ be mapped to the bottom side, so that $v_1$
-is mapped to the top-left corner, $v_j$ to the top-right, $v_{j+1}$
-to the bottom-right, and $v_r$ to the bottom-left.
+\begin{proof}
+  Let $C=\{v_1,\ldots,v_r\}$. Call the vertices $v_1,\ldots,v_j$ \emph{top} vertices and call the vertices $v_{j+1},\ldots,v_r$ \emph{bottom} vertices.
 
-Let $t_1,\ldots,t_{x}$ be the subsequence of $v_1,\ldots v_j$ consisting
-of those vertices adjacent to some bottom vertex.  Similarly, let
-$b_1,\ldots,b_y$ be the subsequence of $v_{j+1},\ldots,v_r$ adjacent to
-some top vertex.  We fix the locations of $t_1,\ldots,t_x$ as follows:
-$t_1$ is the top left corner of $S$; $t_x$ is the top-right corner of
-$S$; $b_1$ is the bottom right corner of $S$; and $b_y$ is the bottom
-left-corner of $S$.  The vertices $t_2,\ldots,t_{x-1}$ are placed very close to $t_x$ so that the path $
+  First consider the outerplanar graph $B$ induced by the bottom
+  vertices. We want to apply \lemref{outerplanar-fancy} to the graph $B$
+  to obtain an embedding of $B$ with $v_{j+1},\ldots,v_{r}$ below the
+  segment $cd$.  The clustering provided Property~4 of the resulting
+  embedding is unimportant to us, so we only use an index sequence of
+  length $t=2$ chosen so that $w_{i_1}=v_{j+1}$ and $w_{i_2}=v_r$.
 
-
-
-To begin with, consider all edges of $G$ that join a top-vertex to a bottom
-vertex. 
-
+  Next we consider the outerplanar graph $T$ induced by the top vertices
+  and use \lemref{outerplanar-fancy} to embed it above the segment $ab$.
+  For this application of \lemref{outerplanar-fancy} we do care about
+  the clustering provided by Property~4. In particular, we choose
+  $i_2,\ldots,i_{t-1}$ to be the set of all top vertices $v$ such that $G$
+  contains a path $vxy$ such that $y$ is a bottom vertex and $x\not\in C$.
 
 
-To begin with, consider all the paths of length 2 in $G$ that join a
-top vertex in $v_1,\ldots,v_j$ to a bottom vertex in $v_{j+1},\ldots,v_r$.
+We do this by applying \lemref{outerplanar-fancy} with $G=B$, $v_1,\ldots,v_r=
 
+  We start by considering the induced graph $G[C]$, which is outerplanar.
+  We say that an internal face of $G[C]$ is \emph{tall} if it has both
+  top and bottom vertices on its boundary. 
 
+\end{proof}
 
-
-Let $S$ be one of the four shapes
-defined above and let $\rho$ be mapping from of $v_1,\ldots,v_r$ to the
-top and bottom sides of $S$ and to the four corners of $S$
 
 \end{document}
 
