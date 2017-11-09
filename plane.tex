@@ -187,11 +187,23 @@ incident to at least one of $v_1,\ldots,v_r$ is odd.
    \item $v_1=a$ and $v_2=b$.
    \item $v_1,\ldots,v_r$ is an x-monotone path above the segment $ab$; 
    \item every edge of the drawing is an odd nearly-horizontal line segment;
-   \item for each $\ell\in\{1,\ldots,t-1\}$ and each $w\in\{w_{i_\ell},w_{i_\ell+1},\ldots,w_{i_{\ell+1}-1}\}$, $\|ww_{i_\ell}\| \le \delta\|ww_{i_{\ell+1}}\|$.
-   \item every inner face of the drawing is a nearly-flat triangle.
+   \item for each $1\le i<j<k\le s$, $\|w_jw_k\|\le \delta\|w_{i}w_k\|$; and
+   \item for each $\ell\in\{1,\ldots,t-1\}$ and each $j\in\{i_{\ell+1},\ldots,i_{\ell+1}-1\}$,
+     $\|w_{i_\ell}w_j\| \le \delta\|w_{i_\ell}w_{i_{\ell+1}}\|$.
+   \item every inner face of the drawing is a nearly-flat triangle. TODO: Define.
 \end{enumerate}
 \end{lem}
 
+Before proving \lemref{outerplanar-fancy}, we attempt to offer some
+intuition about 
+Conditions~4 and 5: The indices
+$i_1,\ldots,i_t$ mark \emph{special} vertices.  Condition~4 states
+that, in any interval $w_{i_a},\ldots,w_{i_b}$, of special vertices,
+the special vertices $w_{i_a+1},\ldots,w_{i_b-1}$ in the interior
+of this interval are clustered around the right endpoint, $w_{i_b}$
+of the interval.  Condition~5 says that non-special vertices in any
+interval $w_{i_{\ell}},w_{i_{\ell+1}}$ are clustered around the left
+endpoint $w_{i_\ell}$ of the interval.
 
 \begin{proof}
   First, complete $G[W]$ to an edge-maximal outerplane graph $H$ as follows:
@@ -247,21 +259,23 @@ all these kinds of embeddings.
   Let $C=\{v_1,\ldots,v_r\}$. Call the vertices $v_1,\ldots,v_j$ \emph{top} vertices and call the vertices $v_{j+1},\ldots,v_r$ \emph{bottom} vertices.
 
   First consider the outerplanar graph $B$ induced by the bottom
-  vertices. We want to apply \lemref{outerplanar-fancy} to the graph $B$
-  to obtain an embedding of $B$ with $v_{j+1},\ldots,v_{r}$ below the
-  segment $cd$.  The clustering provided Property~4 of the resulting
-  embedding is unimportant to us, so we only use an index sequence of
-  length $t=2$ chosen so that $w_{i_1}=v_{j+1}$ and $w_{i_2}=v_r$.
+  vertices. We want to apply \lemref{outerplanar-fancy} to the graph
+  $B$ to obtain an embedding of $B$ with $v_{j+1},\ldots,v_{r}$
+  below the segment $cd$.  The clustering provided Properties~4 and
+  5 of the resulting embedding is unimportant to us, so we only use
+  an index sequence of length $t=2$ chosen so that $w_{i_1}=v_{j+1}$
+  and $w_{i_2}=v_r$.
 
   Next we consider the outerplanar graph $T$ induced by the top vertices
   and use \lemref{outerplanar-fancy} to embed it above the segment $ab$.
   For this application of \lemref{outerplanar-fancy} we do care about
   the clustering provided by Property~4. In particular, we choose
-  $i_2,\ldots,i_{t-1}$ to be the set of all top vertices $v$ such that $G$
+  $i_2,\ldots,i_{t-1}$ so that it includes every top vertex that is 
+  incident, in $G$, to a bottom vertex and any top vertex $v$ such that $G$
   contains a path $vxy$ such that $y$ is a bottom vertex and $x\not\in C$.
 
 
-We do this by applying \lemref{outerplanar-fancy} with $G=B$, $v_1,\ldots,v_r=
+We do this by applying \lemref{outerplanar-fancy} with $G=B$, 
 
   We start by considering the induced graph $G[C]$, which is outerplanar.
   We say that an internal face of $G[C]$ is \emph{tall} if it has both
