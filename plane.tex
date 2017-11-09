@@ -275,17 +275,30 @@ all these kinds of embeddings.
   contains a path $vxy$ such that $y$ is a bottom vertex and $x\not\in C$.
 
   These two embeddings of $T$ and $B$ give us an embedding of the
-  outerplanar graph $G[C]$.  This embedding of $G[C]$ has inner faces
-  and some of these contain vertices of $G$ in their interior. Thus,
-  it remains to show how to draw these parts of $G$.
+  outerplanar graph $G[C]$.  We claim that this embedding of $G[C]$ is
+  bent and contains only odd edges.  Indeed, \lemref{outerplanar-fancy}
+  already guarantees this for
+  $T$ and $B$, which only have nearly-horizontal edges and the only other
+  edges of $G[C]$ are nearly-vertical edges that are nearly-parallel to
+  $ad$ and $bc$.
 
-  There are two types of inner faces in the embedding of $G[C]$
-  (1)~those having no edges from a top vertex to a bottom vertex and
-  (2)~those have both top and bottom vertices.  To draw the parts of of
-  $G$ inside the first types of faces, we use \lemref{X} below.  We now
-  show how to draw the parts of $G$ inside the second types of faces.
+  This embedding of $G[C]$ has inner faces and some of these contain
+  vertices of $G$ in their interior. Thus, it remains to show how to
+  draw these parts of $G$.  There are two types of inner faces in the
+  embedding of $G[C]$ (1)~those having no edges from a top vertex to
+  a bottom vertex and (2)~those have both top and bottom vertices.
+  To draw the parts of $G$ inside the first types of faces, we use
+  \lemref{triangle-draw} below. We now show how to draw the parts of $G$
+  inside the second types of faces.
 
-  Consider some face $F$ of $G[C]$ that contains both top and bottom vertices and therefore contains exactly two edges joining a top vertex to a bottom vertex. These two edges are nearly-parallel to 
+  Consider some face $F$ of $G[C]$ that contains both top and bottom
+  vertices and therefore contains exactly two edges joining a top vertex
+  to a bottom vertex. These two edges are nearly-parallel to $ad$ and $bc$
+  and are therefore odd near-vertical edges.  This means that the four or
+  three endpoints of these two edges are the corners of a near-rectangle.
+  We now focus on the subgraph $G_F$ of $G$ contains the edges and
+  vertices that are inside of $F$ or on the boundary of $F$.
+  
 
 We do this by applying \lemref{outerplanar-fancy} with $G=B$, 
 
