@@ -132,12 +132,12 @@ does not intersect $\cup S$.
 
 In this way, we can obtain many generalizations of obstacle
 representations by changing the underlying distance measure.  For example,
-with the $L_1$ (Manhattan) distance measure, every x-y-monotone
-path is a shortest path.  Therefore, if $(\varphi,S)$ is an $L_1$
-obstacle representation, then an edge $uw\in E(G)$ if and only if every
-x-y-monotone path from $\varphi(u)$ to $\varphi(w)$ intersects $\cup S$.  One
-immediate consequence of this is that it is
-no longer obvious that every graph has an $L_1$ obstacle representation.
+with the $L_1$ (Manhattan) distance measure, every x-y-monotone path
+is a shortest path.  Therefore, if $(\varphi,S)$ is an $L_1$ obstacle
+representation, then an edge $uw\in E(G)$ if and only if there is some
+x-y-monotone path from $u$ to $w$ that avoids $\cup S$.  One immediate
+consequence of this is that it is no longer obvious that every graph
+has an $L_1$ obstacle representation.
 
 In this paper we study these generalized obstacle representations
 (mainly) using polyhedral distance functions\footnote{Say something
@@ -145,62 +145,341 @@ about polyhedral distance functions here.} in $\R^d$ and (less so)
 using shortest path distances in graphs.  
 
 \subsection{Our Results}
-For obstacle representations in $\R^d$ using a polyhedral distance function, $\delta$,
-it turns out that the number, $2k$, of facets in the polytope $P_\delta=\{ x\in\R^d: \delta(\mathbf{0},x\}\le 1\}$ is a critical parameter. 
-
-\begin{enumerate}
-  \item In $\R^2$, every $k$-vertex graph has a $\delta$ obstacle
-  representation for $k\ge n$
-
-  \item In $\R^2$, there exists $O(k^2)$-vertex graphs with no $\delta$
-  obstacle representation.
-
-  \item For any dimension $d\ge 3$ and any polyhedral distance function
-  $\delta$ over $\R^d$, there exists a graph that does not have a $\delta$
-  obstacle representation.  More concretely, 
-  \begin{enumerate}
-     \item Every $n$-vertex graph with $n\le 2^k$ has a $\delta$
-     obstacle representation.
-     \item There is a universal constant $c$ (independent of $k$) such
-     that there exists an $c^k$-vertex graph that does not have a $\delta$
-     obstacle representation.
-  \end{enumerate}
-\end{enumerate}
-
-Talk about planar representations
-
-
-Finally talk about graphs
-
+%For obstacle representations in $\R^d$ using a polyhedral distance function, $\delta$,
+%it turns out that the number, $2k$, of facets in the polytope $P_\delta=\{ x\in\R^d: \delta(\mathbf{0},x\}\le 1\}$ is a critical parameter. 
+%
+%\begin{enumerate}
+%  \item In $\R^2$, every $n$-vertex graph has a $\delta$-obstacle
+%  representation for $k\ge n$
+%
+%  \item In $\R^2$, there exists $O(k^2)$-vertex graphs with no $\delta$
+%  obstacle representation.
+%
+%  \item For any dimension $d\ge 3$ and any polyhedral distance function
+%  $\delta$ over $\R^d$, there exists a graph that does not have a $\delta$
+%  obstacle representation.  More concretely, 
+%  \begin{enumerate}
+%     \item Every $n$-vertex graph with $n\le 2^k$ has a $\delta$
+%     obstacle representation.
+%     \item There is a universal constant $c$ (independent of $k$) such
+%     that there exists an $c^k$-vertex graph that does not have a $\delta$
+%     obstacle representation.
+%  \end{enumerate}
+%\end{enumerate}
+%
+%Talk about planar representations
+%
+%
+%Finally talk about graphs
+%
 
 \subsection{Related Work}
 
 
-\section{Preliminaries}
-
-
-
-Do the formal stuff later\ldots
-
+\section{Path Spaces and Generalized Obstacle Representations}
 
 We would like to generalize the notion of obstacle numbers to metric
 spaces other than $\R^2$ with the Euclidean distance metric.  Before we
 can do this, though, we need a notion of a metric space that is also
 equipped with some topology.
 
-Let $(X,d)$ be a metric space.  A \emph{curve} over $X$ is a function
+Let $(X,\delta)$ be a metric space.  A \emph{curve} over $X$ is a function
 $f:[0,1]\to X$.  We call $f(0)$ and $f(1)$ the \emph{endpoints} of the
 curve $f$ and define the \emph{image} of $f$ as $I(f)=\{f(t):0\le t\le
 1\}$.  A curve $f$ is a \emph{geodesic} if, for every $0\le t\le 1$,
-$d(f(0),f(t)) + d(f(t),f(1)) = d(f(0),f(1))$.  
+$\delta(f(0),f(t)) + \delta(f(t),f(1)) = d(f(0),f(1))$.  
 
-
-A \emph{path space} is a triple $(X,d,C)$, where $(X,d)$ is a metric
-space and $C$ is a set of curves over $X$ that has the following closure
-property:  If the curve $f$ is in $C$ then, for every $0\le t\le 1$,
-$C$ also contains the curves $g(x)=f(x/t)$ and $h(x)=f(t+x/(1-t)$.
+A \emph{path space} is a triple $(X,\delta,C)$, where $(X,\delta)$ is a
+metric space and $C$ is a set of curves over $X$ that has the following
+closure property:  If the curve $f$ is in $C$ then, for every $0\le t\le
+1$, $C$ also contains the curves $g(x)=f(x/t)$ and $h(x)=f(t+x/(1-t)$.
 A path space $(X,d,C)$ is \emph{connected} if, for every distinct pair
 $u,w\in X$, there is some path in $C$ with endpoints $u$ and $w$.
+
+For a path space $P=(X,\delta,C)$ and a subset $S\subset X$, we denote the
+subspace induced by $S$ as $P[S]=(S,\delta,\{f\in C:I(f)\subseteq S\})$.  The
+subspace that avoids $S$ is defined ias $P\setminus S = P[X\setminus S]$.
+With these definitions in hand, we are ready to define a generalization
+of obstacle representations.
+
+\begin{defn}
+An \emph{$(X,\delta,C)$ obstacle representation} of a graph $G$ is a pair
+$(\varphi, S)$ where $\varphi:V(G)\to X$ is a one-to-one mapping and
+$S$ is a set of connected subsets of $X$ with the property that, for
+every $u,w\in V(G)$, $uw\in E(G)$ if and only if $C$ contains a $\cup
+S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$.
+\end{defn}
+
+\section{Polyhedral Distance Functions}
+
+Let $V=\{v_1,\ldots,v_k\}$ be a set of vectors in $\R^d$.
+The \emph{polyhedral metric} $\delta_V:\R^d\times\R^d\to\R$ is defined as
+\[
+  \delta_V(u,w) = \min\left\{\sum_{i=1}^{k}|a_i| : 
+      \sum_{i=1}^k a_iv_i = u-w \right\} \enspace .
+\]
+If we let $P_V$ denote the convex hull of $V\cup -V$, then $\delta_V(u,w)$
+tell us how much one needs to scale the polyhedron $P_V$ so that it
+contains $uw$ on its boundary.  The facets of $P_V$ are very important,
+because they determine the geodesics.  For a (closed) facet $F$ of $P_V$
+we denote the \emph{cone} $C_F$ as the union of all rays originating at
+the origin and containing a point on $F$ (this is the affine hull of $F$).
+For a point $x\in\R^d$, the \emph{$F$-cone} of $x$ is $Q^V_F(x)=C_F+x$.
+
+For a facet of $F$ of $P_N$, we say that a curve $f$ is
+\emph{$\delta_V$-monotone in direction $F$} if, for all $0\le
+a\le b\le 1$, $f(b)\in Q^N_F(f(a))$.  We say that a curve is
+$\delta_V$-\emph{monotone} if it is $\delta_V$-monotone in direction $F$
+for some facet $F$ of $P_V$.  Observe that a curve $f$ is a geodesic
+for $\delta_V$ if and only if $f$ is $\delta_V$-monotone.
+
+\subsection{The Planar Case}
+
+We first consider the special case of $\R^2$.  Let $\delta_k$ denote
+the polyhedral distance function obtained from the vector set $V =
+\{(\cos(i\pi/k),\sin(i\pi/k) : i\in\{0,\ldots,k-1\}$ so that $P_V$
+is a regular $2k$-gon.  Observe that, in this case, $P_V$ is a regular
+$2k$-gon.
+
+
+\begin{thm}\thmlabel{plane-lower-bound}
+  For any $\epsilon >0$, there exists a graph $G$ with $n=n(\epsilon)$
+  vertices such that $G$ has no $\delta_k$ obstacle representation for any 
+  $k < n^{1-\epsilon}$.
+\end{thm}
+
+\begin{proof}
+   For some constant $c>0$ and all sufficiently large $n$, there exists
+   a graph $G$ with $n$ vertices $cn^{2-2/r}$ edges and that
+   contains no $K_{r,r}$ subgraph \cite{X}.  Let $(\varphi,S)$ be a $\delta_k$
+   obstacle representation of $G$ and let $(\varphi,c)$ be an embedding
+   of $G$ obtained by taking, for each $uw\in E(G)$, $c(uw)$ to be some
+   shortest $\cup S$-avoiding path from $\varphi(u)$ to $\varphi(w)$.
+   From this point on we identify the vertices of $G$ with the points
+   they are embedded to and the edges of $G$ with the curves the are
+   embedded to.
+
+   By definition each edge $uw\in E(G)$ is $k$-monotone.  Since $P_V$ has
+   at most $2k$ facets and each edge is monotone in at least two of these
+   directions, this means that there it has some facet $F$ such that $G$
+   contains $E(G)/k$ edges that are monotone in direction $F$.  Consider
+   the graph $G'$ consisting of only these edges and the embedding of
+   $\varphi$ of $G'$.   Observe that if two edges $uw$ an $xy$ of $G'$
+   intersect at some point $p$, then (after appropriate relabelling),
+   this implies that there is a $\cup S$-avoiding geodesic from $u$ to $x$
+   as well as from $w$ to $y$.  Therefore $ux,uw\in E(G')$.
+
+   Therefore, if $G'$ contains an $r$-tuple of pairwise crossing edges,
+   then $G'$ contains a $K_{r,r}$ subgraph.  Now, observe that the edges
+   of $G'$ are monotone in some direction and (after an appropriate
+   rotation) we can assume that they are x-monotone.  We call this an
+   \emph{x-monotone embedding}.   Valtr \cite{X} has shown that for every
+   fixed $r$, there exists a constant $C=C(r)$ such that any x-monotone
+   embedding of any $n$-vertex graph with more than $cn\log n$ edges
+   contains a a set of $r$ pairwise crossing edges.  In our case, this
+   means that $G$ contains a $K_{r,r}$ subgraph if
+   \[
+       \frac{cn^{2-2/r}}{k} \ge Cn\log n \enspace ,
+   \] 
+   which gives a contradiction when $k\le cn^{1-2/r}/C\log n$.   The result
+   then follows by choosing any $r>2/\epsilon$.
+\end{proof}
+
+As $k\to\infty$, $d_k$ becomes the usual Euclidean distance function
+and $\delta_k$-obstacle representations are just the usual obstacle
+representations, which we know every graph has.  Thus, for every $n\in
+N$, there is a threshold value $k(n)$ such that every $n$-vertex graph
+has a $\delta_{k(n)}$ obstacle representation.  \thmref{plane-lower-bound}
+shows that $k(n)\in \Omega(n^{1-\epsilon})$
+and the following theorem shows $k(n)\in O(n)$.
+
+\begin{thm}
+   Every $n$-vertex graph $G$ has a $d_k$ obstacle representation for $k=\lceil n/2\rceil$.
+\end{thm}
+
+\begin{proof}
+   Consider the regular $2k$-gon with vertices at $(\cos((i+1/2)\pi/k),
+   \sin((i+1/2)\pi/k))$, for $i\in\{0,\ldots,2k-1\}$.  It is well known
+   that the pairs of vertices of this $2k$-gon determine only $k$
+   distinct directions and that these directions are $(i+1/2)\pi/k$
+   for $i=\{0,\ldots,k-1\}$.
+
+   Therefore, to take obtain an obstacle representation of $G$, place
+   its vertices on this regular 2k-gon, join its vertices with straight
+   line segments and take the obstacles to be the faces of the resulting
+   arrangement of line segments.  That this is a $\delta_k$ obstacle
+   representation follows from the fact that no $k$-monotone path uses
+   two different directions determined pairs of vertices and no two
+   edges in the same direction cross each other.
+\end{proof}
+
+\subsection{Higher Dimensions}
+
+The proof of \thmref{plane-lower-bound} makes critical use of the
+fact that $\delta_k$ obstacle representations live in the plane so
+that any sufficiently dense (sub)graph has a $k$-tuple of pairwise
+crossing edges. An obvious question, then, is whether every graph
+has an $(\R^3,\delta_{\hexagon},C_3)$ obstacle representation, where
+$\delta_{\hexagon}$ is some polyhedral distance function and $C_3$
+is the set of closed connected curves in $\R^3$.  The following theorem
+shows that the answer to this question is no.
+
+\begin{thm}\thmlabel{rd-lower-bound}
+  Let $\delta_V$ be a polyhedral distance function over $\R^d$ whose
+  corresponding polyhedron $P_V$ has $2k$ facets, for $k\in o(\log n)$.
+  Then there exists an $n$ vertex graph $G$ with that has no $\delta_V$
+  obstacle representation.
+\end{thm}
+
+
+\begin{proof}
+  Let $G$ be an $n$-vertex graph with no clique and no independent set of
+  size larger than $2\log n$. The existence of such graphs was shown by
+  Erd\H{o}s and Renyi \cite{X}. Suppose, for the sake of contradiction,
+  that $G$ has some $(\R^d, d_{V}, C_d)$ obstacle representation
+  $(\varphi,S)$. Let $\prec$ denote lexicographic order over points
+  in $\R^{d}$.
+
+  We will $k$-colour the $\binom{n}{2}$ pairs of vertices of $G$ where
+  the colours are facets of $P_V$.  A pair $(u,w)$ with $u\prec w$
+  is coloured with a facet $F$ of $P_V$ such that $w\in Q^V_F(u)$.
+  If more than one such facet exists, we choose one arbitrarily.
+
+  For each $i\in\{1,\ldots,k\}$, let $\prec_i$ denote the partial
+  order obtained by restricting the total order $\prec$ to the pairs of
+  vertices in $G$ with colour $i$.  We claim that for at least one $i$,
+  $\prec_i$ contains a chain $v_1\prec_i\cdots\prec_i v_r$ of length
+  $r\ge n^{1/k}$.  To see why this is so, observe that, by Dilwerth's
+  Theorem, if $\prec_k$ does not contain a chain of length $n^{1/k}$,
+  then it contains an antichain $A_k$ of size $n^{1-1/k}$.  Now proceed
+  inductively on $\prec_1,\ldots,\prec_{k-1}$ and $A_k$, observing that
+  every pair in $A_k$ is coloured with $\{1,\ldots,k-1\}$.
+
+  Back to our embedding, the sequence $v_1,\ldots,v_r$ is such that for
+  any $i<j<k$, the union of a geodesic $f_{ij}$ with endpoints $v_i$
+  and $v_j$ and a geodesic $f_{jk}$ with endpoints $v_j$ and $v_k$
+  is a geodesic with endpoints $v_i$ and $v_k$.
+  
+  So now, consider the subgraph $G'$ of $G$ induced by
+  $v_1,\ldots,v_r$. From the preceding discussion, it follows that $G$
+  is a collection of vertex-disjoint cliques.  But this means that
+  $G'$ (and hence $G$) must contains a clique of size $\sqrt{r}$ or
+  an independent set of size $\sqrt{r}$.  Recall that $r\ge
+  n^{1/k}$, so this contradicts our choice of $G$, if $n^{1/2k} \ge
+  2\log n$, which is true for all $k\in o(\log n)$ and all 
+  sufficiently large $n$.
+\end{proof}
+
+
+\thmref{rd-lower-bound} shows that, for some $n$-vertex graphs $G$,
+any $(\R^d, \delta_{V}, C_d)$ obstacle representation of $G$
+must use a distance function $\delta_{V}$ with $k=\Omega(\log
+n)$ facets.  Our next result shows that, even in $\R^3$, a polyhedral
+distance function with $k=O(\log n)$ facets is indeed sufficient.
+
+\begin{thm}\thmlabel{3d-universal}
+   Let $\delta_{V}$ be any polyhedral distance function in $\R^d$ for
+   which the polyhedron $P_{V}$ has at least $2\log_2 n$ facets.  
+   Then every $n$-vertex graph $G$
+   has a $(\R^d,\delta_{V},C_3)$ obstacle representation.
+\end{thm}
+
+\begin{proof}
+   We claim that there exists a general position point set $X\subset\R^d$
+   of size at least $n$ with the property that no geodesic contains
+   3 points of $X$.  Given such a point set, we obtain an embedding
+   $(\varphi,c)$  of $G$ by letting $\varphi$ be any one-to-one mapping
+   of $V(G)$ onto $S$ and letting, for each $uw\in E(G)$, $c(uw)$ be
+   the line segment with endpoints $u$ and $w$.  In this way, no path
+   of length 2 or more in $G$ becomes a geodesic, so $(\varphi,c)$ is
+   a $(\R^d,\delta_{V},C_d)$ obstacle embedding of $G$.  Furthermore,
+   since $X$ is in general position, no two edges of the embedding cross.
+   Therefore, taking $S=\R^d\setminus \bigcup_{uw\in E(G)} c(uw)$ yields
+   an $(\R^d,\delta_{V},C_d)$ obstacle representation $(\varphi,S)$
+   of $G$.
+
+   All that remains is to show the existence of the set $X$.  In the
+   following, we will ignore the general position requirement on $X$,
+   since it will be clear that the set $X$ we find can be slightly
+   perturbed to ensure it is in general position.
+
+   Since $\delta_{V}$ is a distance function, and hence symmetric,
+   the polyhedron $P_{V}$ is symmetric, so the facets of $P$
+   come in $k\ge \log_2 n$ opposing pairs, let $\{f_1,\ldots,f_{k}\}$
+   contain one representative facet from each such pair, and let
+   $\{c_1,\ldots,c_{k}\}$ be a set of balls, where each ball $c_i$ is
+   contained in the interior of $f_i$. Finally, let $\{L_1,\ldots,L_{k}\}$
+   be a set of sets of lines, where each $L_i$ contains all lines
+   through the origin that intersect $c_i$.  Note that, since the
+   balls $c_1,\ldots,c_{k}$ are disjoint, so are the line sets
+   $L_1,\ldots,L_{k}$.
+
+   It suffices to construct a point set $X$, $|X|=2^{k}$, such that,
+   for any triple $u,x,w\in X$, there exists $i,j\in\{1,\ldots,k\}$,
+   $i\neq j$, such that $ux$ is parallel to some line in $L_i$ and $xw$ is
+   parallel to some line in $L_j$.  We construct such a set inductively.
+   If $k=0$, $X=\{\textbf{0}\}$ satisfies our requirements.
+
+   For $k\ge 2$, apply induction to obtain a set of points $X'$,
+   $|X'|=2^{k-1}$ such that, for any triple $u,x,w\in X'$, there exists
+   $i,j\in\{2,\ldots,k\}$, $i\neq j$, such that $ux$ is parallel to
+   some line in $L_i$ and $xw$ is parallel to some line in $L_j$.  Now,
+   choose two balls $A$ and $B$ such that, for every pair of points
+   $u\in A$, $w\in B$, $u-w$ is parallel to some line in $L_{1}$.
+   Finally, scale and translate $X'$ to obtain point set $X'_A\subset
+   A$ and another point set $X'_B\subset B$ and take $X=X'_A\cup X'_B$.
+   Clearly $|X|=2^k$.  By the inductive hypothesis, if $\{u,x,w\}\in X'_A$
+   or $\{u,x,w\}\in X'_B$, then $ux$ is parallel to some line $L_i$ and
+   $xw$ is parallel to some line in $L_j$, with $i,j\in\{2,\ldots,k\}$,
+   $i\neq j$.  Otherwise, assume without loss of generality that $u\in
+   X'_A$ and $x,w\in X'_B$.  Then $u-x$ is parallel to some line in $L_1$
+   and $x-w$ is parallel to some line $L_j$ for some $j\in\{2,\ldots,k\}$.
+\end{proof}
+
+If we take $t$ generic unit vectors in $\R^3$, then the polyhedral
+distance function determined by these vectors defines a polyhedron
+having $2t$ vertices and $4t-8$ triangular faces.  \thmref{3d-universal}
+therefore implies that a polyhedral distance function determined by
+$t\ge (1/2)\log_2 n +2$ unit vectors is sufficient to allow an obstacle
+representations of any $n$-vertex graph.
+
+In constant dimensions, $d>3$, there exists sets of $t$ vectors in
+$\R^d$ defining polytopes with $\Theta(t^{\lfloor d/2\rfloor})$ facets.
+Therefore, in $\R^d$, every $n$-vertex graph has a $\delta_V$ obstacle
+representation with $|V|\in O(\sqrt[\lfloor d/2\rfloor]{\log n})$ vectors.
+
+\subsection{Non-Crossing Embeddings in $\R^2$}
+
+Next we turn our attention to non-crossing embeddings in $\R^2$.
+
+
+
+
+
+
+
+
+
+
+
+
+\newpage
+
+End of Good Stuff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 In a path space $(X,d,C)$, we say that
 two curves $f,g\in C$ \emph{cross} if there exists $0<s<1$ and $0<t<1$ such
@@ -214,11 +493,6 @@ that the curve
 is also in $C$. In words: $f$ and $g$ cross if we can make a new curve
 consisting of some prefix of $f$ concatenated with some tail of $g$.
 
-
-For a path space $P=(X,d,C)$ and a subset $S\subset X$, we denote the
-subspace induced by $S$ as $P[S]=(S,d,\{f\in C:I(f)\subseteq S\})$.  The
-subspace that avoids $S$ is defined ias $P\setminus S = P[X\setminus S]$.
-
 As examples, we can $X=\R^2$ and $C$ to be the set of all closed
 continuous curves over $\R^2$.  Now, if we take $d$ to be the Euclidean
 metric, then the geodesics in $C$ are straight line segments.  A more
@@ -229,16 +503,6 @@ vertex set of some graph $G$, $d(p,q)$ to be distance in $G$ from $p$
 to $q$, and $C$ to be the set of all paths in $G$. In this case the
 geodesics in $C$ are the shortest paths in $G$.
 
-With these definitions in hand, we are ready to define a generalization
-of obstacle representations.
-
-\begin{defn}
-An \emph{$(X,d,C)$ obstacle representation} of a graph $G$ is a pair
-$(\varphi, S)$ where $\varphi:V(G)\to X$ is a one-to-one mapping and
-$S$ is a set of connected subsets of $X$ with the property that, for
-every $u,w\in V(G)$, $uw\in E(G)$ if and only if $C$ contains a $\cup
-S$-avoiding geodesic with endpoints $\varphi(u)$ and $\varphi(w)$.
-\end{defn}
 
 Note that, for a given $(X,d,C)$ it is not at all obvious whether every
 graph $G$ has an \emph{$(X,d,C)$ obstacle representation}.  Indeed,
@@ -389,11 +653,11 @@ $f(b)\in Q^N_F(f(a))$.  We say that a curve is $d_N$-\emph{monotone} if it
 is $d_N$-monotone in direction $F$ for some facet $F$ of $P_N$.  Observe
 that a curve $f$ is a geodesic for $d_N$ if and only if $f$ is $d_N$-monotone.
 
-We will now begin the convention of naming our geodesic by their
+We will now begin the convention of naming our geodesics by their
 endpoints, so that a geodesic $uw$ is a geodesic with endpoints $u$
 and $w$. We will also use the ordering of these endpoints to indicate
 some form of direction so that, for example, if we say that that $uw$
-is $d_N$-monotone in direction $F$, this means that $w\in Q^N_F(u)$.
+is $d_N$-monotone in direction $F$, this implies that $w\in Q^N_F(u)$.
 
 \begin{obs}\obslabel{quadrilateral}
    If $uw$ and $xz$ are curves that are each $k$-monotone direction in $i$
@@ -438,63 +702,6 @@ to $z$ and $x$ to $w$ even though $uz$ and $xw$ may not be edges of $G$.
 
 Our first result is a negative one:
 
-\begin{thm}\thmlabel{plane-lower-bound}
-  There exists a constant $a>0$ such that, for every $k\in \N$, and every
-  $n\ge ak^2$, there exist an $n$-vertex bipartite graph $G$ with maximum
-  degree $O(k)$ that has no $d_k$ obstacle representation.
-\end{thm}
-
-\begin{proof}
-   Erd\H{o}s, R\'enyi, and S\'os \cite{erdos.renyi.ea:1966} showed that,
-   for some $c>0$, for every $n\ge 2$, there exists a bipartite graph
-   $G$ with $n$ vertices $cn^{3/2}$ edges, maximum degree $cn^{1/2}$
-   and that contains no $K_{2,2}$ subgraph.  Let $(\varphi,S)$ be a
-   $d_k$ obstacle representation and let $(\varphi,c)$
-   be an embedding of $G$ obtained by taking $c(uw)$ to be some shortest
-   $S$-avoiding path from $\varphi(u)$ to $\varphi(w)$.
-
-   Each edge $uw\in E(G)$ is $k$-monotone in direction $i$ for some
-   $i\in\{0,\ldots,k-1\}$.  By the pigeonhole principle, there is
-   some direction $i$ for which at least $cn^{3/2}/k\ge acn$ edges
-   are monotone in direction $i$.  By Euler's formula, if $ac\ge 3$,
-   the graph consisting only of these edges is not planar, therefore
-   there is some pair of edges $uw$ and $xz$ that are both monotone in
-   direction $i$ and that have some point $p$ in common.
-
-   But now we have $d(u,z)=d(u,p)+d(p,z)$.  Therefore, there is a shortest
-   $S$-avoiding path from $u$ to $z$, so $uz\in E(G)$.  Similarly, there
-   is a shortest $S$-avoiding path from $x$ to $w$, so $xw\in E(G)$.
-   But this is a contradiction since it implies that $u$, $w$, $x$,
-   and $z$ form a $K_{2,2}$.
-\end{proof}
-
-As $k\to\infty$, $d_k$ becomes the usual Euclidean distance function
-and $d_k$-obstacle representations are just the usual obstacle
-representations, which we know every graph has.  Thus, for every $n\in
-N$, there is a threshold value $k(n)$ such that every $n$-vertex graph
-has a $d_{k(n)}$ obstacle representation.  \thmref{plane-lower-bound}
-shows that $k(n)\in \Omega(\sqrt{n})$, and the following theorem shows
-$k(n)\in O(n)$.
-
-\begin{thm}
-   Every $n$-vertex graph $G$ has a $d_k$ obstacle representation for $k=\lceil n/2\rceil$.
-\end{thm}
-
-\begin{proof}
-   Consider the regular $2k$-gon with vertices at $(\cos((i+1/2)\pi/k),
-   \sin((i+1/2)\pi/k))$, for $i\in\{0,\ldots,2k-1\}$.  It is well known
-   that the pairs of vertices of this $2k$-gon determine only $k$
-   distinct directions and that these directions are $(i+1/2)\pi/k$
-   for $i=\{0,\ldots,k-1\}$.
-
-   Therefore, to take obtain an obstacle representation of $G$, place
-   its vertices on this regular 2k-gon, join its vertices with straight
-   line segments and take the obstacles to be the faces of the resulting
-   arrangement of line segments.  That this is an obstacle representation
-   follows from the fact that no $k$-monotone path uses two different
-   directions determined pairs of vertices and no two edges in the same
-   direction cross each other.
-\end{proof}
 
 \question{Determine the growth of $k(n)$.}
 
