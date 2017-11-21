@@ -355,19 +355,15 @@ shows that the answer to this question is no.
   inductively on $\prec_1,\ldots,\prec_{k-1}$ and $A_k$, observing that
   every pair in $A_k$ is coloured with $\{1,\ldots,k-1\}$.
 
-  Back to our embedding, the sequence $v_1,\ldots,v_r$ is such that for
-  any $i<j<k$, the union of a geodesic $f_{ij}$ with endpoints $v_i$
-  and $v_j$ and a geodesic $f_{jk}$ with endpoints $v_j$ and $v_k$
-  is a geodesic with endpoints $v_i$ and $v_k$.
-  
-  So now, consider the subgraph $G'$ of $G$ induced by
-  $v_1,\ldots,v_r$. From the preceding discussion, it follows that $G$
-  is a collection of vertex-disjoint cliques.  But this means that
-  $G'$ (and hence $G$) must contains a clique of size $\sqrt{r}$ or
-  an independent set of size $\sqrt{r}$.  Recall that $r\ge
-  n^{1/k}$, so this contradicts our choice of $G$, if $n^{1/2k} \ge
-  2\log n$, which is true for all $k\in o(\log n)$ and all 
-  sufficiently large $n$.
+  Now, consider the relation $\prec_i'$ over $v_1,\ldots,v_r$ in which
+  $v_a\prec_i v_b$ if and only if $1\le a<b\le r$ and $v_iv_j\in E(G)$.
+  Observe that $\prec_i'$ is a partial order over $\{v_1,\ldots,v_r\}$.
+  Therefore, by Dilwerth's Theorem, it contains an chain of size at least
+  $\sqrt{r}$ or it contains an antichain of size at least $\sqrt{r}$.
+  A chain corresponds to a clique in $G$ and an antichain corresponds
+  to an independent set in $G$.  This contradicts our choice of $G$
+  when $\sqrt{r} > 2\log n$, which is true for all $k\in o(\log n)$
+  and all sufficiently large $n$.
 \end{proof}
 
 
